@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [2.1.0] - 2026-08-29
+
+### Added
+
+- A qualified Fable-led delegation pattern for independent, verifiable work packets, inputs larger than one useful context, and measured patterns of unusually expensive routine-work failures.
+- Dynamic-workflow controls covering small-slice pilots, initial worker limits, single-level fan-out, no-progress stops, worktree isolation, and task-level cost and rework tracking.
+- Routing coverage for GPT-5.6 Terra and Luna alongside Sol.
+
+### Changed
+
+- Codex worker effort now starts from the configured default. Sol `high` is a trial for capability-sensitive implementation, while `max` requires representative evaluation evidence.
+- The Codex workflow reference now states that native Claude dynamic-workflow agents remain Claude sessions; Codex participates through MCP or a thin CLI wrapper.
+- README design sources now include Anthropic's cost-optimization, Fable prompting, and dynamic-workflow guidance plus OpenAI's GPT-5.6 model guidance.
+
 ## [2.0.2] - 2026-07-27
 
 An xhigh review of the v2.0.1 installer found that the hardening pass introduced worse failures than it fixed. Upgrade from v2.0.1 or earlier before running `claude-md` mode again.
@@ -163,7 +177,8 @@ An xhigh review of the v2.0.1 installer found that the hardening pass introduced
 - One-shot installer (`install.sh`) with user and project modes.
 - CI validation of the skill package and public boundary.
 
-[Unreleased]: https://github.com/nyldn/fable5-optimizer/compare/v2.0.2...HEAD
+[Unreleased]: https://github.com/nyldn/fable5-optimizer/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/nyldn/fable5-optimizer/compare/v2.0.2...v2.1.0
 [2.0.2]: https://github.com/nyldn/fable5-optimizer/compare/v2.0.1...v2.0.2
 [2.0.1]: https://github.com/nyldn/fable5-optimizer/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/nyldn/fable5-optimizer/compare/v1.6.0...v2.0.0

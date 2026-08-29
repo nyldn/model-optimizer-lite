@@ -7,6 +7,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
 SKILL="$ROOT/skills/fable5-optimizer/SKILL.md"
 POLICY="$ROOT/claude-md/POLICY.md"
 TEMPLATE="$ROOT/claude-md/CLAUDE.md"
+CODEX_WORKFLOWS="$ROOT/skills/fable5-optimizer/references/codex-workflows.md"
 
 if ! diff -u <("$ROOT/install.sh" claude-md-print) "$TEMPLATE"; then
   echo "claude-md/CLAUDE.md is out of date. Regenerate with:" >&2
@@ -21,6 +22,8 @@ ANCHORS=(
   "Codex"
   "acceptance criteria"
   "sandbox"
+  "Fable-Led Delegation"
+  "small slice"
 )
 
 for anchor in "${ANCHORS[@]}"; do
@@ -40,12 +43,26 @@ POLICY_ANCHORS=(
   "Fable 5"
   "GPT-5.6 Sol"
   "Codex"
+  "independent, verifiable work packets"
   "/fable5-optimizer"
 )
 
 for anchor in "${POLICY_ANCHORS[@]}"; do
   if ! grep -qi -- "$anchor" "$POLICY"; then
     echo "missing anchor '$anchor' in $POLICY" >&2
+    exit 1
+  fi
+done
+
+WORKFLOW_ANCHORS=(
+  "Claude dynamic-workflow agents are Claude sessions"
+  "configured default"
+  "two consecutive rounds make no progress"
+)
+
+for anchor in "${WORKFLOW_ANCHORS[@]}"; do
+  if ! grep -qi -- "$anchor" "$CODEX_WORKFLOWS"; then
+    echo "missing anchor '$anchor' in $CODEX_WORKFLOWS" >&2
     exit 1
   fi
 done

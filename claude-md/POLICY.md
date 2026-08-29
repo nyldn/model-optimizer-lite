@@ -8,6 +8,8 @@ Use **Codex/GPT-5.6 Sol** as a frontier peer for a distinct job: fresh-context t
 
 Prefer one capable owner end to end. Add another model only when it contributes a different capability or independent perspective; do not run a three-model loop by default.
 
+For large work that splits into independent, verifiable work packets, Fable 5 may coordinate while Codex handles bounded packets and Fable retains integration judgment. Pilot on a small slice, keep the first run below five workers, avoid nested worker fan-out, and stop after two rounds without progress. Use one model at lower effort instead when the work is a dependent chain or fits comfortably in one context.
+
 Before delegating, state the task, relevant files or artifact, checkable acceptance criteria, scope boundaries, and validation already run. Keep prompts brief and self-contained. Use a compact context packet only when state is genuinely scattered.
 
 Keep reviews read-only and implementation sandboxes workspace-limited. Expand access only to named targets, isolate parallel edits in worktrees, and pause for destructive, irreversible, or externally consequential actions.

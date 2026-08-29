@@ -1,6 +1,6 @@
 ---
 name: fable5-optimizer
-description: Load before answering whenever a request mentions Claude Opus 5, Claude Fable 5, GPT-5.6 Sol, Codex, or asks which model or agent should plan, implement, review, research, or verify work. Use for model routing, cross-model workflows, Codex delegation, effort selection, context preparation, and runtime/browser verification. Do not use for ordinary implementation or review with no model-choice question, or for generic prompt rewriting.
+description: Load before answering whenever a request mentions Claude Opus 5, Claude Fable 5, GPT-5.6 Sol, Terra, or Luna, Codex, or asks which model or agent should plan, implement, review, research, or verify work. Use for model routing, cross-model and dynamic workflows, Codex delegation, effort selection, context preparation, cost controls, and runtime/browser verification. Do not use for ordinary implementation or review with no model-choice question, or for generic prompt rewriting.
 ---
 
 # Fable 5 Optimizer
@@ -16,6 +16,8 @@ Escalate to **Fable 5** when the task needs Anthropic's highest available capabi
 Use **Codex/GPT-5.6 Sol** as a frontier peer when an independent perspective, a different tool harness, large-context evidence gathering, persistent execution, or browser/computer-use automation is useful. It is not limited to throwaway scripts, and its output is evidence rather than authority.
 
 Prefer one capable model end to end when that is enough. Add another model only when it has a distinct job.
+
+For large work that splits into independent packets, Fable 5 can coordinate bounded workers while retaining planning and integration judgment. Use this as a measured exception to the one-owner default, not as a standing swarm.
 
 ## Model Roles
 
@@ -37,6 +39,7 @@ Route by the bottleneck:
 | Production coding, debugging, refactoring, code review, or business workflow | Opus 5 |
 | Architecture, product judgment, API design, UX taste, or user-facing copy | Opus 5; escalate to Fable 5 when ambiguity or stakes justify it |
 | Highest-capability research or a problem Opus has failed to resolve | Fable 5 |
+| Many independent, verifiable work packets, an input too large for one context, or a measured pattern of unusually expensive routine-work failures | Fable 5 coordinator with the cheapest workers that meet the acceptance criteria; pilot on a small slice first |
 | Independent code review, edge-case search, context gathering, or alternative implementation | Codex/GPT-5.6 Sol, then the primary Claude session verifies |
 | Browser, app, simulator, screenshot, or computer-use verification | Whichever harness has the best local automation; Codex is often a strong route |
 | Deterministic bulk edits or data processing | The cheapest capable execution model; Codex is often suitable |
@@ -47,7 +50,7 @@ Treat API/schema contracts, security-sensitive work, release artifacts, destruct
 
 - **Opus 5:** start at `high`. Use `low` or `medium` when evals show quality holds; use `xhigh` for demanding coding or agentic work. Do not default to `max`.
 - **Fable 5:** start at `high`; use `xhigh` only for the most capability-sensitive work and lower effort for routine tasks.
-- **GPT-5.6 Sol:** start with the Codex default. Increase effort only when the task needs deeper planning or analysis and the extra latency and token use are justified.
+- **GPT-5.6 family:** start with the Codex configured default. Use lower-cost family members for routine, high-volume packets when they pass the same checks. Sol `high` is a reasonable trial for capability-sensitive implementation. Reserve `max` for cases where representative evaluations beat `high` or `xhigh` after accounting for latency, tokens, and rework.
 
 Effort is a tuning knob, not a substitute for a clear task or a way to extend run duration. Compare total task cost, latency, context use, tool calls, and rework—not token sticker prices alone.
 
@@ -85,6 +88,26 @@ Do not require all three models for every task. Reciprocal reviews are useful fo
 ### Context scout
 
 Codex can gather repository state, relevant source material, logs, and test evidence. Ask for a factual packet, not a decision disguised as a summary. The judgment model should receive sources and acceptance criteria without the maker's preferred conclusion.
+
+### Fable-led delegation
+
+Use Fable 5 as the coordinator only when at least one of these conditions holds:
+
+- the task divides into independent, verifiable work packets
+- the source material exceeds one model's useful context
+- routine workers have a measured pattern of unusually expensive failures that cheaper workers can contain
+
+Before building the workflow, compare a single capable model across effort levels. If one model at lower effort meets the acceptance bar, use it. Delegation adds planning, handoff, review, and merge costs that do not pay back on one dependent chain.
+
+When delegation qualifies:
+
+1. Fable defines each packet's outcome, inputs, dependencies, acceptance criteria, and protected boundaries.
+2. Route each packet to the cheapest worker that has cleared the same checks on representative work. Keep Codex at its configured default unless a task-specific evaluation supports another model or effort level.
+3. Fable resolves cross-packet conflicts and performs final integration. Add an independent reviewer only for a named risk or uncertainty.
+
+Pilot on a small slice with fewer than five workers. Do not let workers spawn another layer by default. Isolate concurrent editors in worktrees, and stop when two consecutive rounds make no progress. Record the task, model, effort, tokens, elapsed time, checks, and rework so "cheaper" means lower cost per accepted result rather than lower sticker price or slower depletion of one subscription.
+
+Claude dynamic workflows spawn Claude sessions. To use Codex as the real worker, expose it through MCP or a thin Claude wrapper that calls the authenticated Codex CLI. Keep that transport detail out of the worker's decision rights.
 
 ## Prompt Discipline For Claude 5
 

@@ -110,13 +110,24 @@ If the required automation cannot run inside a workspace-limited sandbox, identi
 
 ## Codex Inside Claude Workflows Or Subagents
 
-If a Claude workflow cannot call Codex directly:
+Claude dynamic-workflow agents are Claude sessions. A label such as `sol:implement-auth` does not change the model behind that agent. To make Codex the real worker, expose it through an MCP tool or use one thin Claude wrapper that calls the authenticated Codex CLI.
 
-- use one thin Claude wrapper that writes a self-contained Codex prompt, runs `codex exec`, and returns the report
+For a qualified Fable-led delegation run:
+
+- test the workflow on a small slice before applying it to the full target
+- set `/config workflowSizeGuideline=small`, or otherwise keep the first run below five workers
+- keep workers single-level by default; do not let a worker spawn another worker tree
+- use the Codex configured default, then raise model or effort only when representative checks justify it
+- isolate concurrent editors in separate worktrees
+- stop when two consecutive rounds make no progress
+- record each packet's model, effort, tokens, elapsed time, checks, and rework
+
+The wrapper is transport, not a second planner:
+
 - use a lightweight Claude model and effort level for wrapper-only duty
 - label the wrapper by the real worker, for example `gpt-5.6-sol:review-auth`
 - set an explicit timeout or run in the background and poll the report file
 - do not add wrappers or parallel agents to small tasks
-- isolate parallel Codex implementers in separate worktrees
+- pass the packet and acceptance criteria through without adding a preferred solution
 
 The wrapper coordinates transport; it should not reinterpret the review before the primary session sees the evidence.

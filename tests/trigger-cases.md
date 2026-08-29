@@ -8,8 +8,9 @@ Manual evaluation set for the `fable5-optimizer` skill description. After changi
 2. "Have GPT-5.6 Sol review this Opus implementation for edge cases."
 3. "Use Codex browser automation to verify the checkout screenshots."
 4. "Which model should plan and implement this repository-wide migration?"
+5. "Should Fable orchestrate Sol, Terra, or Luna workers for this migration?"
 
 ## Should not trigger
 
-5. "Review this diff." (no model-routing intent)
-6. "Rewrite this marketing prompt." (prompt rewriting, not routing or orchestration)
+6. "Review this diff." (no model-routing intent)
+7. "Rewrite this marketing prompt." (prompt rewriting, not routing or orchestration)
