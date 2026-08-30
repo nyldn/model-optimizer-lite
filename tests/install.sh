@@ -18,6 +18,14 @@ HOME_DIR="$TMP_DIR/home"
 PROJECT_DIR="$TMP_DIR/project"
 mkdir -p "$HOME_DIR" "$PROJECT_DIR"
 
+# Public installers should explain themselves without attempting an install.
+HELP_OUTPUT="$("$ROOT/install.sh" --help)"
+grep -q "Usage:" <<< "$HELP_OUTPUT"
+grep -q "skill-project" <<< "$HELP_OUTPUT"
+grep -q "claude-md" <<< "$HELP_OUTPUT"
+PIPE_HELP_OUTPUT="$(FABLE5_OPTIMIZER_REPO_URL="invalid://must-not-clone" bash -s -- --help < "$ROOT/install.sh")"
+grep -q "Usage:" <<< "$PIPE_HELP_OUTPUT"
+
 # GNU stat first; BSD stat rejects -c cleanly, while GNU -f means
 # --file-system and would print filesystem details for the path before failing.
 file_mode() {
@@ -37,8 +45,19 @@ backup_inventory() {
   find "$1" -name '*.backup.*' | sort
 }
 
-HOME="$HOME_DIR" "$ROOT/install.sh" skill
+USER_INSTALL_OUTPUT="$(HOME="$HOME_DIR" "$ROOT/install.sh" skill)"
 test -f "$HOME_DIR/.claude/skills/fable5-optimizer/SKILL.md"
+grep -q "Next: open a new Claude Code session" <<< "$USER_INSTALL_OUTPUT"
+
+# Exercise the same stdin execution path used by the README curl command. A
+# local file URL keeps this deterministic and avoids touching the network. Git
+# clones committed HEAD here, so CI exercises the release tree while other tests
+# cover uncommitted installer edits directly.
+PIPE_HOME="$TMP_DIR/pipe-home"
+mkdir -p "$PIPE_HOME"
+PIPE_INSTALL_OUTPUT="$(HOME="$PIPE_HOME" FABLE5_OPTIMIZER_REPO_URL="file://$ROOT" bash < "$ROOT/install.sh")"
+test -f "$PIPE_HOME/.claude/skills/fable5-optimizer/SKILL.md"
+grep -q "Next: open a new Claude Code session" <<< "$PIPE_INSTALL_OUTPUT"
 
 FABLE5_OPTIMIZER_TARGET="$PROJECT_DIR" "$ROOT/install.sh" skill-project
 test -f "$PROJECT_DIR/.claude/skills/fable5-optimizer/SKILL.md"

@@ -81,3 +81,9 @@ jobs:
 
       - name: Check Codex CLI template flags (skips without codex)
         run: tests/codex-smoke.sh
+
+      - name: Check Claude CLI template flags (skips without Claude Code)
+        run: tests/claude-smoke.sh
+
+      - name: Test Fable review result validation
+        run: tests/fable-review-validator.sh

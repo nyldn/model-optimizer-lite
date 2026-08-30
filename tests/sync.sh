@@ -8,6 +8,9 @@ SKILL="$ROOT/skills/fable5-optimizer/SKILL.md"
 POLICY="$ROOT/claude-md/POLICY.md"
 TEMPLATE="$ROOT/claude-md/CLAUDE.md"
 CODEX_WORKFLOWS="$ROOT/skills/fable5-optimizer/references/codex-workflows.md"
+FABLE_REVIEW_GATES="$ROOT/skills/fable5-optimizer/references/fable-review-gates.md"
+README="$ROOT/README.md"
+INSTALL_GUIDE="$ROOT/INSTALL.md"
 
 if ! diff -u <("$ROOT/install.sh" claude-md-print) "$TEMPLATE"; then
   echo "claude-md/CLAUDE.md is out of date. Regenerate with:" >&2
@@ -23,6 +26,9 @@ ANCHORS=(
   "acceptance criteria"
   "sandbox"
   "Fable-Led Delegation"
+  "Fable Review Gate"
+  "actual model metadata"
+  "resolution ledger"
   "small slice"
 )
 
@@ -44,12 +50,35 @@ POLICY_ANCHORS=(
   "GPT-5.6 Sol"
   "Codex"
   "independent, verifiable work packets"
+  "actual model metadata"
   "/fable5-optimizer"
 )
 
 for anchor in "${POLICY_ANCHORS[@]}"; do
   if ! grep -qi -- "$anchor" "$POLICY"; then
     echo "missing anchor '$anchor' in $POLICY" >&2
+    exit 1
+  fi
+done
+
+if [[ ! -f "$FABLE_REVIEW_GATES" ]]; then
+  echo "missing Fable review-gate reference: $FABLE_REVIEW_GATES" >&2
+  exit 1
+fi
+
+FABLE_GATE_ANCHORS=(
+  "claude -p --model claude-fable-5"
+  "stream-json"
+  "final text-bearing assistant message"
+  "fable-review-validator:start"
+  "VERDICT: APPROVE"
+  "three rounds"
+  "normal completion"
+)
+
+for anchor in "${FABLE_GATE_ANCHORS[@]}"; do
+  if ! grep -qi -- "$anchor" "$FABLE_REVIEW_GATES"; then
+    echo "missing anchor '$anchor' in $FABLE_REVIEW_GATES" >&2
     exit 1
   fi
 done
@@ -63,6 +92,40 @@ WORKFLOW_ANCHORS=(
 for anchor in "${WORKFLOW_ANCHORS[@]}"; do
   if ! grep -qi -- "$anchor" "$CODEX_WORKFLOWS"; then
     echo "missing anchor '$anchor' in $CODEX_WORKFLOWS" >&2
+    exit 1
+  fi
+done
+
+if [[ ! -f "$INSTALL_GUIDE" ]]; then
+  echo "missing public installation guide: $INSTALL_GUIDE" >&2
+  exit 1
+fi
+
+README_INSTALL_ANCHORS=(
+  "Quick start"
+  "INSTALL.md"
+  "Fable review gate"
+  "raw.githubusercontent.com/nyldn/fable5-optimizer/main/install.sh"
+)
+
+for anchor in "${README_INSTALL_ANCHORS[@]}"; do
+  if ! grep -qi -- "$anchor" "$README"; then
+    echo "missing install anchor '$anchor' in $README" >&2
+    exit 1
+  fi
+done
+
+GUIDE_ANCHORS=(
+  "bash -s -- skill-project"
+  "bash -s -- claude-md"
+  "Update"
+  "Remove"
+  "Troubleshooting"
+)
+
+for anchor in "${GUIDE_ANCHORS[@]}"; do
+  if ! grep -qi -- "$anchor" "$INSTALL_GUIDE"; then
+    echo "missing install anchor '$anchor' in $INSTALL_GUIDE" >&2
     exit 1
   fi
 done

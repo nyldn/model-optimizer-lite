@@ -85,6 +85,18 @@ Use only the stages that add value:
 
 Do not require all three models for every task. Reciprocal reviews are useful for calibrating a new model or resolving real disagreement, not as a standing ritual.
 
+### Fable review gate
+
+Use Fable as a bounded read-only gate when an existing plan, architecture decision, or release candidate still carries a capability-sensitive judgment risk. Keep mechanical implementation and verification with the primary owner.
+
+Before the run, pin the exact artifact, checkout, revision, review questions, allowed tools, and response contract. Explicitly select Fable and verify the actual model metadata in the completed result. A fallback model, a worker label, or a run that stops after tool use without a final verdict is not a completed Fable review.
+
+Require `APPROVE` or `REVISE`, concrete evidence for every blocker, and a scope check. The primary owner independently reproduces each finding and records it as accepted, rejected, or deferred in a resolution ledger. A revision prompt includes the prior report, that ledger, and the exact changed artifact or diff. Ask Fable to check closure first, then inspect changed seams for new blockers.
+
+Use at most three revision rounds for one named gate. Fewer blockers or verified closures count as progress; two rounds with no progress trigger the existing stop rule. If the third round still returns `REVISE`, return the unresolved findings to the owner instead of looping.
+
+Read [references/fable-review-gates.md](references/fable-review-gates.md) only when preparing or validating a Fable review gate.
+
 ### Context scout
 
 Codex can gather repository state, relevant source material, logs, and test evidence. Ask for a factual packet, not a decision disguised as a summary. The judgment model should receive sources and acceptance criteria without the maker's preferred conclusion.
@@ -106,6 +118,8 @@ When delegation qualifies:
 3. Fable resolves cross-packet conflicts and performs final integration. Add an independent reviewer only for a named risk or uncertainty.
 
 Pilot on a small slice with fewer than five workers. Do not let workers spawn another layer by default. Isolate concurrent editors in worktrees, and stop when two consecutive rounds make no progress. Record the task, model, effort, tokens, elapsed time, checks, and rework so "cheaper" means lower cost per accepted result rather than lower sticker price or slower depletion of one subscription.
+
+After workers start, inspect the actual model metadata when the harness exposes it. Claude subagents can inherit the session's default model. If the workflow cannot pin or verify a worker model, plan and report it as the inherited model rather than claiming the cheapest capable worker ran.
 
 Claude dynamic workflows spawn Claude sessions. To use Codex as the real worker, expose it through MCP or a thin Claude wrapper that calls the authenticated Codex CLI. Keep that transport detail out of the worker's decision rights.
 

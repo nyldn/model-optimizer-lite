@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [2.2.0] - 2026-08-29
+
+### Added
+
+- A dedicated installation guide covering user and project scopes, verification, updates, removal, and troubleshooting.
+- Conventional `--help`, `-h`, and `help` installer commands that exit before cloning or changing files.
+- A clean-room test for the same stdin execution path used by the public curl installer.
+- A post-install prompt that tells users how to load the skill in a new Claude Code session.
+- A progressive-disclosure Fable review-gate reference with a restricted CLI template, verified model identity, a verdict contract, and finding disposition.
+- A Claude CLI help-text check for every flag used by the Fable review template.
+- Deterministic fixtures that exercise the published jq filter against completed Fable reviews, fallback models, incomplete tool-use stops, and error results.
+
+### Changed
+
+- The README now leads with a three-step quick start and links detailed setup information instead of putting every installer caveat in the landing page.
+- Fable review guidance now verifies the model on the final assistant event, rejects silent model fallbacks and incomplete tool-use stops, carries a resolution ledger across revision rounds, and reports inherited Claude worker models accurately.
+
 ## [2.1.0] - 2026-08-29
 
 ### Added
@@ -177,7 +194,8 @@ An xhigh review of the v2.0.1 installer found that the hardening pass introduced
 - One-shot installer (`install.sh`) with user and project modes.
 - CI validation of the skill package and public boundary.
 
-[Unreleased]: https://github.com/nyldn/fable5-optimizer/compare/v2.1.0...HEAD
+[Unreleased]: https://github.com/nyldn/fable5-optimizer/compare/v2.2.0...HEAD
+[2.2.0]: https://github.com/nyldn/fable5-optimizer/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/nyldn/fable5-optimizer/compare/v2.0.2...v2.1.0
 [2.0.2]: https://github.com/nyldn/fable5-optimizer/compare/v2.0.1...v2.0.2
 [2.0.1]: https://github.com/nyldn/fable5-optimizer/compare/v2.0.0...v2.0.1

@@ -54,6 +54,8 @@ ruby -ryaml -e 'ARGV.each { |path| text = File.read(path); m = text.match(/\A---
 tests/install.sh
 tests/sync.sh
 tests/codex-smoke.sh
+tests/claude-smoke.sh
+tests/fable-review-validator.sh
 git diff --check
 ```
 

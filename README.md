@@ -1,130 +1,117 @@
 # Fable 5 Optimizer
 
-Claude Code guidance for routing work across Claude Opus 5, Claude Fable 5, and Codex/GPT-5.6 Sol.
+[![Test](https://github.com/nyldn/fable5-optimizer/actions/workflows/test.yml/badge.svg)](https://github.com/nyldn/fable5-optimizer/actions/workflows/test.yml)
+[![Latest release](https://img.shields.io/github/v/release/nyldn/fable5-optimizer)](https://github.com/nyldn/fable5-optimizer/releases/latest)
+[![License: MIT](https://img.shields.io/github/license/nyldn/fable5-optimizer)](LICENSE)
 
-The default has changed: Opus 5 is now the everyday Claude Code lead for complex, mergeable work. Fable 5 is the escalation tier for the hardest capability and judgment gaps. Codex is a frontier peer for independent review, context gathering, alternative execution, and runtime verification—not merely a cheap mechanical worker.
+A Claude Code skill for deciding when work belongs with Claude Opus 5, Claude Fable 5, or Codex/GPT-5.6.
 
-The project ships as an on-demand Claude Code skill plus an optional lightweight `CLAUDE.md` policy.
+Opus 5 owns everyday complex work. Fable 5 handles the hardest judgment gaps and can coordinate large sets of independent tasks. Codex provides a separate implementation and review path.
 
-## What You Get
+## Quick start
 
-- A routing matrix for choosing Opus, Fable, or Codex by the actual bottleneck.
-- Effort guidance that starts Opus and Fable at `high` and raises effort only when the task warrants it.
-- Cross-model patterns that prefer one capable owner and add reviewers only for a distinct job.
-- A qualified Fable-led delegation pattern for work that genuinely benefits from independent workers.
-- Small-slice pilots, worker limits, progress stops, and task-level cost tracking for dynamic workflows.
-- A compact context-packet pattern for state that is genuinely scattered.
-- Current Codex CLI templates for read-only review, bounded implementation, and browser/computer-use verification.
+You need Claude Code, Git, curl, and Bash on macOS, Linux, or Windows through WSL.
+
+1. Install the skill for your user account:
+
+   ```bash
+   curl -fsSL https://raw.githubusercontent.com/nyldn/fable5-optimizer/main/install.sh | bash
+   ```
+
+2. Confirm the skill exists:
+
+   ```bash
+   test -f "$HOME/.claude/skills/fable5-optimizer/SKILL.md" && echo "fable5-optimizer is installed"
+   ```
+
+3. Open a new Claude Code session and try it:
+
+   ```text
+   /fable5-optimizer should Opus own this migration, or does it need Fable?
+   ```
+
+The default mode does not edit a project's `CLAUDE.md`. Its persistent files stay under `~/.claude/`.
+
+See [INSTALL.md](INSTALL.md) for project-local installation, the always-on router, updates, removal, and troubleshooting.
+
+## What it gives you
+
+- A routing table based on the actual bottleneck in the work.
+- Effort guidance for Opus, Fable, and the GPT-5.6 family.
+- Independent Codex review, implementation, and runtime-verification patterns.
+- A bounded Fable-led delegation pattern for work that divides cleanly.
+- A model-verified Fable review gate for plans and release candidates.
+- Small pilots, worker limits, progress stops, and task-level cost tracking.
 - Workspace-limited safety defaults for agentic execution.
 
-## Install
+## Pick an install scope
 
-| Mode | Pick this if |
-|---|---|
-| On-demand skill (default) | You want routing guidance loaded only when a task mentions these models or asks who should own the work. Installs per user and works across projects. |
-| Project-local skill | You want the same on-demand behavior in one repository. |
-| Always-on router | You want a short routing policy active in every session. This also installs the detailed project-local skill so Claude can load the mechanics only when needed. |
+| Scope | Command | What changes |
+|---|---|---|
+| Your user account | `./install.sh skill` | Adds the on-demand skill under `~/.claude/skills/`. This is the default. |
+| Current project | `./install.sh skill-project` | Adds the on-demand skill under the current project's `.claude/skills/`. |
+| Current project, always on | `./install.sh claude-md` | Adds the project skill and a small managed block in `.claude/CLAUDE.md`. |
 
-### On-Demand Skill
-
-Ask Claude Code:
+Run `./install.sh --help` to see every mode. You can also ask Claude Code to install the repository:
 
 ```text
-install this skill https://github.com/nyldn/fable5-optimizer
+Install this skill: https://github.com/nyldn/fable5-optimizer
 ```
 
-Or install from the shell:
+Re-running the installer is a no-op when the installed files match. It moves changed skill folders to `~/.claude/skill-backups/` for a user install or `.claude/skill-backups/` for a project install before replacing them. The always-on mode preserves instructions outside its marked block and backs up a changed `CLAUDE.md` first.
 
-```bash
-curl -fsSL https://raw.githubusercontent.com/nyldn/fable5-optimizer/main/install.sh | bash
-```
-
-From a cloned copy:
-
-```bash
-./install.sh
-```
-
-The default install writes to `~/.claude/skills/fable5-optimizer`. A changed skill folder is backed up to `~/.claude/skill-backups/` first, a sibling of the skills root rather than a folder inside it, so Claude Code never discovers the backup as a second skill with the same name. Project-local installs use `.claude/skill-backups/` in the project. Reinstalling an unchanged version does nothing and leaves no backup.
-
-For a project-local install:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/nyldn/fable5-optimizer/main/install.sh | bash -s -- skill-project
-```
-
-### Always-On Router
-
-Run from the target project root:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/nyldn/fable5-optimizer/main/install.sh | bash -s -- claude-md
-```
-
-Or from a cloned copy:
-
-```bash
-./install.sh claude-md
-```
-
-This mode:
-
-1. installs the detailed skill to `.claude/skills/fable5-optimizer/`
-2. writes a managed routing block to `.claude/CLAUDE.md`
-
-The managed block is intentionally lightweight. Re-running the installer replaces the block rather than stacking copies, preserves unrelated project instructions, and backs up existing files first. When nothing would change, the rerun is a byte-for-byte no-op and writes no backup.
-
-Markers are matched as whole lines, so prose that merely mentions them is left alone. If a file opens a managed block without closing it, the installer refuses rather than guessing where the block ends. A symlinked `CLAUDE.md` is written through, so a dotfiles-managed file keeps its indirection. `CLAUDE.md` is written with your umask default.
-
-## Default Routing
+## How routing works
 
 | Work | Start with |
 |---|---|
 | Complex coding, planning, debugging, review, or enterprise workflows | Opus 5 |
 | Highest-capability judgment, unusually ambiguous architecture, or a problem Opus cannot resolve | Fable 5 |
-| Many independent, verifiable packets, an input too large for one context, or a measured pattern of unusually expensive routine-work failures | Fable 5 coordinating the cheapest workers that meet the acceptance criteria |
+| Many independent, verifiable packets or source material too large for one useful context | Fable 5 coordinating workers that meet the acceptance criteria |
 | Independent technical review, context scouting, alternative implementation, or runtime automation | Codex/GPT-5.6 Sol |
 | Routine or high-volume work | The cheapest capable model already in context |
 
-Use the table as a starting point, not a guarantee. For repeated workflows, evaluate models on your actual prompts, artifacts, acceptance criteria, total task cost, and rework.
+This table is a starting point. For repeated work, compare models on the same prompts, artifacts, checks, total task cost, and rework.
+
+## Fable review gates
+
+Use a Fable gate when a plan, architecture decision, or release candidate exists but still carries a hard judgment risk. Keep the review read-only. Pin the artifact and checkout, select Fable explicitly, verify Fable on the final assistant event of a completed run, and require an `APPROVE` or `REVISE` verdict.
+
+After `REVISE`, the primary owner checks each finding against source and records it as accepted, rejected, or deferred. The next round receives the prior report, that resolution ledger, and the exact changed artifact. Stop after three rounds, or sooner if two rounds make no progress.
+
+The [Fable review-gate template](skills/fable5-optimizer/references/fable-review-gates.md) includes a restricted CLI command, result validation, prompt contract, and worker-identity checks.
 
 ## Fable-led delegation
 
-Use Fable as a coordinator when the task splits into independent packets with objective checks, or when the input is too large for one useful context. Keep Fable responsible for decomposition, unresolved judgment, and final integration. Codex workers receive bounded packets rather than authority over the whole task.
+Use Fable as a coordinator when the task splits into independent packets with objective checks, or when the input is too large for one useful context. Fable keeps responsibility for decomposition, unresolved judgment, and final integration. Codex workers receive bounded packets rather than authority over the whole task.
 
-Start with fewer than five workers on a small slice. Keep workers from creating another agent layer, isolate concurrent editors, and stop after two rounds without progress. Record model, effort, tokens, elapsed time, checks, and rework for each packet. If one model at lower effort clears the same acceptance bar, the single-model run is the better route.
+Pilot on a small slice with fewer than five workers. Do not add another worker layer. Isolate concurrent editors and stop after two rounds without progress. Record the model, effort, tokens, elapsed time, checks, and rework for each packet.
 
-Claude dynamic workflows spawn Claude sessions. Codex participates through MCP or a thin Claude wrapper around the authenticated Codex CLI. The worker label alone does not switch providers.
+Claude dynamic workflows spawn Claude sessions. Codex participates through MCP or a thin Claude wrapper around the authenticated Codex CLI. A worker label does not switch providers by itself.
 
-## Usage Examples
+## Example requests
 
 ```text
-/fable5-optimizer should Opus own this migration, or does it need Fable?
 /fable5-optimizer have GPT-5.6 Sol independently review this Opus implementation
 /fable5-optimizer decide whether Fable should coordinate Sol, Terra, or Luna workers for this migration
 /fable5-optimizer prepare a compact context packet before escalating this architecture decision
 /fable5-optimizer verify the running checkout flow with Codex browser automation
 ```
 
-Claude Code can also load the skill automatically when a request is about Opus/Fable/Codex routing, effort selection, cross-model orchestration, or local runtime verification.
+Claude Code can also load the skill when a request asks about model ownership, effort selection, cross-model work, or local runtime verification.
 
-## Requirements
+Codex is optional. Without an installed and authenticated Codex CLI, the Claude routing guidance still works.
 
-- Claude Code with skills support.
-- Codex CLI, installed and authenticated, for Codex delegation.
+## Documentation
 
-Check both:
+- [Installation and maintenance](INSTALL.md)
+- [Change history](CHANGELOG.md)
+- [Contributing](CONTRIBUTING.md)
+- [Security policy](SECURITY.md)
+- [Code of conduct](CODE_OF_CONDUCT.md)
 
-```bash
-claude --version
-codex --version
-```
+## Design sources
 
-Without Codex, the Claude routing guidance still works.
-
-## Design Basis
-
-The current policy is grounded in:
+The policy draws on current provider documentation:
 
 - Anthropic's [Claude model selection guide](https://platform.claude.com/docs/en/about-claude/models/choosing-a-model)
 - Anthropic's [cost and intelligence optimization guide](https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence)
@@ -137,17 +124,7 @@ The current policy is grounded in:
 - OpenAI's [GPT-5.6 model guidance](https://developers.openai.com/api/docs/guides/latest-model)
 - OpenAI's [Codex sandbox documentation](https://learn.chatgpt.com/docs/sandboxing)
 
-Provider pricing, retention rules, model behavior, and subscription limits change quickly. Verify current terms before making compliance or procurement decisions.
-
-## Versioning
-
-Releases follow semantic versioning and are tagged `vX.Y.Z`. History lives in [CHANGELOG.md](CHANGELOG.md).
-
-## Contributing
-
-Keep changes focused on routing policy. Put invocation-only detail under `skills/fable5-optimizer/references/` so the always-loaded context stays small.
-
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+Provider pricing, retention rules, model behavior, and subscription limits change. Check the current terms before making compliance or purchasing decisions.
 
 ## License
 

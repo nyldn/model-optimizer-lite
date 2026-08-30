@@ -5,6 +5,37 @@ MODE="${1:-${FABLE5_OPTIMIZER_MODE:-skill}}"
 REPO_URL="${FABLE5_OPTIMIZER_REPO_URL:-https://github.com/nyldn/fable5-optimizer.git}"
 SKILL_NAME="fable5-optimizer"
 
+usage() {
+  cat <<'USAGE'
+Usage:
+  install.sh [skill|skill-project|claude-md|claude-md-print]
+
+Modes:
+  skill            Install to ~/.claude/skills/fable5-optimizer. Default.
+  skill-project    Install to ./.claude/skills/fable5-optimizer for the current project.
+  claude-md        Install a lightweight policy block to ./.claude/CLAUDE.md
+                   plus the detailed project-local skill for on-demand use.
+  claude-md-print  Print the generated block to stdout (used to regenerate
+                   claude-md/CLAUDE.md in this repo).
+
+Legacy aliases:
+  user, global   Same as skill.
+  project        Same as skill-project.
+  always-on      Same as claude-md.
+USAGE
+}
+
+print_next_step() {
+  echo "Next: open a new Claude Code session and run /fable5-optimizer."
+}
+
+case "$MODE" in
+  -h|--help|help)
+    usage
+    exit 0
+    ;;
+esac
+
 TMP_DIR=""
 TMP_FILE=""
 cleanup() {
@@ -285,11 +316,13 @@ case "$MODE" in
     else
       echo "$SKILL_NAME already current at $DEST"
     fi
+    print_next_step
     ;;
 
   skill-project|project)
     TARGET_DIR="${FABLE5_OPTIMIZER_TARGET:-$PWD}"
     install_project_skill "$TARGET_DIR"
+    print_next_step
     ;;
 
   claude-md|always-on)
@@ -299,6 +332,7 @@ case "$MODE" in
     validate_claude_md_dest
     install_project_skill "$TARGET_DIR"
     install_claude_md
+    print_next_step
     ;;
 
   claude-md-print)
@@ -306,23 +340,7 @@ case "$MODE" in
     ;;
 
   *)
-    cat >&2 <<'USAGE'
-Usage:
-  install.sh [skill|skill-project|claude-md|claude-md-print]
-
-Modes:
-  skill            Install to ~/.claude/skills/fable5-optimizer. Default.
-  skill-project    Install to ./.claude/skills/fable5-optimizer for the current project.
-  claude-md        Install a lightweight policy block to ./.claude/CLAUDE.md
-                   plus the detailed project-local skill for on-demand use.
-  claude-md-print  Print the generated block to stdout (used to regenerate
-                   claude-md/CLAUDE.md in this repo).
-
-Legacy aliases:
-  user, global   Same as skill.
-  project        Same as skill-project.
-  always-on      Same as claude-md.
-USAGE
+    usage >&2
     exit 2
     ;;
 esac
