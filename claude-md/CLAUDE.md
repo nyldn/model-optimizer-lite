@@ -1,4 +1,4 @@
-<!-- fable5-optimizer:start -->
+<!-- claude-model-optimizer:start -->
 <!-- Generated from claude-md/POLICY.md by install.sh. Do not hand-edit inside the markers. -->
 # Model Routing
 
@@ -18,5 +18,5 @@ Before delegating, state the task, relevant files or artifact, checkable accepta
 
 Keep reviews read-only and implementation sandboxes workspace-limited. Expand access only to named targets, isolate parallel edits in worktrees, and pause for destructive, irreversible, or externally consequential actions.
 
-For detailed routing, effort guidance, prompt patterns, and current Codex command templates, load `/fable5-optimizer`.
-<!-- fable5-optimizer:end -->
+For detailed routing, effort guidance, prompt patterns, and current Codex command templates, load `/claude-model-optimizer`.
+<!-- claude-model-optimizer:end -->

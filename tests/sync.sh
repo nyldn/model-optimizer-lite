@@ -4,11 +4,11 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
-SKILL="$ROOT/skills/fable5-optimizer/SKILL.md"
+SKILL="$ROOT/skills/claude-model-optimizer/SKILL.md"
 POLICY="$ROOT/claude-md/POLICY.md"
 TEMPLATE="$ROOT/claude-md/CLAUDE.md"
-CODEX_WORKFLOWS="$ROOT/skills/fable5-optimizer/references/codex-workflows.md"
-FABLE_REVIEW_GATES="$ROOT/skills/fable5-optimizer/references/fable-review-gates.md"
+CODEX_WORKFLOWS="$ROOT/skills/claude-model-optimizer/references/codex-workflows.md"
+FABLE_REVIEW_GATES="$ROOT/skills/claude-model-optimizer/references/fable-review-gates.md"
 README="$ROOT/README.md"
 INSTALL_GUIDE="$ROOT/INSTALL.md"
 
@@ -51,7 +51,7 @@ POLICY_ANCHORS=(
   "Codex"
   "independent, verifiable work packets"
   "actual model metadata"
-  "/fable5-optimizer"
+  "/claude-model-optimizer"
 )
 
 for anchor in "${POLICY_ANCHORS[@]}"; do
@@ -105,7 +105,7 @@ README_INSTALL_ANCHORS=(
   "Quick start"
   "INSTALL.md"
   "Fable review gate"
-  "raw.githubusercontent.com/nyldn/fable5-optimizer/main/install.sh"
+  "raw.githubusercontent.com/nyldn/claude-model-optimizer/main/install.sh"
 )
 
 for anchor in "${README_INSTALL_ANCHORS[@]}"; do
@@ -118,6 +118,9 @@ done
 GUIDE_ANCHORS=(
   "bash -s -- skill-project"
   "bash -s -- claude-md"
+  "fable5-optimizer"
+  "claude-model-optimizer"
+  "CLAUDE_MODEL_OPTIMIZER_"
   "Update"
   "Remove"
   "Troubleshooting"
@@ -130,17 +133,39 @@ for anchor in "${GUIDE_ANCHORS[@]}"; do
   fi
 done
 
+if ! grep -q 'github.com/nyldn/claude-model-optimizer.git' "$ROOT/install.sh"; then
+  echo "installer does not use the renamed canonical repository" >&2
+  exit 1
+fi
+
 policy_words="$(wc -w < "$POLICY" | tr -d ' ')"
 if [[ "$policy_words" -gt 500 ]]; then
   echo "$POLICY is too large for always-on context: $policy_words words (max 500)" >&2
   exit 1
 fi
 
-for marker in "fable5-optimizer:start" "fable5-optimizer:end"; do
+for marker in "claude-model-optimizer:start" "claude-model-optimizer:end"; do
   if ! grep -q -- "$marker" "$TEMPLATE"; then
     echo "missing managed-block marker '$marker' in $TEMPLATE" >&2
     exit 1
   fi
 done
+
+ACTIVE_NAME_FILES=(
+  "$ROOT/README.md"
+  "$ROOT/CONTRIBUTING.md"
+  "$ROOT/CLAUDE.md"
+  "$ROOT/claude-md/POLICY.md"
+  "$ROOT/claude-md/CLAUDE.md"
+  "$ROOT/.github/ISSUE_TEMPLATE/bug_report.yml"
+  "$ROOT/.github/ISSUE_TEMPLATE/config.yml"
+  "$ROOT/.github/workflows/test.yml"
+  "$ROOT/tests/trigger-cases.md"
+)
+
+if grep -nE 'fable5-optimizer|Fable 5 Optimizer' "${ACTIVE_NAME_FILES[@]}"; then
+  echo "active public files still use the retired project name" >&2
+  exit 1
+fi
 
 echo "OK: always-on template matches the lightweight policy ($policy_words words)"

@@ -1,6 +1,6 @@
 # Skill Trigger Cases
 
-Manual evaluation set for the `fable5-optimizer` skill description. After changing the frontmatter description, check each case in a fresh Claude Code session and confirm the load behavior matches.
+Manual evaluation set for the `claude-model-optimizer` skill description. After changing the frontmatter description, check each case in a fresh Claude Code session and confirm the load behavior matches.
 
 ## Should trigger
 

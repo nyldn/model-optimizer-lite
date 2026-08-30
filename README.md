@@ -1,8 +1,8 @@
-# Fable 5 Optimizer
+# Claude Model Optimizer
 
-[![Test](https://github.com/nyldn/fable5-optimizer/actions/workflows/test.yml/badge.svg)](https://github.com/nyldn/fable5-optimizer/actions/workflows/test.yml)
-[![Latest release](https://img.shields.io/github/v/release/nyldn/fable5-optimizer)](https://github.com/nyldn/fable5-optimizer/releases/latest)
-[![License: MIT](https://img.shields.io/github/license/nyldn/fable5-optimizer)](LICENSE)
+[![Test](https://github.com/nyldn/claude-model-optimizer/actions/workflows/test.yml/badge.svg)](https://github.com/nyldn/claude-model-optimizer/actions/workflows/test.yml)
+[![Latest release](https://img.shields.io/github/v/release/nyldn/claude-model-optimizer)](https://github.com/nyldn/claude-model-optimizer/releases/latest)
+[![License: MIT](https://img.shields.io/github/license/nyldn/claude-model-optimizer)](LICENSE)
 
 A Claude Code skill for deciding when work belongs with Claude Opus 5, Claude Fable 5, or Codex/GPT-5.6.
 
@@ -15,19 +15,19 @@ You need Claude Code, Git, curl, and Bash on macOS, Linux, or Windows through WS
 1. Install the skill for your user account:
 
    ```bash
-   curl -fsSL https://raw.githubusercontent.com/nyldn/fable5-optimizer/main/install.sh | bash
+   curl -fsSL https://raw.githubusercontent.com/nyldn/claude-model-optimizer/main/install.sh | bash
    ```
 
 2. Confirm the skill exists:
 
    ```bash
-   test -f "$HOME/.claude/skills/fable5-optimizer/SKILL.md" && echo "fable5-optimizer is installed"
+   test -f "$HOME/.claude/skills/claude-model-optimizer/SKILL.md" && echo "claude-model-optimizer is installed"
    ```
 
 3. Open a new Claude Code session and try it:
 
    ```text
-   /fable5-optimizer should Opus own this migration, or does it need Fable?
+   /claude-model-optimizer should Opus own this migration, or does it need Fable?
    ```
 
 The default mode does not edit a project's `CLAUDE.md`. Its persistent files stay under `~/.claude/`.
@@ -55,7 +55,7 @@ See [INSTALL.md](INSTALL.md) for project-local installation, the always-on route
 Run `./install.sh --help` to see every mode. You can also ask Claude Code to install the repository:
 
 ```text
-Install this skill: https://github.com/nyldn/fable5-optimizer
+Install this skill: https://github.com/nyldn/claude-model-optimizer
 ```
 
 Re-running the installer is a no-op when the installed files match. It moves changed skill folders to `~/.claude/skill-backups/` for a user install or `.claude/skill-backups/` for a project install before replacing them. The always-on mode preserves instructions outside its marked block and backs up a changed `CLAUDE.md` first.
@@ -78,7 +78,7 @@ Use a Fable gate when a plan, architecture decision, or release candidate exists
 
 After `REVISE`, the primary owner checks each finding against source and records it as accepted, rejected, or deferred. The next round receives the prior report, that resolution ledger, and the exact changed artifact. Stop after three rounds, or sooner if two rounds make no progress.
 
-The [Fable review-gate template](skills/fable5-optimizer/references/fable-review-gates.md) includes a restricted CLI command, result validation, prompt contract, and worker-identity checks.
+The [Fable review-gate template](skills/claude-model-optimizer/references/fable-review-gates.md) includes a restricted CLI command, result validation, prompt contract, and worker-identity checks.
 
 ## Fable-led delegation
 
@@ -91,10 +91,10 @@ Claude dynamic workflows spawn Claude sessions. Codex participates through MCP o
 ## Example requests
 
 ```text
-/fable5-optimizer have GPT-5.6 Sol independently review this Opus implementation
-/fable5-optimizer decide whether Fable should coordinate Sol, Terra, or Luna workers for this migration
-/fable5-optimizer prepare a compact context packet before escalating this architecture decision
-/fable5-optimizer verify the running checkout flow with Codex browser automation
+/claude-model-optimizer have GPT-5.6 Sol independently review this Opus implementation
+/claude-model-optimizer decide whether Fable should coordinate Sol, Terra, or Luna workers for this migration
+/claude-model-optimizer prepare a compact context packet before escalating this architecture decision
+/claude-model-optimizer verify the running checkout flow with Codex browser automation
 ```
 
 Claude Code can also load the skill when a request asks about model ownership, effort selection, cross-model work, or local runtime verification.

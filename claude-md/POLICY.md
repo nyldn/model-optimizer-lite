@@ -16,4 +16,4 @@ Before delegating, state the task, relevant files or artifact, checkable accepta
 
 Keep reviews read-only and implementation sandboxes workspace-limited. Expand access only to named targets, isolate parallel edits in worktrees, and pause for destructive, irreversible, or externally consequential actions.
 
-For detailed routing, effort guidance, prompt patterns, and current Codex command templates, load `/fable5-optimizer`.
+For detailed routing, effort guidance, prompt patterns, and current Codex command templates, load `/claude-model-optimizer`.

@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [3.0.0] - 2026-08-30
+
+### Changed
+
+- Renamed the public project, repository references, installed skill, managed markers, and invocation from `fable5-optimizer` to `claude-model-optimizer`.
+- The installer now moves an existing `fable5-optimizer` skill into the backup directory before installing the new name, and replaces legacy managed blocks without changing surrounding instructions.
+- Installer environment settings now use the `CLAUDE_MODEL_OPTIMIZER_` prefix. The old `FABLE5_OPTIMIZER_` names remain temporary compatibility aliases for the version 3 transition.
+
 ## [2.2.0] - 2026-08-29
 
 ### Added
@@ -194,19 +202,20 @@ An xhigh review of the v2.0.1 installer found that the hardening pass introduced
 - One-shot installer (`install.sh`) with user and project modes.
 - CI validation of the skill package and public boundary.
 
-[Unreleased]: https://github.com/nyldn/fable5-optimizer/compare/v2.2.0...HEAD
-[2.2.0]: https://github.com/nyldn/fable5-optimizer/compare/v2.1.0...v2.2.0
-[2.1.0]: https://github.com/nyldn/fable5-optimizer/compare/v2.0.2...v2.1.0
-[2.0.2]: https://github.com/nyldn/fable5-optimizer/compare/v2.0.1...v2.0.2
-[2.0.1]: https://github.com/nyldn/fable5-optimizer/compare/v2.0.0...v2.0.1
-[2.0.0]: https://github.com/nyldn/fable5-optimizer/compare/v1.6.0...v2.0.0
-[1.6.0]: https://github.com/nyldn/fable5-optimizer/compare/v1.5.1...v1.6.0
-[1.5.1]: https://github.com/nyldn/fable5-optimizer/compare/v1.5.0...v1.5.1
-[1.5.0]: https://github.com/nyldn/fable5-optimizer/compare/v1.4.0...v1.5.0
-[1.4.0]: https://github.com/nyldn/fable5-optimizer/compare/v1.3.0...v1.4.0
-[1.3.0]: https://github.com/nyldn/fable5-optimizer/compare/v1.2.2...v1.3.0
-[1.2.2]: https://github.com/nyldn/fable5-optimizer/compare/v1.2.1...v1.2.2
-[1.2.1]: https://github.com/nyldn/fable5-optimizer/compare/v1.2.0...v1.2.1
-[1.2.0]: https://github.com/nyldn/fable5-optimizer/compare/v1.1.0...v1.2.0
-[1.1.0]: https://github.com/nyldn/fable5-optimizer/compare/v1.0.0...v1.1.0
-[1.0.0]: https://github.com/nyldn/fable5-optimizer/releases/tag/v1.0.0
+[Unreleased]: https://github.com/nyldn/claude-model-optimizer/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/nyldn/claude-model-optimizer/compare/v2.2.0...v3.0.0
+[2.2.0]: https://github.com/nyldn/claude-model-optimizer/compare/v2.1.0...v2.2.0
+[2.1.0]: https://github.com/nyldn/claude-model-optimizer/compare/v2.0.2...v2.1.0
+[2.0.2]: https://github.com/nyldn/claude-model-optimizer/compare/v2.0.1...v2.0.2
+[2.0.1]: https://github.com/nyldn/claude-model-optimizer/compare/v2.0.0...v2.0.1
+[2.0.0]: https://github.com/nyldn/claude-model-optimizer/compare/v1.6.0...v2.0.0
+[1.6.0]: https://github.com/nyldn/claude-model-optimizer/compare/v1.5.1...v1.6.0
+[1.5.1]: https://github.com/nyldn/claude-model-optimizer/compare/v1.5.0...v1.5.1
+[1.5.0]: https://github.com/nyldn/claude-model-optimizer/compare/v1.4.0...v1.5.0
+[1.4.0]: https://github.com/nyldn/claude-model-optimizer/compare/v1.3.0...v1.4.0
+[1.3.0]: https://github.com/nyldn/claude-model-optimizer/compare/v1.2.2...v1.3.0
+[1.2.2]: https://github.com/nyldn/claude-model-optimizer/compare/v1.2.1...v1.2.2
+[1.2.1]: https://github.com/nyldn/claude-model-optimizer/compare/v1.2.0...v1.2.1
+[1.2.0]: https://github.com/nyldn/claude-model-optimizer/compare/v1.1.0...v1.2.0
+[1.1.0]: https://github.com/nyldn/claude-model-optimizer/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/nyldn/claude-model-optimizer/releases/tag/v1.0.0

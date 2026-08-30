@@ -1,9 +1,9 @@
 ---
-name: fable5-optimizer
+name: claude-model-optimizer
 description: Load before answering whenever a request mentions Claude Opus 5, Claude Fable 5, GPT-5.6 Sol, Terra, or Luna, Codex, or asks which model or agent should plan, implement, review, research, or verify work. Use for model routing, cross-model and dynamic workflows, Codex delegation, effort selection, context preparation, cost controls, and runtime/browser verification. Do not use for ordinary implementation or review with no model-choice question, or for generic prompt rewriting.
 ---
 
-# Fable 5 Optimizer
+# Claude Model Optimizer
 
 Route work across Claude Opus 5, Claude Fable 5, and Codex/GPT-5.6 Sol without turning every task into a multi-model ceremony.
 

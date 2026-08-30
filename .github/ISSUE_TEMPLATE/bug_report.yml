@@ -1,5 +1,5 @@
 name: Bug report
-description: Report a problem with the Fable 5 Optimizer skill.
+description: Report a problem with the Claude Model Optimizer skill.
 title: "[Bug]: "
 labels: ["bug"]
 body:
@@ -21,7 +21,7 @@ body:
     id: reproduction
     attributes:
       label: Reproduction
-      description: Include the request, whether `/fable5-optimizer` was invoked directly, and relevant non-secret context.
+      description: Include the request, whether `/claude-model-optimizer` was invoked directly, and relevant non-secret context.
     validations:
       required: false
   - type: textarea
