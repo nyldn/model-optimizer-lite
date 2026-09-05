@@ -1,9 +1,8 @@
 # AI Model Optimizer development
 
-Maintain the shared sources in `shared/`. Generate both standalone skill
-packages with `python3 scripts/sync-packages.py`; do not hand-edit package copies.
-The Claude entrypoint retains its compatibility name. The Codex entrypoint is
-`ai-model-optimizer`.
+Maintain the shared sources in `shared/`. Generate the standalone skill
+package with `python3 scripts/sync-packages.py`; do not hand-edit package copies.
+Both hosts use the `ai-model-optimizer` discovery name.
 
 Read `CONTRIBUTING.md` for validation and `docs/architecture.md` for boundaries.
 Recommendation commands must not dispatch inference. Explicit discovery may

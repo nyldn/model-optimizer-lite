@@ -1,4 +1,4 @@
-<!-- claude-model-optimizer:start -->
+<!-- ai-model-optimizer:start -->
 <!-- Generated from claude-md/POLICY.md by install.sh. Do not hand-edit inside the markers. -->
 # Model Routing
 
@@ -17,6 +17,6 @@ not grant authority to merge, publish, deploy, or expand permissions.
 
 Use compact handoffs only when context must move. Delegate independent packets
 only when useful and authorized. Keep worker depth bounded and stop after two
-rounds without progress. Load `/claude-model-optimizer` for detailed policy,
+rounds without progress. Load `/ai-model-optimizer` for detailed policy,
 host-specific guidance, and optional discovery or review-receipt helpers.
-<!-- claude-model-optimizer:end -->
+<!-- ai-model-optimizer:end -->

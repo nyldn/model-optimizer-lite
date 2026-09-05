@@ -1,12 +1,12 @@
 # Lightweight shared model optimization
 
-AI Model Optimizer has one maintained policy, two generated skill packages, and
-one optional Python standard-library helper. Each installed package contains
+AI Model Optimizer has one maintained policy, one generated skill package, and
+one optional Python standard-library helper. The installed package contains
 its own references and scripts, so it does not depend on the source checkout.
 
-The Claude package keeps the discovery name `claude-model-optimizer`. The
-Codex package uses `ai-model-optimizer`. Package generation keeps shared policy
-identical while entrypoints identify their host and compatibility role.
+Both hosts install the same `ai-model-optimizer` package. Claude invokes it with
+`/ai-model-optimizer`; Codex uses `$ai-model-optimizer`. The skill loads the
+profile for the host running the session.
 
 ## Reused Octopus patterns
 

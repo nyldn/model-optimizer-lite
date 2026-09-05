@@ -6,8 +6,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 PACKAGES = {
-    "claude-model-optimizer": "This is the Claude entrypoint. Its existing name is retained for compatibility.",
-    "ai-model-optimizer": "Use this entrypoint in Codex or another skill-capable host; select the profile for the actual host.",
+    "ai-model-optimizer": "Use this skill in Claude or Codex; select the profile for the actual host.",
 }
 
 
