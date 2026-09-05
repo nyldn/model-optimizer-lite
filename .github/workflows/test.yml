@@ -90,3 +90,15 @@ jobs:
 
       - name: Test routing, receipts, model discovery, and Codex installation
         run: python3 -m unittest discover -s tests -p '*_test.py'
+
+      - name: Check native plugin installation when CLIs are available
+        run: python3 tests/native-plugin-smoke.py
+
+      - name: Build release downloads
+        run: python3 scripts/build-distribution.py --check --archives dist
+
+      - name: Preserve reviewable downloads
+        uses: actions/upload-artifact@v4
+        with:
+          name: model-optimizer-lite-${{ matrix.os }}
+          path: dist/

@@ -1,24 +1,52 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-MODE="${1:-${MODEL_OPTIMIZER_LITE_MODE:-skill}}"
-REPO_URL="${MODEL_OPTIMIZER_LITE_REPO_URL:-https://github.com/nyldn/model-optimizer-lite.git}"
 SKILL_NAME="model-optimizer-lite"
+ACTION=install
+MODE="${1:-${MODEL_OPTIMIZER_LITE_MODE:-choose}}"
+PROJECT=0
+case "$MODE" in
+  install|update|status|uninstall)
+    ACTION="$MODE"
+    MODE="${2:-choose}"
+    [[ "$ACTION" != status || "$MODE" != choose ]] || MODE=both
+    [[ "${3:-}" != --project ]] || PROJECT=1
+    [[ $# -le 3 && ( $# -lt 3 || "${3:-}" == --project ) ]] || MODE=invalid
+    ;;
+  *)
+    [[ "${2:-}" != --project ]] || PROJECT=1
+    [[ $# -le 2 && ( $# -lt 2 || "${2:-}" == --project ) ]] || MODE=invalid
+    ;;
+esac
 
 usage() {
   cat <<'USAGE'
-Usage:
-  install.sh [skill|skill-project|codex|codex-project|claude-md|claude-md-print]
+Usage: install.sh [action] <app> [--project]
 
-Modes:
-  skill            Install to ~/.claude/skills/model-optimizer-lite. Default.
-  skill-project    Install to ./.claude/skills/model-optimizer-lite for the current project.
-  codex            Install to ~/.agents/skills/model-optimizer-lite for Codex.
-  codex-project    Install to ./.agents/skills/model-optimizer-lite for the current project.
-  claude-md        Install a lightweight policy block to ./.claude/CLAUDE.md
-                   plus the detailed project-local skill for on-demand use.
-  claude-md-print  Print the generated block to stdout (used to regenerate
-                   claude-md/CLAUDE.md in this repo).
+Install for the app you use:
+  install.sh claude             Claude Code, including local desktop Code sessions
+  install.sh codex              Codex local coding sessions
+  install.sh both               Both apps
+  install.sh                   Choose interactively in a terminal
+
+Manage a direct skill installation:
+  install.sh status [claude|codex|both] [--project]
+  install.sh update <claude|codex|both> [--project]
+  install.sh uninstall <claude|codex|both> [--project]
+
+Add --project to install only in the current project.
+Update downloads a fresh source; it never changes your checkout.
+Uninstall archives the skill outside discovery so local edits can be recovered.
+Status checks local files, not whether an app has loaded them.
+
+Claude chat/Cowork: upload the skill ZIP through Customize > Skills instead.
+Native plugin installs: manage updates/removal in the app's plugin manager.
+
+Advanced modes:
+  skill, skill-project          Direct Claude user/project skill
+  codex-project                Direct Codex project skill
+  claude-md                    Project skill plus a short always-on policy
+  claude-md-print              Print that policy for maintainers
 USAGE
 }
 
@@ -31,16 +59,48 @@ case "$MODE" in
     usage
     exit 0
     ;;
+  choose)
+    if [[ "$ACTION" != install ]] || ! ( : < /dev/tty ) 2>/dev/null; then
+      usage >&2
+      echo "Choose an app explicitly: claude, codex, or both." >&2
+      exit 2
+    fi
+    printf 'Install for 1) Claude Code  2) Codex  3) Both: ' > /dev/tty
+    read -r choice < /dev/tty
+    case "$choice" in
+      1|claude) MODE=claude ;;
+      2|codex) MODE=codex ;;
+      3|both) MODE=both ;;
+      *) echo "No installation made. Choose claude, codex, or both." >&2; exit 2 ;;
+    esac
+    ;;
+  claude|codex|both|skill|skill-project|codex-project|claude-md|claude-md-print) ;;
+  *) usage >&2; exit 2 ;;
+esac
+if [[ "$ACTION" != install ]]; then
+  case "$MODE" in claude|codex|both) ;; *) usage >&2; exit 2 ;; esac
+fi
+if [[ "$PROJECT" == 1 ]]; then
+  case "$MODE" in claude|codex|both) ;; *) usage >&2; exit 2 ;; esac
+fi
+case "$MODE" in
+  skill) MODE=claude ;;
+  skill-project) MODE=claude; PROJECT=1 ;;
+  codex-project) MODE=codex; PROJECT=1 ;;
 esac
 
 TMP_DIR=""
 TMP_FILE=""
+TMP_SKILL=""
 cleanup() {
   if [[ -n "$TMP_DIR" && -d "$TMP_DIR" ]]; then
     rm -rf "$TMP_DIR"
   fi
   if [[ -n "$TMP_FILE" && -e "$TMP_FILE" ]]; then
     rm -f "$TMP_FILE"
+  fi
+  if [[ -n "$TMP_SKILL" && -d "$TMP_SKILL" ]]; then
+    rm -rf "$TMP_SKILL"
   fi
 }
 trap cleanup EXIT
@@ -98,14 +158,33 @@ if [[ -n "$script_source" && -e "$script_source" ]]; then
   script_dir="$(cd "$(dirname "$script_source")" >/dev/null 2>&1 && pwd -P || true)"
 fi
 
-if [[ -n "$script_dir" && -d "$script_dir/skills/$SKILL_NAME" ]]; then
-  SOURCE_DIR="$script_dir"
-else
-  require git
+resolve_source() {
+  if [[ "$ACTION" != update && -n "$script_dir" && -d "$script_dir/skills/$SKILL_NAME" ]]; then
+    SOURCE_DIR="$script_dir"
+    return
+  fi
   TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/model-optimizer-lite.XXXXXX")"
   SOURCE_DIR="$TMP_DIR/repo"
-  git clone --quiet --depth 1 "$REPO_URL" "$SOURCE_DIR"
-fi
+  if [[ -n "${MODEL_OPTIMIZER_LITE_REPO_URL:-}" ]]; then
+    require git
+    git clone --quiet --depth 1 "${MODEL_OPTIMIZER_LITE_REPO_URL}" "$SOURCE_DIR"
+  else
+    require curl
+    require tar
+    local ref="${MODEL_OPTIMIZER_LITE_REF:-}" url
+    url="https://github.com/nyldn/model-optimizer-lite/releases/latest/download/model-optimizer-lite-source.tar.gz"
+    if [[ -n "$ref" ]]; then
+      [[ "$ref" =~ ^[a-zA-Z0-9._-]+$ ]] || { echo "Invalid source ref." >&2; exit 2; }
+      url="https://codeload.github.com/nyldn/model-optimizer-lite/tar.gz/$ref"
+    fi
+    echo "Downloading Model Optimizer Lite (${ref:-latest release})..."
+    curl --fail --silent --show-error --location --connect-timeout 15 --max-time 120 \
+      "$url" -o "$TMP_DIR/source.tar.gz"
+    mkdir -p "$SOURCE_DIR"
+    tar -xzf "$TMP_DIR/source.tar.gz" --strip-components=1 -C "$SOURCE_DIR"
+  fi
+  [[ -f "$SOURCE_DIR/skills/$SKILL_NAME/SKILL.md" ]] || { echo "Download is missing the skill." >&2; exit 1; }
+}
 
 # Sets COPY_SKILL_CHANGED so callers can keep quiet about a no-op reinstall.
 COPY_SKILL_CHANGED=0
@@ -122,20 +201,26 @@ copy_skill() {
   fi
   COPY_SKILL_CHANGED=1
 
+  # Copy first so a failed transfer leaves the current installation intact.
+  mkdir -p "$(dirname "$dest")" || return 1
+  TMP_SKILL="$(mktemp -d "$(dirname "$(dirname "$dest")")/.model-optimizer-lite-stage.XXXXXX")" || return 1
+  if command -v rsync >/dev/null 2>&1; then
+    rsync -a "$src"/ "$TMP_SKILL"/ || return 1
+  else
+    cp -R "$src"/. "$TMP_SKILL"/ || return 1
+  fi
+  diff -rq "$src" "$TMP_SKILL" >/dev/null || return 1
+  local backup=""
   if [[ -e "$dest" || -L "$dest" ]]; then
-    local backup
     backup="$(backup_path "$(skill_backup_dir "$dest")/$(basename "$dest")")"
-    mv "$dest" "$backup"
+    mv "$dest" "$backup" || return 1
     echo "Backed up existing skill to $backup"
   fi
-
-  mkdir -p "$(dirname "$dest")"
-  if command -v rsync >/dev/null 2>&1; then
-    rsync -a "$src"/ "$dest"/
-  else
-    mkdir -p "$dest"
-    cp -R "$src"/. "$dest"/
+  if ! mv "$TMP_SKILL" "$dest"; then
+    [[ -z "$backup" ]] || mv "$backup" "$dest"
+    return 1
   fi
+  TMP_SKILL=""
 }
 
 # The always-on block stays deliberately small. Detailed guidance lives in
@@ -278,41 +363,131 @@ install_claude_md() {
   echo "Installed always-on $SKILL_NAME policy to $dest"
 }
 
+skill_dest() {
+  local host="$1" root
+  if [[ "$host" == claude ]]; then
+    root="${MODEL_OPTIMIZER_LITE_CLAUDE_SKILLS_DIR:-$HOME/.claude/skills}"
+    [[ "$PROJECT" == 0 ]] || root="${MODEL_OPTIMIZER_LITE_TARGET:-$PWD}/.claude/skills"
+  else
+    root="${MODEL_OPTIMIZER_LITE_CODEX_SKILLS_DIR:-$HOME/.agents/skills}"
+    [[ "$PROJECT" == 0 ]] || root="${MODEL_OPTIMIZER_LITE_TARGET:-$PWD}/.agents/skills"
+  fi
+  printf '%s/%s\n' "$root" "$SKILL_NAME"
+}
+
+verify_skill() {
+  local dest="$1"
+  [[ -f "$dest/SKILL.md" && -f "$dest/VERSION" && -f "$dest/FILES.sha256" ]] || return 1
+  if command -v sha256sum >/dev/null 2>&1; then
+    (cd "$dest" && sha256sum -c FILES.sha256 >/dev/null 2>&1)
+  elif command -v shasum >/dev/null 2>&1; then
+    (cd "$dest" && shasum -a 256 -c FILES.sha256 >/dev/null 2>&1)
+  else
+    echo "Install verification needs sha256sum or shasum." >&2
+    return 1
+  fi
+}
+
+remove_policy() {
+  local dest
+  dest="$(claude_md_path)"
+  [[ -f "$dest" ]] || return 0
+  grep -q '^[[:space:]]*<!-- model-optimizer-lite:start -->[[:space:]]*$' "$dest" || return 0
+  validate_claude_md_dest
+  TMP_FILE="$(mktemp "$(dirname "$dest")/.model-optimizer-lite-remove.XXXXXX")" || return 1
+  strip_managed_block "$dest" > "$TMP_FILE" || return 1
+  cp "$dest" "$(backup_path "$dest")" || return 1
+  if [[ -L "$dest" ]]; then
+    cat "$TMP_FILE" > "$dest" || return 1
+    rm -f "$TMP_FILE"
+  else
+    chmod "$(default_file_mode)" "$TMP_FILE" || return 1
+    mv "$TMP_FILE" "$dest" || return 1
+  fi
+  TMP_FILE=""
+  echo "Removed the Model Optimizer Lite policy from $dest; other instructions retained."
+}
+
+manage_skill() {
+  local host="$1" dest backup
+  dest="$(skill_dest "$host")"
+  case "$ACTION" in
+    status)
+      if [[ ! -e "$dest" && ! -L "$dest" ]]; then
+        echo "$host: not installed at $dest"
+        return 1
+      elif verify_skill "$dest"; then
+        echo "$host: version $(cat "$dest/VERSION"), package files verified at $dest"
+      else
+        echo "$host: incomplete, modified, or unversioned installation at $dest"
+        return 1
+      fi
+      ;;
+    uninstall)
+      if [[ "$host" == claude && "$PROJECT" == 1 ]]; then
+        validate_claude_md_dest
+        remove_policy || return 1
+      fi
+      if [[ -e "$dest" || -L "$dest" ]]; then
+        backup="$(backup_path "$(skill_backup_dir "$dest")/$(basename "$dest")")"
+        mv "$dest" "$backup" || return 1
+        echo "$host: uninstalled. Recoverable copy: $backup"
+      else
+        echo "$host: not installed. Nothing changed."
+      fi
+      ;;
+    install|update)
+      if [[ "$ACTION" == update && ! -e "$dest" && ! -L "$dest" ]]; then
+        echo "$host: not installed; skipped. Use 'install.sh $host' to install."
+        return 0
+      fi
+      verify_skill "$SOURCE_DIR/skills/$SKILL_NAME" || { echo "Source package verification failed; nothing installed." >&2; return 1; }
+      if ! copy_skill "$SOURCE_DIR/skills/$SKILL_NAME" "$dest"; then
+        [[ -z "$TMP_SKILL" ]] || rm -rf "$TMP_SKILL"
+        TMP_SKILL=""
+        echo "$host: installation failed; check directory permissions and the error above." >&2
+        return 1
+      fi
+      verify_skill "$dest" || { echo "Installed file verification failed at $dest" >&2; return 1; }
+      echo "$host: version $(cat "$dest/VERSION") installed and package files verified."
+      if [[ "$host" == claude ]]; then print_next_step
+      else echo 'Next: open a new Codex session and invoke $model-optimizer-lite.'; fi
+      ;;
+  esac
+}
+
 case "$MODE" in
-  codex|codex-project)
-    if [[ "$MODE" == "codex" ]]; then
-      DEST="${MODEL_OPTIMIZER_LITE_CODEX_SKILLS_DIR:-$HOME/.agents/skills}/model-optimizer-lite"
-    else
-      TARGET_DIR="${MODEL_OPTIMIZER_LITE_TARGET:-$PWD}"
-      DEST="$TARGET_DIR/.agents/skills/model-optimizer-lite"
+  claude|codex|both)
+    if [[ "$ACTION" == install || "$ACTION" == update ]]; then resolve_source; fi
+    UPDATE_POLICY=0
+    if [[ "$ACTION" == update && "$PROJECT" == 1 && "$MODE" != codex ]]; then
+      policy_dest="$(claude_md_path)"
+      if [[ -f "$policy_dest" ]] && grep -q '^[[:space:]]*<!-- model-optimizer-lite:start -->[[:space:]]*$' "$policy_dest"; then
+        validate_claude_md_dest
+        UPDATE_POLICY=1
+      fi
     fi
-    copy_skill "$SOURCE_DIR/skills/model-optimizer-lite" "$DEST"
-    echo "Codex skill ready at $DEST"
-    echo 'Next: open a new Codex session and invoke $model-optimizer-lite.'
-    ;;
-
-  skill)
-    DEST="${MODEL_OPTIMIZER_LITE_CLAUDE_SKILLS_DIR:-$HOME/.claude/skills}/$SKILL_NAME"
-    copy_skill "$SOURCE_DIR/skills/$SKILL_NAME" "$DEST"
-    if [[ "$COPY_SKILL_CHANGED" -eq 1 ]]; then
-      echo "Installed $SKILL_NAME to $DEST"
-    else
-      echo "$SKILL_NAME already current at $DEST"
+    result=0
+    if [[ "$MODE" == claude || "$MODE" == both ]]; then
+      manage_skill claude || result=1
     fi
-    print_next_step
+    if [[ "$MODE" == codex || "$MODE" == both ]]; then
+      manage_skill codex || result=1
+    fi
+    if [[ "$result" == 0 && "$UPDATE_POLICY" == 1 ]]; then install_claude_md; fi
+    [[ "$ACTION" != status ]] || echo "This checks direct skill files only. Start a new session and invoke the skill to confirm app discovery."
+    exit "$result"
     ;;
+esac
 
-  skill-project)
-    TARGET_DIR="${MODEL_OPTIMIZER_LITE_TARGET:-$PWD}"
-    install_project_skill "$TARGET_DIR"
-    print_next_step
-    ;;
-
+resolve_source
+case "$MODE" in
   claude-md)
     TARGET_DIR="${MODEL_OPTIMIZER_LITE_TARGET:-$PWD}"
     # Reject a bad CLAUDE.md destination before touching anything else, so a
     # refusal never leaves a half-finished install behind.
     validate_claude_md_dest
+    verify_skill "$SOURCE_DIR/skills/$SKILL_NAME" || { echo "Source package verification failed." >&2; exit 1; }
     install_project_skill "$TARGET_DIR"
     install_claude_md
     print_next_step

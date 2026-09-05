@@ -11,6 +11,7 @@ After changing shared source, run:
 
 ```sh
 python3 scripts/sync-packages.py
+python3 scripts/build-distribution.py
 ./install.sh claude-md-print > claude-md/CLAUDE.md
 tests/sync.sh
 tests/install.sh

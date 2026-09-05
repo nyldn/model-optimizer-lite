@@ -1,0 +1,20 @@
+{
+  "name": "model-optimizer-lite",
+  "interface": {
+    "displayName": "Model Optimizer Lite"
+  },
+  "plugins": [
+    {
+      "name": "model-optimizer-lite",
+      "source": {
+        "source": "local",
+        "path": "./plugins/model-optimizer-lite"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

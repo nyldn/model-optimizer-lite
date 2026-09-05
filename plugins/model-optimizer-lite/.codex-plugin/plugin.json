@@ -1,0 +1,24 @@
+{
+  "name": "model-optimizer-lite",
+  "version": "4.0.0",
+  "description": "Choose a model, carry context into a handoff, and check review evidence.",
+  "author": {
+    "name": "nyldn",
+    "url": "https://github.com/nyldn"
+  },
+  "homepage": "https://github.com/nyldn/model-optimizer-lite",
+  "repository": "https://github.com/nyldn/model-optimizer-lite",
+  "license": "MIT",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Model Optimizer Lite",
+    "shortDescription": "Help choosing which AI to use for the job.",
+    "longDescription": "Model advice and handoffs for Claude and Codex. No background service or automatic model switching.",
+    "developerName": "nyldn",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": [
+      "Should I keep my current model for this task?"
+    ]
+  }
+}

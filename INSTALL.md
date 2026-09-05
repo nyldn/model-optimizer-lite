@@ -1,201 +1,173 @@
-# Installation
+# Installation help
 
-Model Optimizer Lite uses one standalone skill package for Claude and Codex.
-Claude invokes it with `/model-optimizer-lite`; Codex uses `$model-optimizer-lite`.
+Start with [the app chooser in the README](README.md#install-which-app-do-you-use).
+Pick one method per app. Direct skills and native plugins provide the same skill,
+so installing both can create duplicates.
 
-## Codex installation
+## Claude chat and Cowork
 
-From a checkout, run `./install.sh codex` for a user install or
-`./install.sh codex-project` from the target project. Open a new Codex session
-and invoke `$model-optimizer-lite`.
+[Download the skill ZIP](https://github.com/nyldn/model-optimizer-lite/releases/latest/download/model-optimizer-lite.zip).
+Keep it zipped and upload it through **Customize → Skills → + → Create skill → Upload a skill**.
+Enable it, start a new conversation, and ask:
 
-The targets are `~/.agents/skills/model-optimizer-lite/` and
-`./.agents/skills/model-optimizer-lite/`. No Claude CLI, global model setting,
-`AGENTS.md` edit, or always-on hook is required. Desktop use needs a local
-skill-capable session; advice still works when CLI execution is unavailable.
-The optional helper commands need Python 3.9+, and live model discovery needs a
-standalone Codex CLI. Neither provider CLI is required to copy the skill files.
+> Use Model Optimizer Lite to help me choose a model for this task.
 
-Rerun the same installer mode to update. Changed packages are backed up outside
-skill discovery, under `.agents/skill-backups/`. Remove only the installed
-`model-optimizer-lite` directory when uninstalling; review backups separately.
-Do not delete other skills or provider state.
+Claude requires code execution to be enabled. Organization settings may restrict
+custom skills. The ZIP does not install a local CLI or change model settings.
+To update, replace the uploaded skill with the new ZIP. To remove it, disable or
+delete it in Skills settings. [Claude's instructions](https://support.claude.com/en/articles/12512180-use-skills-in-claude).
 
-Set `MODEL_OPTIMIZER_LITE_CODEX_SKILLS_DIR` to override the user skills root, or
-`MODEL_OPTIMIZER_LITE_TARGET` for a project target. `MODEL_OPTIMIZER_LITE_MODE` and
-`MODEL_OPTIMIZER_LITE_REPO_URL` override mode and source.
+## Codex in-app skill installer
 
-## Claude installation
-
-Set `MODEL_OPTIMIZER_LITE_CLAUDE_SKILLS_DIR` to override the user skills root.
-For `claude-md` mode, `MODEL_OPTIMIZER_LITE_CLAUDE_MD` overrides the policy file
-path; `MODEL_OPTIMIZER_LITE_TARGET` still selects the project skill location.
-
-The default install adds Model Optimizer Lite to your Claude Code user skills. It works across projects and does not change any project files.
-
-## Requirements
-
-- Claude Code with skills support
-- Git
-- Bash
-- curl for the one-line installer
-- macOS, Linux, or Windows through WSL
-
-Codex is optional. Install and authenticate the Codex CLI only if you want Claude to delegate work to Codex.
-
-Check the tools you plan to use:
-
-```bash
-claude --version
-git --version
-curl --version
-codex --version
-```
-
-## Install for your user account
-
-Copy and run:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/nyldn/model-optimizer-lite/main/install.sh | bash
-```
-
-The installer copies the skill to:
+In a local coding session, ask the built-in installer:
 
 ```text
-~/.claude/skills/model-optimizer-lite/
+$skill-installer install the skill from https://github.com/nyldn/model-optimizer-lite/tree/main/skills/model-optimizer-lite
 ```
 
-Confirm it is present:
+This installs the repository version. To choose a release, replace `main` with
+its tag, such as `v4.0.0`. Start a new session if the skill does not appear, then
+invoke `$model-optimizer-lite`. Availability depends on the client and account.
+[OpenAI's instructions](https://learn.chatgpt.com/docs/build-skills).
 
-```bash
-test -f "$HOME/.claude/skills/model-optimizer-lite/SKILL.md" && echo "model-optimizer-lite is installed"
+Ask the installer where it placed the skill when updating or removing it. Other
+installation methods may use different locations.
+
+## Terminal installation
+
+```sh
+curl -fsSL https://github.com/nyldn/model-optimizer-lite/releases/latest/download/install.sh | bash -s -- both
 ```
 
-Open a new Claude Code session, then run:
+Replace `both` with `claude` or `codex` for one app. This supports local Claude
+Code desktop sessions and local Codex coding sessions. It does not install into
+ordinary cloud chat or Cowork's custom Skills settings.
+
+The installer needs Bash, curl, tar, and either `sha256sum` or `shasum`, available
+on typical macOS/Linux systems. Windows terminal users can use WSL. Neither Git,
+Python, nor a provider CLI is required to copy the files. Optional Python helpers
+need Python 3.9 or later.
+
+| App | User installation | Project installation |
+| --- | --- | --- |
+| Claude Code | `~/.claude/skills/model-optimizer-lite` | `.claude/skills/model-optimizer-lite` |
+| Codex | `~/.agents/skills/model-optimizer-lite` | `.agents/skills/model-optimizer-lite` |
+
+The installer downloads the latest release, prints its version, and checks the
+package files against included checksums. This detects missing or changed files;
+it does not prove app discovery or independently authenticate the publisher.
+Open a new session and invoke `/model-optimizer-lite` in Claude Code or
+`$model-optimizer-lite` in Codex to confirm discovery.
+
+### Inspect the script first
+
+```sh
+curl -fsSL https://github.com/nyldn/model-optimizer-lite/releases/latest/download/install.sh -o install.sh
+less install.sh
+bash install.sh both
+```
+
+With no arguments in an interactive terminal, the script asks which app to
+install for. In automation, specify the app explicitly.
+
+### Project-only installation
+
+From the project root, run `bash install.sh both --project`. The same option
+applies to status, update, and uninstall. To choose another directory:
+
+```sh
+MODEL_OPTIMIZER_LITE_TARGET="/absolute/path/to/project" bash install.sh claude --project
+```
+
+### Status, update, and uninstall
+
+```sh
+bash install.sh status both
+bash install.sh update both
+bash install.sh uninstall both
+```
+
+Replace `both` with one app as needed. These commands manage direct skill copies,
+not native plugin caches or cloud uploads.
+
+- Status reads local files without downloading a release or calling an AI. Exit code `0` means all requested copies pass; `1` means at least one is absent, modified, or incomplete. Invalid arguments return `2`.
+- Update downloads a fresh release even from an old checkout. It skips absent installs. Changed copies are backed up outside discovery under `.claude/skill-backups` or `.agents/skill-backups`. Failed downloads leave existing copies intact.
+- Uninstall moves copies outside discovery into recoverable backups. It preserves unrelated skills and provider settings. Review backups before deleting them.
+
+For a project, add `--project`. Update refreshes an existing managed policy in
+`.claude/CLAUDE.md`; uninstall removes that policy. Neither adds a policy where
+none exists. Other instructions and symlinks are preserved.
+
+The README's download command fetches the current installer too. Use it for the
+newest installer and skill release. No background updater is installed.
+
+## Native plugins
+
+The plugin wraps the same skill without MCP servers, hooks, or new account
+connections. This repository supplies a marketplace; it is not a listing in
+either provider's curated public directory.
+
+### Claude Code
+
+In Claude Code, including its local desktop Code session:
 
 ```text
-/model-optimizer-lite should Opus own this work, or does it need Fable?
+/plugin marketplace add nyldn/model-optimizer-lite
+/plugin install model-optimizer-lite@model-optimizer-lite
 ```
 
-## Inspect before installing
+Start a new session and choose the skill from the `/` menu. Claude namespaces
+plugin skills, so its full command is `/model-optimizer-lite:model-optimizer-lite`.
+Direct skill copies use the shorter `/model-optimizer-lite` command.
+Manage updates and removal through `/plugin`.
+[Claude marketplace instructions](https://code.claude.com/docs/en/plugin-marketplaces).
 
-If you do not want to pipe a remote script into Bash, clone the repository and inspect the installer first:
+### Codex
 
-```bash
-git clone https://github.com/nyldn/model-optimizer-lite.git
-cd model-optimizer-lite
-./install.sh --help
-./install.sh skill
+In a terminal with Codex CLI installed:
+
+```sh
+codex plugin marketplace add nyldn/model-optimizer-lite
+codex plugin add model-optimizer-lite@model-optimizer-lite
 ```
 
-## Install for one project
+Start a new session and select the skill from the plugin menu. Use the native
+plugin manager for updates and removal; `/plugins` opens it in Codex CLI.
+These commands were checked with Codex CLI 0.153.2. Older clients may need an
+update. [OpenAI plugin instructions](https://learn.chatgpt.com/docs/plugins).
 
-Run this from the project's root directory:
+A [plugin ZIP](https://github.com/nyldn/model-optimizer-lite/releases/latest/download/model-optimizer-lite-plugin.zip)
+is available for clients that support custom plugin uploads. For Claude
+chat/Cowork, use the standalone skill ZIP above.
 
-```bash
-curl -fsSL https://raw.githubusercontent.com/nyldn/model-optimizer-lite/main/install.sh | bash -s -- skill-project
-```
+## Advanced configuration
 
-This writes the skill to:
+The `skill`, `skill-project`, and `codex-project` modes remain available for
+scripts. Prefer app names in new instructions.
 
-```text
-./.claude/skills/model-optimizer-lite/
-```
+`bash install.sh claude-md` installs the project skill plus a short policy block
+in `.claude/CLAUDE.md`. This is opt-in. The block uses `model-optimizer-lite:start`
+and `model-optimizer-lite:end` HTML comment markers. An incomplete block causes
+a refusal before changing the installation. `claude-md-print` prints the policy
+for maintainers.
 
-Confirm it is present:
+| Setting | Purpose |
+| --- | --- |
+| `MODEL_OPTIMIZER_LITE_MODE` | Default mode without a command-line mode |
+| `MODEL_OPTIMIZER_LITE_TARGET` | Project directory |
+| `MODEL_OPTIMIZER_LITE_CLAUDE_SKILLS_DIR` | Direct Claude user skills root |
+| `MODEL_OPTIMIZER_LITE_CODEX_SKILLS_DIR` | Direct Codex user skills root |
+| `MODEL_OPTIMIZER_LITE_CLAUDE_MD` | Alternate project policy file |
+| `MODEL_OPTIMIZER_LITE_REF` | Download a Git tag, branch, or commit instead of the latest release |
+| `MODEL_OPTIMIZER_LITE_REPO_URL` | Alternate Git source for testing; requires Git |
 
-```bash
-test -f ".claude/skills/model-optimizer-lite/SKILL.md" && echo "project skill is installed"
-```
-
-## Install the always-on router
-
-Use this mode when you want a short routing policy loaded in every Claude Code session for one project. Run it from that project's root directory:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/nyldn/model-optimizer-lite/main/install.sh | bash -s -- claude-md
-```
-
-This mode makes two changes:
-
-1. It installs the detailed skill at `.claude/skills/model-optimizer-lite/`.
-2. It adds a managed block to `.claude/CLAUDE.md`.
-
-The block starts and ends with these markers:
-
-```html
-<!-- model-optimizer-lite:start -->
-<!-- model-optimizer-lite:end -->
-```
-
-The installer preserves everything outside that block. If the file changes, it writes a timestamped backup beside the original before replacing it. An incomplete managed block causes the installer to stop without changing the file.
-
-## Update
-
-Rerun the same command you used to install. The installer compares the installed files with the current repository and skips files that have not changed.
-
-For the default user install:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/nyldn/model-optimizer-lite/main/install.sh | bash
-```
-
-When an installed skill has local changes, the installer moves the old folder to `~/.claude/skill-backups/` for a user install or `.claude/skill-backups/` for a project install.
-
-## Remove
-
-Remove a user-level skill with:
-
-```bash
-rm -rf -- "$HOME/.claude/skills/model-optimizer-lite"
-```
-
-Remove a project-local skill from the project root with:
-
-```bash
-rm -rf -- ".claude/skills/model-optimizer-lite"
-```
-
-For an always-on install, also edit `.claude/CLAUDE.md` and remove only the text between the `model-optimizer-lite:start` and `model-optimizer-lite:end` marker lines, including both markers. Keep the rest of the file.
-
-Backups are not deleted automatically. Review them under `.claude/skill-backups/` or `~/.claude/skill-backups/` before removing them.
+A normal install from a checkout uses that checkout's package. Update always
+fetches fresh source.
 
 ## Troubleshooting
 
-### `git` is missing
-
-The one-line installer uses Git to fetch the repository. Install Git, confirm `git --version` works, and rerun the command.
-
-### The skill does not appear in Claude Code
-
-Confirm that `SKILL.md` exists at the expected path, then open a new Claude Code session. Try invoking `/model-optimizer-lite` directly once.
-
-### A project install went to the wrong directory
-
-The project modes use the current working directory. Change to the project root before running the command, or set an explicit target:
-
-```bash
-MODEL_OPTIMIZER_LITE_TARGET="/absolute/path/to/project" ./install.sh skill-project
-```
-
-### The installer reports a permissions error
-
-Do not rerun it with `sudo`. Check ownership and permissions on the target `.claude` directory. A user install should write only inside your home directory, and a project install should write only inside that project.
-
-### An existing skill was backed up
-
-The installer found different content at the destination. It moved the old folder outside the skills directory so Claude Code does not load two copies with the same name. Compare the backup with the installed copy before deleting it.
-
-## Installer modes
-
-Run `./install.sh --help` for the current list:
-
-| Mode | Result |
-|---|---|
-| `skill` | User-level on-demand skill. This is the default. |
-| `skill-project` | Project-local on-demand skill. |
-| `claude-md` | Project-local skill plus the always-on routing block. |
-| `claude-md-print` | Print the generated routing block. Maintainers use this to keep the checked-in template synchronized. |
-| `codex` | User-level Codex skill under `~/.agents/skills/model-optimizer-lite/`. |
-| `codex-project` | Project-local Codex skill under `.agents/skills/model-optimizer-lite/`. |
+- If the skill is missing, confirm the app and scope, start a new session, and invoke it.
+- For permission errors, check the target directory's ownership. Do not use `sudo`.
+- For a modified or incomplete package, inspect your edits and run update. The previous copy is backed up.
+- For duplicate skills, keep either the direct skill or the native plugin in that app.
+- Installation does not unlock models. Only models your account and client support are available.
