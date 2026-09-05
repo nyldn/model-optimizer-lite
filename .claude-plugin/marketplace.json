@@ -1,0 +1,13 @@
+{
+  "name": "model-optimizer-lite",
+  "owner": {
+    "name": "nyldn"
+  },
+  "plugins": [
+    {
+      "name": "model-optimizer-lite",
+      "source": "./plugins/model-optimizer-lite",
+      "description": "Choose a model, carry context into a handoff, and check review evidence."
+    }
+  ]
+}

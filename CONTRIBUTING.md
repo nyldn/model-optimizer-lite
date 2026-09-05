@@ -9,12 +9,15 @@ and evidence-backed review. Native Claude and Codex tools execute work.
 - `shared/references/` contains shared policy and host-specific guidance.
 - `shared/scripts/model_optimizer_lite.py` owns optional deterministic helpers.
 - `scripts/sync-packages.py` generates the standalone package under `skills/`.
+- `VERSION` owns the release version; generated skills carry that version and file checksums.
+- `scripts/build-distribution.py` generates native packages and marketplace catalogs.
 - `claude-md/POLICY.md` owns the opt-in always-on Claude block.
 
 Never hand-edit the generated package or `claude-md/CLAUDE.md`. Regenerate them:
 
 ```sh
 python3 scripts/sync-packages.py
+python3 scripts/build-distribution.py
 ./install.sh claude-md-print > claude-md/CLAUDE.md
 ```
 
@@ -30,6 +33,8 @@ python3 -m unittest discover -s tests -p '*_test.py'
 tests/codex-smoke.sh
 tests/claude-smoke.sh
 tests/fable-review-validator.sh
+python3 tests/native-plugin-smoke.py
+python3 scripts/build-distribution.py --check --archives dist
 git diff --check
 ```
 
@@ -53,5 +58,11 @@ changing any package path.
 
 Move Unreleased notes into a dated semantic-version section, update compare
 links, and tag the verified commit as `vX.Y.Z` after publication is authorized.
-Use a minor version for additive install surfaces or helpers. Preserve old
-GitHub URLs through the repository redirect when changing the project name.
+Use a minor version for additive install surfaces or helpers. Version 4 includes
+the unified name and removal of the previous installer aliases.
+
+Set `VERSION`, regenerate packages and manifests, run all checks, and build
+archives with `python3 scripts/build-distribution.py --check --archives dist`.
+Publish the five files in `dist/` with the matching tag after release approval.
+The source archive and installer are the terminal bootstrap; the standalone ZIP
+is for Claude Skills uploads. Verify downloaded checksums after publication.

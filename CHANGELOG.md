@@ -6,7 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [4.0.0] - 2026-09-05
+
 ### Added
+
+- Claude skill ZIP, native Claude/Codex plugin package, source archive, and downloadable installer with checksums.
+- App-specific setup instructions and a built-in Codex skill-installer prompt.
+- Clear `claude`, `codex`, and `both` installation choices with a terminal chooser.
+- Local version/file status, fresh-release updates, and recoverable uninstall commands.
+- Native marketplace installation tests in isolated profiles and reproducible archive checks.
 
 - Native Codex user and project installation, including Astra, Sol, Terra, and Luna guidance.
 - Shared routing policy with host-specific profiles and one standalone generated skill package.
@@ -14,6 +22,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Capability checks, explicit-pin preservation, and honest reporting when final-model identity is unavailable.
 
 ### Changed
+
+- Terminal downloads use release archives without requiring Git or either provider CLI.
+- Stage replacement files outside discovery before backing up the current skill.
+- Preserve project instructions when updating or removing an existing managed policy.
 
 - Use Model Optimizer Lite throughout, including the `model-optimizer-lite` skill name for both Claude and Codex.
 - Either host can own implementation and integration. Cross-provider review is optional.
@@ -219,7 +231,8 @@ An xhigh review of the v2.0.1 installer found that the hardening pass introduced
 - One-shot installer (`install.sh`) with user and project modes.
 - CI validation of the skill package and public boundary.
 
-[Unreleased]: https://github.com/nyldn/model-optimizer-lite/compare/v3.0.0...HEAD
+[Unreleased]: https://github.com/nyldn/model-optimizer-lite/compare/v4.0.0...HEAD
+[4.0.0]: https://github.com/nyldn/model-optimizer-lite/compare/v3.0.0...v4.0.0
 [3.0.0]: https://github.com/nyldn/model-optimizer-lite/compare/v2.2.0...v3.0.0
 [2.2.0]: https://github.com/nyldn/model-optimizer-lite/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/nyldn/model-optimizer-lite/compare/v2.0.2...v2.1.0

@@ -14,6 +14,7 @@ unset MODEL_OPTIMIZER_LITE_CLAUDE_SKILLS_DIR
 unset MODEL_OPTIMIZER_LITE_CLAUDE_MD
 unset MODEL_OPTIMIZER_LITE_REPO_URL
 unset MODEL_OPTIMIZER_LITE_CODEX_SKILLS_DIR
+unset MODEL_OPTIMIZER_LITE_REF
 
 HOME_DIR="$TMP_DIR/home"
 PROJECT_DIR="$TMP_DIR/project"
@@ -64,7 +65,7 @@ git -C "$PIPE_REPO" commit -qm "fixture"
 
 PIPE_HOME="$TMP_DIR/pipe-home"
 mkdir -p "$PIPE_HOME"
-PIPE_INSTALL_OUTPUT="$(HOME="$PIPE_HOME" MODEL_OPTIMIZER_LITE_REPO_URL="file://$PIPE_REPO" bash < "$ROOT/install.sh")"
+PIPE_INSTALL_OUTPUT="$(HOME="$PIPE_HOME" MODEL_OPTIMIZER_LITE_REPO_URL="file://$PIPE_REPO" bash -s -- claude < "$ROOT/install.sh")"
 test -f "$PIPE_HOME/.claude/skills/model-optimizer-lite/SKILL.md"
 grep -q "run /model-optimizer-lite" <<< "$PIPE_INSTALL_OUTPUT"
 

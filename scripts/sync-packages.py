@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build self-contained skill packages from one maintained source."""
 import argparse
+import hashlib
 from pathlib import Path
 import sys
 
@@ -27,6 +28,11 @@ def main():
             if relative == Path("SKILL.md"):
                 content = content.replace(b"@NAME@", name.encode()).replace(b"@HOST@", host.encode())
             expected[relative] = content
+        expected[Path("VERSION")] = (ROOT / "VERSION").read_bytes()
+        expected[Path("FILES.sha256")] = "".join(
+            hashlib.sha256(content).hexdigest() + "  " + relative.as_posix() + "\n"
+            for relative, content in sorted(expected.items())
+        ).encode()
         for relative, content in expected.items():
             path = target / relative
             if not path.is_file() or path.read_bytes() != content:

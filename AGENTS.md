@@ -2,6 +2,8 @@
 
 Maintain the shared sources in `shared/`. Generate the standalone skill
 package with `python3 scripts/sync-packages.py`; do not hand-edit package copies.
+Native wrappers under `plugins/` and the marketplace catalogs are generated with
+`python3 scripts/build-distribution.py`. Keep `VERSION` and all packages aligned.
 Both hosts use the `model-optimizer-lite` discovery name.
 
 Read `CONTRIBUTING.md` for validation and `docs/architecture.md` for boundaries.

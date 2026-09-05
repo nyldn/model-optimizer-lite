@@ -50,59 +50,79 @@ There is no background service or extra AI subscription required by this project
 You still need access to the Claude or Codex models you want to use, with their
 usual limits and charges. Installing the skill does not unlock additional models.
 
-## Quick start
+## Install: which app do you use?
 
-Clone and inspect the installer:
+### Claude chat or Cowork
 
-```sh
-git clone https://github.com/nyldn/model-optimizer-lite.git
-cd model-optimizer-lite
-./install.sh --help
-```
+1. [Download the skill ZIP](https://github.com/nyldn/model-optimizer-lite/releases/latest/download/model-optimizer-lite.zip). Keep it zipped.
+2. In Claude, open **Customize → Skills → + → Create skill → Upload a skill** and choose the ZIP.
+3. Enable the skill, start a new conversation, and ask: "Use Model Optimizer Lite to help me choose a model for this task."
 
-Choose the app you use:
+Code execution must be enabled in Claude's settings. An organization may also
+control whether you can upload skills. This installs the advice in Claude;
+it does not give a cloud chat access to your local Codex CLI.
+[Claude's upload instructions](https://support.claude.com/en/articles/12512180-use-skills-in-claude).
 
-| App | Install | Type in a new session |
-| --- | --- | --- |
-| Claude | `./install.sh skill` | `/model-optimizer-lite` |
-| Codex | `./install.sh codex` | `$model-optimizer-lite` |
+### Codex
 
-Both apps use the same skill. Claude installs it under
-`~/.claude/skills/model-optimizer-lite`; Codex uses
-`~/.agents/skills/model-optimizer-lite`. You can install it for both.
-Neither on-demand install edits model settings or project instructions.
-
-Then ask in plain language, for example:
+Paste this into a local Codex coding session:
 
 ```text
-$model-optimizer-lite can my current model handle this bug, or would Astra help?
-$model-optimizer-lite prepare a handoff so Claude can review this change
-/model-optimizer-lite which model should I use to update this database safely?
+$skill-installer install the skill from https://github.com/nyldn/model-optimizer-lite/tree/main/skills/model-optimizer-lite
 ```
 
-See [INSTALL.md](INSTALL.md) for project scope, updates, backups, and removal.
-For a one-line Claude install:
+Then ask:
+
+```text
+$model-optimizer-lite can my current model handle this task, or should I switch?
+```
+
+If the skill does not appear, start a new session. This uses Codex's built-in
+skill installer. [OpenAI's instructions](https://learn.chatgpt.com/docs/build-skills).
+
+For installation and updates through the native plugin manager instead, see
+[native plugins](INSTALL.md#native-plugins). Choose one installation method per app
+to avoid duplicate skills.
+
+### Claude Code, or both coding apps
+
+Paste this into your terminal. It installs for both Claude Code and Codex:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/nyldn/model-optimizer-lite/main/install.sh | bash
+curl -fsSL https://github.com/nyldn/model-optimizer-lite/releases/latest/download/install.sh | bash -s -- both
 ```
 
-## Desktop support
+For just one app, replace `both` with `claude` or `codex`. No Git, Python, or
+separate provider CLI is needed to copy the skill. The terminal installer needs
+Bash, curl, tar, and a SHA-256 tool, available on typical macOS/Linux systems.
+Windows terminal users can use WSL; the Claude ZIP route needs no terminal.
 
-The install commands above are for local coding sessions that support skills.
-Features differ between desktop chat, Cowork, coding sessions, and cloud sessions.
-Installing this package does not add it to every chat window automatically.
+The installer prints the version and checks the copied files. Open a new session
+and use `/model-optimizer-lite` in Claude Code or `$model-optimizer-lite` in Codex
+to confirm the app can find it. Installation does not change your model settings.
 
-The written guidance can still help you choose a model when an app cannot run
-commands or switch models for you. In that case, follow the recommendation
-manually and use the handoff text to carry the context into your next session.
+[Inspect the installer](install.sh) before running it if you prefer.
+See [installation help](INSTALL.md) for project-only setup and other options.
 
-You do not need a command-line tool to read and use the advice. The optional
-helper that lists available Codex models needs a separately installed Codex CLI,
-the command-line version of Codex.
+### Update, check, or remove a terminal installation
 
-See the [Codex profile](shared/references/codex-profile.md) and
-[Claude profile](shared/references/claude-profile.md).
+Use the same command and change the words after `--`:
+
+| Action | Words after `--` |
+| --- | --- |
+| Check installed files and version | `status both` |
+| Download the current release and update installed copies | `update both` |
+| Remove from both apps, keeping a recoverable backup | `uninstall both` |
+
+For example:
+
+```sh
+curl -fsSL https://github.com/nyldn/model-optimizer-lite/releases/latest/download/install.sh | bash -s -- update both
+```
+
+The update command skips apps where the skill is absent. ZIP and native plugin
+installations are managed in their respective apps; the terminal commands manage
+direct local skill copies only.
 
 ## Optional tools for advanced use
 
@@ -144,6 +164,7 @@ Edit `shared/`, then regenerate the standalone package:
 
 ```sh
 python3 scripts/sync-packages.py
+python3 scripts/build-distribution.py
 ./install.sh claude-md-print > claude-md/CLAUDE.md
 tests/sync.sh
 tests/install.sh

@@ -1,0 +1,13 @@
+{
+  "name": "model-optimizer-lite",
+  "version": "4.0.0",
+  "description": "Choose a model, carry context into a handoff, and check review evidence.",
+  "author": {
+    "name": "nyldn",
+    "url": "https://github.com/nyldn"
+  },
+  "homepage": "https://github.com/nyldn/model-optimizer-lite",
+  "repository": "https://github.com/nyldn/model-optimizer-lite",
+  "license": "MIT",
+  "skills": "./skills/"
+}

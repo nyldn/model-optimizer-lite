@@ -1,6 +1,6 @@
 # Lightweight shared model optimization
 
-Model Optimizer Lite has one maintained policy, one generated skill package, and
+Model Optimizer Lite has one maintained policy, one generated skill package, native plugin wrappers, and
 one optional Python standard-library helper. The installed package contains
 its own references and scripts, so it does not depend on the source checkout.
 
@@ -63,3 +63,18 @@ Unit fixtures test contracts and failure handling. Independent scenario reviews
 test whether skill instructions produce sensible decisions. Neither measures
 accepted-result cost. Use an opt-in pilot on the user's actual tasks before
 recommending a cheaper default or claiming improvement.
+
+## Distribution
+
+The same generated skill ships as a Claude upload ZIP, a local skill copy, and
+a skill inside the native plugin. `scripts/build-distribution.py` generates
+the plugin manifests and marketplace catalogs; `VERSION` is the release version.
+No hooks, servers, connectors, or background services are added by packaging.
+
+The terminal bootstrap downloads the latest release source archive. Status and
+uninstall operate locally. Update fetches fresh source even from an old checkout.
+Replacement copies are staged outside skill discovery before the current copy is
+backed up. Uninstall archives copies outside discovery instead of deleting edits.
+SHA-256 file checks detect incomplete or modified packages, not publisher identity
+or whether a running app has loaded the skill. Native installation is tested in
+temporary Claude and Codex profiles without model inference.
