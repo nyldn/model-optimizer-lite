@@ -5,7 +5,7 @@ description: Choose a model and reasoning effort, prepare a cross-model handoff,
 
 # AI Model Optimizer
 
-Use this entrypoint in Codex or another skill-capable host; select the profile for the actual host.
+Use this skill in Claude or Codex; select the profile for the actual host.
 
 Keep one capable owner when the current session can finish the work. A recommendation
 does not switch models or authorize a delegated run. Preserve explicit model pins,

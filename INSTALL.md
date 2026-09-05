@@ -1,7 +1,7 @@
 # Installation
 
-AI Model Optimizer supports Claude and Codex through separate standalone skill
-packages. The Claude package keeps its existing name for compatibility.
+AI Model Optimizer uses one standalone skill package for Claude and Codex.
+Claude invokes it with `/ai-model-optimizer`; Codex uses `$ai-model-optimizer`.
 
 ## Codex installation
 
@@ -23,12 +23,15 @@ Do not delete other skills or provider state.
 
 Set `AI_MODEL_OPTIMIZER_CODEX_SKILLS_DIR` to override the user skills root, or
 `AI_MODEL_OPTIMIZER_TARGET` for a project target. `AI_MODEL_OPTIMIZER_MODE` and
-`AI_MODEL_OPTIMIZER_REPO_URL` override mode and source. Existing
-`CLAUDE_MODEL_OPTIMIZER_` and `FABLE5_OPTIMIZER_` settings remain supported.
+`AI_MODEL_OPTIMIZER_REPO_URL` override mode and source.
 
 ## Claude installation
 
-The default install adds Claude Model Optimizer to your Claude Code user skills. It works across projects and does not change any project files.
+Set `AI_MODEL_OPTIMIZER_CLAUDE_SKILLS_DIR` to override the user skills root.
+For `claude-md` mode, `AI_MODEL_OPTIMIZER_CLAUDE_MD` overrides the policy file
+path; `AI_MODEL_OPTIMIZER_TARGET` still selects the project skill location.
+
+The default install adds AI Model Optimizer to your Claude Code user skills. It works across projects and does not change any project files.
 
 ## Requirements
 
@@ -60,19 +63,19 @@ curl -fsSL https://raw.githubusercontent.com/nyldn/ai-model-optimizer/main/insta
 The installer copies the skill to:
 
 ```text
-~/.claude/skills/claude-model-optimizer/
+~/.claude/skills/ai-model-optimizer/
 ```
 
 Confirm it is present:
 
 ```bash
-test -f "$HOME/.claude/skills/claude-model-optimizer/SKILL.md" && echo "claude-model-optimizer is installed"
+test -f "$HOME/.claude/skills/ai-model-optimizer/SKILL.md" && echo "ai-model-optimizer is installed"
 ```
 
 Open a new Claude Code session, then run:
 
 ```text
-/claude-model-optimizer should Opus own this work, or does it need Fable?
+/ai-model-optimizer should Opus own this work, or does it need Fable?
 ```
 
 ## Inspect before installing
@@ -97,13 +100,13 @@ curl -fsSL https://raw.githubusercontent.com/nyldn/ai-model-optimizer/main/insta
 This writes the skill to:
 
 ```text
-./.claude/skills/claude-model-optimizer/
+./.claude/skills/ai-model-optimizer/
 ```
 
 Confirm it is present:
 
 ```bash
-test -f ".claude/skills/claude-model-optimizer/SKILL.md" && echo "project skill is installed"
+test -f ".claude/skills/ai-model-optimizer/SKILL.md" && echo "project skill is installed"
 ```
 
 ## Install the always-on router
@@ -116,14 +119,14 @@ curl -fsSL https://raw.githubusercontent.com/nyldn/ai-model-optimizer/main/insta
 
 This mode makes two changes:
 
-1. It installs the detailed skill at `.claude/skills/claude-model-optimizer/`.
+1. It installs the detailed skill at `.claude/skills/ai-model-optimizer/`.
 2. It adds a managed block to `.claude/CLAUDE.md`.
 
 The block starts and ends with these markers:
 
 ```html
-<!-- claude-model-optimizer:start -->
-<!-- claude-model-optimizer:end -->
+<!-- ai-model-optimizer:start -->
+<!-- ai-model-optimizer:end -->
 ```
 
 The installer preserves everything outside that block. If the file changes, it writes a timestamped backup beside the original before replacing it. An incomplete managed block causes the installer to stop without changing the file.
@@ -140,31 +143,21 @@ curl -fsSL https://raw.githubusercontent.com/nyldn/ai-model-optimizer/main/insta
 
 When an installed skill has local changes, the installer moves the old folder to `~/.claude/skill-backups/` for a user install or `.claude/skill-backups/` for a project install.
 
-### Upgrade from `fable5-optimizer`
-
-Version 3 renames the skill and its invocation to `claude-model-optimizer`. Rerun the installer once. It will:
-
-1. Move the old `fable5-optimizer` skill folder into the existing `skill-backups` directory so local edits are preserved outside Claude's discovery path.
-2. Install the skill under `claude-model-optimizer`.
-3. Replace an old `fable5-optimizer` managed block with one `claude-model-optimizer` block while preserving the rest of `CLAUDE.md`.
-
-Open a new Claude Code session after the upgrade and invoke `/claude-model-optimizer`. Environment settings should use the `CLAUDE_MODEL_OPTIMIZER_` prefix. The old `FABLE5_OPTIMIZER_` names remain temporary aliases for the version 3 transition.
-
 ## Remove
 
 Remove a user-level skill with:
 
 ```bash
-rm -rf -- "$HOME/.claude/skills/claude-model-optimizer"
+rm -rf -- "$HOME/.claude/skills/ai-model-optimizer"
 ```
 
 Remove a project-local skill from the project root with:
 
 ```bash
-rm -rf -- ".claude/skills/claude-model-optimizer"
+rm -rf -- ".claude/skills/ai-model-optimizer"
 ```
 
-For an always-on install, also edit `.claude/CLAUDE.md` and remove only the text between the `claude-model-optimizer:start` and `claude-model-optimizer:end` marker lines, including both markers. Keep the rest of the file.
+For an always-on install, also edit `.claude/CLAUDE.md` and remove only the text between the `ai-model-optimizer:start` and `ai-model-optimizer:end` marker lines, including both markers. Keep the rest of the file.
 
 Backups are not deleted automatically. Review them under `.claude/skill-backups/` or `~/.claude/skill-backups/` before removing them.
 
@@ -176,14 +169,14 @@ The one-line installer uses Git to fetch the repository. Install Git, confirm `g
 
 ### The skill does not appear in Claude Code
 
-Confirm that `SKILL.md` exists at the expected path, then open a new Claude Code session. Try invoking `/claude-model-optimizer` directly once.
+Confirm that `SKILL.md` exists at the expected path, then open a new Claude Code session. Try invoking `/ai-model-optimizer` directly once.
 
 ### A project install went to the wrong directory
 
 The project modes use the current working directory. Change to the project root before running the command, or set an explicit target:
 
 ```bash
-CLAUDE_MODEL_OPTIMIZER_TARGET="/absolute/path/to/project" ./install.sh skill-project
+AI_MODEL_OPTIMIZER_TARGET="/absolute/path/to/project" ./install.sh skill-project
 ```
 
 ### The installer reports a permissions error

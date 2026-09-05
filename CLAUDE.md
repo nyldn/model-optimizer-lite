@@ -1,8 +1,8 @@
 # AI Model Optimizer project instructions
 
 Maintain the shared sources and host-specific profiles under `shared/`.
-The standalone packages under `skills/` are generated. Keep the existing Claude
-skill name for compatibility and use `ai-model-optimizer` for Codex.
+The standalone package under `skills/ai-model-optimizer/` is generated. Both
+Claude and Codex use the `ai-model-optimizer` skill name.
 
 Read `AGENTS.md`, `CONTRIBUTING.md`, and `docs/architecture.md` for the development
 contract, validation commands, and provider boundaries.

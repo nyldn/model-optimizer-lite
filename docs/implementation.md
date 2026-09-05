@@ -5,10 +5,10 @@ Implemented in the existing repository after reviewing Octopus upstream
 
 ## Delivered
 
-- Shared maintained skill source with generated Claude and Codex packages.
+- Shared maintained skill source with one generated package for both hosts.
 - Native Codex user/project install modes, detached from the source checkout.
-- Existing Claude invocation, installer modes, managed markers, and legacy
-  environment aliases preserved.
+- Unified `ai-model-optimizer` skill name, managed markers, and
+  `AI_MODEL_OPTIMIZER_` installer settings. Old-name aliases and migrations removed.
 - Astra/Sol/Terra/Luna and Claude profiles with neutral task ownership.
 - Deterministic recommendations that preserve pins and existing context.
 - Bounded native Codex model discovery with no inference dispatch.
@@ -17,11 +17,11 @@ Implemented in the existing repository after reviewing Octopus upstream
 
 ## Validation evidence
 
-- Legacy installer tests passed, including stdin install, repeated installs,
-  rename migration, backups, symlinks, managed-block preservation, and file modes.
+- Installer tests cover stdin install, repeated installs, backups, symlinks,
+  managed-block preservation, and file modes.
 - Python tests cover routing, unsupported effort, model identity, malformed
   events, process failure, discovery pagination/timeouts, and Codex installation.
-- Both package validators and byte-for-byte generated-source checks passed.
+- Package validators and byte-for-byte generated-source checks passed.
 - Real installed Claude and Codex help expose the flags used by the references.
 - Live Codex app-server discovery returned Astra and supported effort options.
 - The independent 16-scenario policy pass and code review found specific issues;
@@ -32,12 +32,11 @@ The recorded checks establish package and contract behavior. They do not measure
 model quality, subscription savings, or automatic desktop model switching.
 No provider configuration or installed skill was changed to run these checks.
 
-## Migration
+## Installation
 
-Existing Claude users can rerun their current install command. Codex users can
-install the new package with `./install.sh codex`. Changed installations are
-backed up outside discovery. Repository branding is AI Model Optimizer; the
-Claude skill's existing discovery name remains stable through the transition.
+Install for Claude with `./install.sh skill` or for Codex with
+`./install.sh codex`. Both use the `ai-model-optimizer` package. Changed
+installations are backed up outside discovery. No old-name migration is included.
 
 Model and provider execution stay with native hosts. Choose Octopus explicitly
 when a task requires its larger orchestration workflows.

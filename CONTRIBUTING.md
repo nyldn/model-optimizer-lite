@@ -8,10 +8,10 @@ and evidence-backed review. Native Claude and Codex tools execute work.
 - `shared/SKILL.md` is the maintained entrypoint template.
 - `shared/references/` contains shared policy and host-specific guidance.
 - `shared/scripts/model_optimizer.py` owns optional deterministic helpers.
-- `scripts/sync-packages.py` generates standalone packages under `skills/`.
+- `scripts/sync-packages.py` generates the standalone package under `skills/`.
 - `claude-md/POLICY.md` owns the opt-in always-on Claude block.
 
-Never hand-edit generated packages or `claude-md/CLAUDE.md`. Regenerate them:
+Never hand-edit the generated package or `claude-md/CLAUDE.md`. Regenerate them:
 
 ```sh
 python3 scripts/sync-packages.py
@@ -45,8 +45,7 @@ Do not add inference to discovery or recommendation commands. Raw transcripts,
 credentials, account-specific paths, and private reports stay out of the public
 package. Keep failures and missing model evidence visible.
 
-The Claude skill name, managed markers, old installer modes, and legacy
-environment aliases remain compatible. New host-neutral settings use the
+Both hosts install `ai-model-optimizer`. Installer settings use the
 `AI_MODEL_OPTIMIZER_` prefix. Check installation and update behavior when
 changing any package path.
 

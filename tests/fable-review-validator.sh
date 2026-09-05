@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
-REFERENCE="$ROOT/skills/claude-model-optimizer/references/fable-review-gates.md"
+REFERENCE="$ROOT/skills/ai-model-optimizer/references/fable-review-gates.md"
 validator="$(sed -n '/# fable-review-validator:start/,/# fable-review-validator:end/p' "$REFERENCE" | sed '1d;$d')"
 
 if [[ -z "$validator" ]]; then

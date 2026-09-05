@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-MODE="${1:-${AI_MODEL_OPTIMIZER_MODE:-${CLAUDE_MODEL_OPTIMIZER_MODE:-${FABLE5_OPTIMIZER_MODE:-skill}}}}"
-REPO_URL="${AI_MODEL_OPTIMIZER_REPO_URL:-${CLAUDE_MODEL_OPTIMIZER_REPO_URL:-${FABLE5_OPTIMIZER_REPO_URL:-https://github.com/nyldn/ai-model-optimizer.git}}}"
-SKILL_NAME="claude-model-optimizer"
-LEGACY_SKILL_NAME="fable5-optimizer"
+MODE="${1:-${AI_MODEL_OPTIMIZER_MODE:-skill}}"
+REPO_URL="${AI_MODEL_OPTIMIZER_REPO_URL:-https://github.com/nyldn/ai-model-optimizer.git}"
+SKILL_NAME="ai-model-optimizer"
 
 usage() {
   cat <<'USAGE'
@@ -12,24 +11,19 @@ Usage:
   install.sh [skill|skill-project|codex|codex-project|claude-md|claude-md-print]
 
 Modes:
-  skill            Install to ~/.claude/skills/claude-model-optimizer. Default.
-  skill-project    Install to ./.claude/skills/claude-model-optimizer for the current project.
+  skill            Install to ~/.claude/skills/ai-model-optimizer. Default.
+  skill-project    Install to ./.claude/skills/ai-model-optimizer for the current project.
   codex            Install to ~/.agents/skills/ai-model-optimizer for Codex.
   codex-project    Install to ./.agents/skills/ai-model-optimizer for the current project.
   claude-md        Install a lightweight policy block to ./.claude/CLAUDE.md
                    plus the detailed project-local skill for on-demand use.
   claude-md-print  Print the generated block to stdout (used to regenerate
                    claude-md/CLAUDE.md in this repo).
-
-Legacy aliases:
-  user, global   Same as skill.
-  project        Same as skill-project.
-  always-on      Same as claude-md.
 USAGE
 }
 
 print_next_step() {
-  echo "Next: open a new Claude Code session and run /claude-model-optimizer."
+  echo "Next: open a new Claude Code session and run /ai-model-optimizer."
 }
 
 case "$MODE" in
@@ -89,50 +83,11 @@ skill_backup_dir() {
     return 0
   fi
 
-  candidate="$(mktemp -d "${TMPDIR:-/tmp}/claude-model-optimizer-skill-backup.XXXXXX")"
+  candidate="$(mktemp -d "${TMPDIR:-/tmp}/ai-model-optimizer-skill-backup.XXXXXX")"
   printf '%s\n' "$candidate"
 }
 
-# v2.0.0 wrote skill backups as siblings inside the skills root, where Claude
-# Code still discovers them. Move any that a previous install left behind.
-migrate_legacy_skill_backups() {
-  local dest="$1"
-  local legacy target backup_dir
-
-  shopt -s nullglob
-  local matches=("$dest".backup.*)
-  shopt -u nullglob
-
-  [[ "${#matches[@]}" -gt 0 ]] || return 0
-
-  backup_dir="$(skill_backup_dir "$dest")"
-  for legacy in "${matches[@]}"; do
-    target="$(backup_path "$backup_dir/$(basename "$dest")")"
-    mv "$legacy" "$target"
-    echo "Moved a legacy in-root skill backup to $target"
-  done
-}
-
-# The v3 rename changes Claude's discovery key. Preserve an old installation
-# outside the skills root before writing the new one, so an upgrade cannot load
-# both skills or discard local edits.
-migrate_renamed_skill() {
-  local dest="$1"
-  local legacy_dest backup
-  legacy_dest="$(dirname "$dest")/$LEGACY_SKILL_NAME"
-
-  migrate_legacy_skill_backups "$legacy_dest"
-  [[ -e "$legacy_dest" || -L "$legacy_dest" ]] || return 0
-
-  backup="$(backup_path "$(skill_backup_dir "$dest")/$LEGACY_SKILL_NAME")"
-  mv "$legacy_dest" "$backup"
-  echo "Moved renamed $LEGACY_SKILL_NAME skill to $backup"
-}
-
-# The installer always writes CLAUDE.md with the invoking user's umask default.
-# Preserving the destination's existing mode sounds safer but perpetuates the
-# 0600 that v2.0.0 left behind, and reading the mode of a symlink reports the
-# link's own bits rather than the target's.
+# Use the invoking user's umask for regular CLAUDE.md files.
 default_file_mode() {
   printf '%o\n' "$(( 0666 & ~8#$(umask) ))"
 }
@@ -147,7 +102,7 @@ if [[ -n "$script_dir" && -d "$script_dir/skills/$SKILL_NAME" ]]; then
   SOURCE_DIR="$script_dir"
 else
   require git
-  TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/claude-model-optimizer.XXXXXX")"
+  TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/ai-model-optimizer.XXXXXX")"
   SOURCE_DIR="$TMP_DIR/repo"
   git clone --quiet --depth 1 "$REPO_URL" "$SOURCE_DIR"
 fi
@@ -159,11 +114,6 @@ copy_skill() {
   local dest="$2"
 
   COPY_SKILL_CHANGED=0
-  if [[ "$(basename "$dest")" == "$SKILL_NAME" ]]; then
-    migrate_renamed_skill "$dest"
-  fi
-  migrate_legacy_skill_backups "$dest"
-
   # A symlinked destination is never "already current": the caller asked for a
   # detached copy, and leaving the link means deleting the checkout it points at
   # would silently remove the installed skill.
@@ -198,10 +148,10 @@ print_claude_md_block() {
     exit 1
   fi
 
-  printf '<!-- claude-model-optimizer:start -->\n'
+  printf '<!-- ai-model-optimizer:start -->\n'
   printf '<!-- Generated from claude-md/POLICY.md by install.sh. Do not hand-edit inside the markers. -->\n'
   cat "$policy_md"
-  printf '<!-- claude-model-optimizer:end -->\n'
+  printf '<!-- ai-model-optimizer:end -->\n'
 }
 
 install_project_skill() {
@@ -217,8 +167,8 @@ install_project_skill() {
 }
 
 claude_md_path() {
-  local target_dir="${AI_MODEL_OPTIMIZER_TARGET:-${CLAUDE_MODEL_OPTIMIZER_TARGET:-${FABLE5_OPTIMIZER_TARGET:-$PWD}}}"
-  printf '%s\n' "${CLAUDE_MODEL_OPTIMIZER_CLAUDE_MD:-${FABLE5_OPTIMIZER_CLAUDE_MD:-$target_dir/.claude/CLAUDE.md}}"
+  local target_dir="${AI_MODEL_OPTIMIZER_TARGET:-$PWD}"
+  printf '%s\n' "${AI_MODEL_OPTIMIZER_CLAUDE_MD:-$target_dir/.claude/CLAUDE.md}"
 }
 
 # Echo the file with the managed block and any trailing blank lines removed, so
@@ -229,14 +179,10 @@ claude_md_path() {
 # rather than silently truncating the file.
 strip_managed_block() {
   awk \
-    -v new_start='^[[:space:]]*<!-- claude-model-optimizer:start -->[[:space:]]*$' \
-    -v new_end='^[[:space:]]*<!-- claude-model-optimizer:end -->[[:space:]]*$' \
-    -v old_start='^[[:space:]]*<!-- fable5-optimizer:start -->[[:space:]]*$' \
-    -v old_end='^[[:space:]]*<!-- fable5-optimizer:end -->[[:space:]]*$' '
-    $0 ~ new_start && !skip { skip = "new"; count = 0; next }
-    $0 ~ old_start && !skip { skip = "old"; count = 0; next }
-    $0 ~ new_end && skip == "new" { skip = ""; next }
-    $0 ~ old_end && skip == "old" { skip = ""; next }
+    -v start='^[[:space:]]*<!-- ai-model-optimizer:start -->[[:space:]]*$' \
+    -v end='^[[:space:]]*<!-- ai-model-optimizer:end -->[[:space:]]*$' '
+    $0 ~ start && !skip { skip = 1; count = 0; next }
+    $0 ~ end && skip { skip = 0; next }
     skip { next }
     /^[[:space:]]*$/ { pending[count++] = $0; next }
     {
@@ -284,11 +230,11 @@ install_claude_md() {
   # Clear any staging file a previously killed run left behind, so an
   # uncatchable termination cannot leave a stray copy of the user's
   # instructions in the project indefinitely.
-  rm -f "$dest_dir"/.claude-model-optimizer-claude.* "$dest_dir"/.fable5-optimizer-claude.* 2>/dev/null || true
+  rm -f "$dest_dir"/.ai-model-optimizer-claude.* 2>/dev/null || true
 
   # Stage in the destination directory so the final move is atomic and never
   # crosses a filesystem boundary.
-  TMP_FILE="$(mktemp "$dest_dir/.claude-model-optimizer-claude.XXXXXX")"
+  TMP_FILE="$(mktemp "$dest_dir/.ai-model-optimizer-claude.XXXXXX")"
 
   if [[ -f "$dest" ]] && ! strip_managed_block "$dest" > "$TMP_FILE"; then
     unterminated_block_error "$dest"
@@ -302,8 +248,7 @@ install_claude_md() {
   if [[ -f "$dest" ]] && cmp -s "$TMP_FILE" "$dest"; then
     rm -f "$TMP_FILE"
     TMP_FILE=""
-    # The content can already match while the mode is still wrong, which is
-    # exactly the state v2.0.0 left behind.
+    # Apply the mode policy even when the content is already current.
     if [[ ! -L "$dest" ]]; then
       chmod "$(default_file_mode)" "$dest"
     fi
@@ -338,7 +283,7 @@ case "$MODE" in
     if [[ "$MODE" == "codex" ]]; then
       DEST="${AI_MODEL_OPTIMIZER_CODEX_SKILLS_DIR:-$HOME/.agents/skills}/ai-model-optimizer"
     else
-      TARGET_DIR="${AI_MODEL_OPTIMIZER_TARGET:-${CLAUDE_MODEL_OPTIMIZER_TARGET:-${FABLE5_OPTIMIZER_TARGET:-$PWD}}}"
+      TARGET_DIR="${AI_MODEL_OPTIMIZER_TARGET:-$PWD}"
       DEST="$TARGET_DIR/.agents/skills/ai-model-optimizer"
     fi
     copy_skill "$SOURCE_DIR/skills/ai-model-optimizer" "$DEST"
@@ -346,8 +291,8 @@ case "$MODE" in
     echo 'Next: open a new Codex session and invoke $ai-model-optimizer.'
     ;;
 
-  skill|user|global)
-    DEST="${CLAUDE_MODEL_OPTIMIZER_SKILLS_DIR:-${FABLE5_OPTIMIZER_SKILLS_DIR:-$HOME/.claude/skills}}/$SKILL_NAME"
+  skill)
+    DEST="${AI_MODEL_OPTIMIZER_CLAUDE_SKILLS_DIR:-$HOME/.claude/skills}/$SKILL_NAME"
     copy_skill "$SOURCE_DIR/skills/$SKILL_NAME" "$DEST"
     if [[ "$COPY_SKILL_CHANGED" -eq 1 ]]; then
       echo "Installed $SKILL_NAME to $DEST"
@@ -357,14 +302,14 @@ case "$MODE" in
     print_next_step
     ;;
 
-  skill-project|project)
-    TARGET_DIR="${AI_MODEL_OPTIMIZER_TARGET:-${CLAUDE_MODEL_OPTIMIZER_TARGET:-${FABLE5_OPTIMIZER_TARGET:-$PWD}}}"
+  skill-project)
+    TARGET_DIR="${AI_MODEL_OPTIMIZER_TARGET:-$PWD}"
     install_project_skill "$TARGET_DIR"
     print_next_step
     ;;
 
-  claude-md|always-on)
-    TARGET_DIR="${AI_MODEL_OPTIMIZER_TARGET:-${CLAUDE_MODEL_OPTIMIZER_TARGET:-${FABLE5_OPTIMIZER_TARGET:-$PWD}}}"
+  claude-md)
+    TARGET_DIR="${AI_MODEL_OPTIMIZER_TARGET:-$PWD}"
     # Reject a bad CLAUDE.md destination before touching anything else, so a
     # refusal never leaves a half-finished install behind.
     validate_claude_md_dest
