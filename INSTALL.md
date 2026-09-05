@@ -1,5 +1,33 @@
 # Installation
 
+AI Model Optimizer supports Claude and Codex through separate standalone skill
+packages. The Claude package keeps its existing name for compatibility.
+
+## Codex installation
+
+From a checkout, run `./install.sh codex` for a user install or
+`./install.sh codex-project` from the target project. Open a new Codex session
+and invoke `$ai-model-optimizer`.
+
+The targets are `~/.agents/skills/ai-model-optimizer/` and
+`./.agents/skills/ai-model-optimizer/`. No Claude CLI, global model setting,
+`AGENTS.md` edit, or always-on hook is required. Desktop use needs a local
+skill-capable session; advice still works when CLI execution is unavailable.
+The optional helper commands need Python 3.9+, and live model discovery needs a
+standalone Codex CLI. Neither provider CLI is required to copy the skill files.
+
+Rerun the same installer mode to update. Changed packages are backed up outside
+skill discovery, under `.agents/skill-backups/`. Remove only the installed
+`ai-model-optimizer` directory when uninstalling; review backups separately.
+Do not delete other skills or provider state.
+
+Set `AI_MODEL_OPTIMIZER_CODEX_SKILLS_DIR` to override the user skills root, or
+`AI_MODEL_OPTIMIZER_TARGET` for a project target. `AI_MODEL_OPTIMIZER_MODE` and
+`AI_MODEL_OPTIMIZER_REPO_URL` override mode and source. Existing
+`CLAUDE_MODEL_OPTIMIZER_` and `FABLE5_OPTIMIZER_` settings remain supported.
+
+## Claude installation
+
 The default install adds Claude Model Optimizer to your Claude Code user skills. It works across projects and does not change any project files.
 
 ## Requirements
@@ -26,7 +54,7 @@ codex --version
 Copy and run:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/nyldn/claude-model-optimizer/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/nyldn/ai-model-optimizer/main/install.sh | bash
 ```
 
 The installer copies the skill to:
@@ -52,8 +80,8 @@ Open a new Claude Code session, then run:
 If you do not want to pipe a remote script into Bash, clone the repository and inspect the installer first:
 
 ```bash
-git clone https://github.com/nyldn/claude-model-optimizer.git
-cd claude-model-optimizer
+git clone https://github.com/nyldn/ai-model-optimizer.git
+cd ai-model-optimizer
 ./install.sh --help
 ./install.sh skill
 ```
@@ -63,7 +91,7 @@ cd claude-model-optimizer
 Run this from the project's root directory:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/nyldn/claude-model-optimizer/main/install.sh | bash -s -- skill-project
+curl -fsSL https://raw.githubusercontent.com/nyldn/ai-model-optimizer/main/install.sh | bash -s -- skill-project
 ```
 
 This writes the skill to:
@@ -83,7 +111,7 @@ test -f ".claude/skills/claude-model-optimizer/SKILL.md" && echo "project skill 
 Use this mode when you want a short routing policy loaded in every Claude Code session for one project. Run it from that project's root directory:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/nyldn/claude-model-optimizer/main/install.sh | bash -s -- claude-md
+curl -fsSL https://raw.githubusercontent.com/nyldn/ai-model-optimizer/main/install.sh | bash -s -- claude-md
 ```
 
 This mode makes two changes:
@@ -107,7 +135,7 @@ Rerun the same command you used to install. The installer compares the installed
 For the default user install:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/nyldn/claude-model-optimizer/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/nyldn/ai-model-optimizer/main/install.sh | bash
 ```
 
 When an installed skill has local changes, the installer moves the old folder to `~/.claude/skill-backups/` for a user install or `.claude/skill-backups/` for a project install.
@@ -176,3 +204,5 @@ Run `./install.sh --help` for the current list:
 | `skill-project` | Project-local on-demand skill. |
 | `claude-md` | Project-local skill plus the always-on routing block. |
 | `claude-md-print` | Print the generated routing block. Maintainers use this to keep the checked-in template synchronized. |
+| `codex` | User-level Codex skill under `~/.agents/skills/ai-model-optimizer/`. |
+| `codex-project` | Project-local Codex skill under `.agents/skills/ai-model-optimizer/`. |

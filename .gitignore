@@ -10,10 +10,14 @@ node_modules/
 dist/
 build/
 coverage/
+__pycache__/
+*.pyc
 
 # Keep local research/dropzone material out of public releases if copied here.
 research/
 Docs/
+!docs/
+!docs/**
 *.png
 *.jpg
 *.jpeg

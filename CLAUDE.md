@@ -1,26 +1,25 @@
-# Claude Model Optimizer Project Instructions
+# AI Model Optimizer project instructions
 
-This repo has two public instruction surfaces with separate source files:
+Maintain the shared sources and host-specific profiles under `shared/`.
+The standalone packages under `skills/` are generated. Keep the existing Claude
+skill name for compatibility and use `ai-model-optimizer` for Codex.
 
-- On-demand skill: `skills/claude-model-optimizer/SKILL.md`
-- Always-on project policy template: `claude-md/CLAUDE.md`
+Read `AGENTS.md`, `CONTRIBUTING.md`, and `docs/architecture.md` for the development
+contract, validation commands, and provider boundaries.
 
-The detailed skill uses progressive disclosure; Codex command templates live in `skills/claude-model-optimizer/references/`.
+After changing shared source, run:
 
-The lightweight always-on block is sourced from `claude-md/POLICY.md`. `claude-md/CLAUDE.md` is generated from that policy: never hand-edit the generated file. After changing `POLICY.md`, regenerate with:
-
-```bash
+```sh
+python3 scripts/sync-packages.py
 ./install.sh claude-md-print > claude-md/CLAUDE.md
-```
-
-`claude-md` install mode writes the always-on block and installs the full skill to `.claude/skills/claude-model-optimizer/`, so detailed guidance loads only when needed. `tests/sync.sh` fails CI if the generated file is stale or the policy grows beyond its lightweight boundary. Update `README.md`, `install.sh`, and tests when install modes or target paths change.
-
-Before release, run:
-
-```bash
-tests/install.sh
 tests/sync.sh
+tests/install.sh
+python3 -m unittest discover -s tests -p '*_test.py'
 tests/codex-smoke.sh
-ruby -ryaml -e 'ARGV.each { |path| text = File.read(path); m = text.match(/\A---\n(.*?)\n---\n/m) or abort("missing frontmatter: #{path}"); data = YAML.safe_load(m[1]); abort("missing name: #{path}") unless data["name"]; abort("missing description: #{path}") unless data["description"]; puts "ok #{path}: #{data["name"]}" }' skills/*/SKILL.md
-git diff --check
+tests/claude-smoke.sh
+tests/fable-review-validator.sh
 ```
+
+Do not hand-edit generated packages or the always-on template. Recommendations
+must remain separate from execution, and missing model evidence must remain
+unverified. Test installations only in temporary targets.

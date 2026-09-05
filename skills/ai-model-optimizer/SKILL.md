@@ -1,11 +1,11 @@
 ---
-name: claude-model-optimizer
+name: ai-model-optimizer
 description: Choose a model and reasoning effort, prepare a cross-model handoff, or validate a model-specific review. Use for explicit routing or escalation decisions involving Claude or Codex, including Astra. Ordinary coding, research, and review requests do not require this skill.
 ---
 
 # AI Model Optimizer
 
-This is the Claude entrypoint. Its existing name is retained for compatibility.
+Use this entrypoint in Codex or another skill-capable host; select the profile for the actual host.
 
 Keep one capable owner when the current session can finish the work. A recommendation
 does not switch models or authorize a delegated run. Preserve explicit model pins,
