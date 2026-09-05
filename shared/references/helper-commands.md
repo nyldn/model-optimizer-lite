@@ -6,9 +6,9 @@ They require Python 3.9+ on macOS, Linux, or WSL. None dispatches inference.
 ## Recommendation
 
 ```sh
-python3 scripts/model_optimizer.py route --host codex --task implementation --complexity complex
-python3 scripts/model_optimizer.py route --host codex --task debugging --complexity hard --current-model gpt-5.6-terra --escalate
-python3 scripts/model_optimizer.py route --host claude --task review --model opus
+python3 scripts/model_optimizer_lite.py route --host codex --task implementation --complexity complex
+python3 scripts/model_optimizer_lite.py route --host codex --task debugging --complexity hard --current-model gpt-5.6-terra --escalate
+python3 scripts/model_optimizer_lite.py route --host claude --task review --model opus
 ```
 
 Explicit `--model` wins. `--current-model` preserves the session unless
@@ -18,8 +18,8 @@ Explicit `--model` wins. `--current-model` preserves the session unless
 ## Codex model discovery
 
 ```sh
-python3 scripts/model_optimizer.py codex-models > /tmp/optimizer-models.json
-python3 scripts/model_optimizer.py route --host codex --task debugging --complexity hard --catalog /tmp/optimizer-models.json
+python3 scripts/model_optimizer_lite.py codex-models > /tmp/optimizer-models.json
+python3 scripts/model_optimizer_lite.py route --host codex --task debugging --complexity hard --catalog /tmp/optimizer-models.json
 ```
 
 Discovery requires a standalone `codex` on PATH. It starts one short-lived native
@@ -40,8 +40,8 @@ full provider IDs. Missing entries never trigger a silent fallback.
 ## Review receipts
 
 ```sh
-python3 scripts/model_optimizer.py review-receipt --host claude --expected-model claude-opus-5 --events /tmp/review.jsonl --exit-code 0
-python3 scripts/model_optimizer.py review-receipt --host codex --expected-model gpt-6-astra --events /tmp/review.jsonl --exit-code 0
+python3 scripts/model_optimizer_lite.py review-receipt --host claude --expected-model claude-opus-5 --events /tmp/review.jsonl --exit-code 0
+python3 scripts/model_optimizer_lite.py review-receipt --host codex --expected-model gpt-6-astra --events /tmp/review.jsonl --exit-code 0
 ```
 
 Supply native events from one run, at most 1 MiB, and its actual process exit code.

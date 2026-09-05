@@ -1,8 +1,8 @@
-# AI Model Optimizer development
+# Model Optimizer Lite development
 
 Maintain the shared sources in `shared/`. Generate the standalone skill
 package with `python3 scripts/sync-packages.py`; do not hand-edit package copies.
-Both hosts use the `ai-model-optimizer` discovery name.
+Both hosts use the `model-optimizer-lite` discovery name.
 
 Read `CONTRIBUTING.md` for validation and `docs/architecture.md` for boundaries.
 Recommendation commands must not dispatch inference. Explicit discovery may

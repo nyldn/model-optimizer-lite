@@ -31,18 +31,18 @@ jobs:
           import sys
 
           root = Path(".")
-          skill = root / "skills" / "ai-model-optimizer" / "SKILL.md"
+          skill = root / "skills" / "model-optimizer-lite" / "SKILL.md"
           errors = []
 
           if not skill.is_file():
-              errors.append("skills/ai-model-optimizer/SKILL.md is missing")
+              errors.append("skills/model-optimizer-lite/SKILL.md is missing")
           else:
               text = skill.read_text(encoding="utf-8")
               if not text.startswith("---\n"):
                   errors.append("SKILL.md missing YAML frontmatter")
               elif "\n---\n" not in text[4:]:
                   errors.append("SKILL.md missing closing frontmatter")
-              if "name: ai-model-optimizer" not in text:
+              if "name: model-optimizer-lite" not in text:
                   errors.append("SKILL.md missing expected name")
               if "description:" not in text:
                   errors.append("SKILL.md missing description")

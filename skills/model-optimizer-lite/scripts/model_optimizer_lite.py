@@ -203,7 +203,7 @@ def discover_codex(executable="codex", timeout=15):
         raise ValueError("model discovery timed out")
 
     try:
-        request("initialize", {"clientInfo": {"name": "ai_model_optimizer", "version": "1"}}, 1)
+        request("initialize", {"clientInfo": {"name": "model_optimizer_lite", "version": "1"}}, 1)
         response(1)
         request("initialized", {})
         models, cursors = [], set()

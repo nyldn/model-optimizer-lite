@@ -1,8 +1,8 @@
-# AI Model Optimizer project instructions
+# Model Optimizer Lite project instructions
 
 Maintain the shared sources and host-specific profiles under `shared/`.
-The standalone package under `skills/ai-model-optimizer/` is generated. Both
-Claude and Codex use the `ai-model-optimizer` skill name.
+The standalone package under `skills/model-optimizer-lite/` is generated. Both
+Claude and Codex use the `model-optimizer-lite` skill name.
 
 Read `AGENTS.md`, `CONTRIBUTING.md`, and `docs/architecture.md` for the development
 contract, validation commands, and provider boundaries.

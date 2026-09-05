@@ -8,7 +8,7 @@ import time
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-spec = importlib.util.spec_from_file_location("optimizer", ROOT / "shared/scripts/model_optimizer.py")
+spec = importlib.util.spec_from_file_location("optimizer", ROOT / "shared/scripts/model_optimizer_lite.py")
 optimizer = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(optimizer)
 

@@ -5,7 +5,7 @@ import re
 
 ROOT = Path(__file__).resolve().parents[1]
 skills = list((ROOT / "skills").iterdir())
-assert {skill.name for skill in skills} == {"ai-model-optimizer"}, "unexpected skill package"
+assert {skill.name for skill in skills} == {"model-optimizer-lite"}, "unexpected skill package"
 for skill in skills:
     text = (skill / "SKILL.md").read_text()
     frontmatter = re.match(r"\A---\n(.*?)\n---\n", text, re.S)
