@@ -1,19 +1,21 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-MODE="${1:-${CLAUDE_MODEL_OPTIMIZER_MODE:-${FABLE5_OPTIMIZER_MODE:-skill}}}"
-REPO_URL="${CLAUDE_MODEL_OPTIMIZER_REPO_URL:-${FABLE5_OPTIMIZER_REPO_URL:-https://github.com/nyldn/claude-model-optimizer.git}}"
+MODE="${1:-${AI_MODEL_OPTIMIZER_MODE:-${CLAUDE_MODEL_OPTIMIZER_MODE:-${FABLE5_OPTIMIZER_MODE:-skill}}}}"
+REPO_URL="${AI_MODEL_OPTIMIZER_REPO_URL:-${CLAUDE_MODEL_OPTIMIZER_REPO_URL:-${FABLE5_OPTIMIZER_REPO_URL:-https://github.com/nyldn/ai-model-optimizer.git}}}"
 SKILL_NAME="claude-model-optimizer"
 LEGACY_SKILL_NAME="fable5-optimizer"
 
 usage() {
   cat <<'USAGE'
 Usage:
-  install.sh [skill|skill-project|claude-md|claude-md-print]
+  install.sh [skill|skill-project|codex|codex-project|claude-md|claude-md-print]
 
 Modes:
   skill            Install to ~/.claude/skills/claude-model-optimizer. Default.
   skill-project    Install to ./.claude/skills/claude-model-optimizer for the current project.
+  codex            Install to ~/.agents/skills/ai-model-optimizer for Codex.
+  codex-project    Install to ./.agents/skills/ai-model-optimizer for the current project.
   claude-md        Install a lightweight policy block to ./.claude/CLAUDE.md
                    plus the detailed project-local skill for on-demand use.
   claude-md-print  Print the generated block to stdout (used to regenerate
@@ -157,7 +159,9 @@ copy_skill() {
   local dest="$2"
 
   COPY_SKILL_CHANGED=0
-  migrate_renamed_skill "$dest"
+  if [[ "$(basename "$dest")" == "$SKILL_NAME" ]]; then
+    migrate_renamed_skill "$dest"
+  fi
   migrate_legacy_skill_backups "$dest"
 
   # A symlinked destination is never "already current": the caller asked for a
@@ -213,7 +217,7 @@ install_project_skill() {
 }
 
 claude_md_path() {
-  local target_dir="${CLAUDE_MODEL_OPTIMIZER_TARGET:-${FABLE5_OPTIMIZER_TARGET:-$PWD}}"
+  local target_dir="${AI_MODEL_OPTIMIZER_TARGET:-${CLAUDE_MODEL_OPTIMIZER_TARGET:-${FABLE5_OPTIMIZER_TARGET:-$PWD}}}"
   printf '%s\n' "${CLAUDE_MODEL_OPTIMIZER_CLAUDE_MD:-${FABLE5_OPTIMIZER_CLAUDE_MD:-$target_dir/.claude/CLAUDE.md}}"
 }
 
@@ -330,6 +334,18 @@ install_claude_md() {
 }
 
 case "$MODE" in
+  codex|codex-project)
+    if [[ "$MODE" == "codex" ]]; then
+      DEST="${AI_MODEL_OPTIMIZER_CODEX_SKILLS_DIR:-$HOME/.agents/skills}/ai-model-optimizer"
+    else
+      TARGET_DIR="${AI_MODEL_OPTIMIZER_TARGET:-${CLAUDE_MODEL_OPTIMIZER_TARGET:-${FABLE5_OPTIMIZER_TARGET:-$PWD}}}"
+      DEST="$TARGET_DIR/.agents/skills/ai-model-optimizer"
+    fi
+    copy_skill "$SOURCE_DIR/skills/ai-model-optimizer" "$DEST"
+    echo "Codex skill ready at $DEST"
+    echo 'Next: open a new Codex session and invoke $ai-model-optimizer.'
+    ;;
+
   skill|user|global)
     DEST="${CLAUDE_MODEL_OPTIMIZER_SKILLS_DIR:-${FABLE5_OPTIMIZER_SKILLS_DIR:-$HOME/.claude/skills}}/$SKILL_NAME"
     copy_skill "$SOURCE_DIR/skills/$SKILL_NAME" "$DEST"
@@ -342,13 +358,13 @@ case "$MODE" in
     ;;
 
   skill-project|project)
-    TARGET_DIR="${CLAUDE_MODEL_OPTIMIZER_TARGET:-${FABLE5_OPTIMIZER_TARGET:-$PWD}}"
+    TARGET_DIR="${AI_MODEL_OPTIMIZER_TARGET:-${CLAUDE_MODEL_OPTIMIZER_TARGET:-${FABLE5_OPTIMIZER_TARGET:-$PWD}}}"
     install_project_skill "$TARGET_DIR"
     print_next_step
     ;;
 
   claude-md|always-on)
-    TARGET_DIR="${CLAUDE_MODEL_OPTIMIZER_TARGET:-${FABLE5_OPTIMIZER_TARGET:-$PWD}}"
+    TARGET_DIR="${AI_MODEL_OPTIMIZER_TARGET:-${CLAUDE_MODEL_OPTIMIZER_TARGET:-${FABLE5_OPTIMIZER_TARGET:-$PWD}}}"
     # Reject a bad CLAUDE.md destination before touching anything else, so a
     # refusal never leaves a half-finished install behind.
     validate_claude_md_dest

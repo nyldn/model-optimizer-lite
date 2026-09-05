@@ -87,3 +87,6 @@ jobs:
 
       - name: Test Fable review result validation
         run: tests/fable-review-validator.sh
+
+      - name: Test routing, receipts, model discovery, and Codex installation
+        run: python3 -m unittest discover -s tests -p '*_test.py'

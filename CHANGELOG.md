@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Native Codex user and project installation, including Astra, Sol, Terra, and Luna guidance.
+- Shared routing policy with host-specific profiles and standalone generated skill packages.
+- Optional deterministic recommendations, bounded Codex model discovery, and provider-neutral review receipts.
+- Capability checks, explicit-pin preservation, and honest reporting when final-model identity is unavailable.
+
+### Changed
+
+- Present the combined product as AI Model Optimizer while preserving the Claude skill name and install modes.
+- Either host can own implementation and integration. Cross-provider review is optional.
+- Tighten skill triggers and reduce always-on context. Reuse selected Octopus design patterns without its orchestration runtime.
+
 ## [3.0.0] - 2026-08-30
 
 ### Changed
