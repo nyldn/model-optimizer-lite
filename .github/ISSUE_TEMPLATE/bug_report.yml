@@ -1,5 +1,5 @@
 name: Bug report
-description: Report a problem with the Claude Model Optimizer skill.
+description: Report a problem with the Model Optimizer Lite skill.
 title: "[Bug]: "
 labels: ["bug"]
 body:
@@ -21,7 +21,7 @@ body:
     id: reproduction
     attributes:
       label: Reproduction
-      description: Include the request, whether `/ai-model-optimizer` was invoked directly, and relevant non-secret context.
+      description: Include the request, whether `/model-optimizer-lite` was invoked directly, and relevant non-secret context.
     validations:
       required: false
   - type: textarea

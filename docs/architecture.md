@@ -1,11 +1,11 @@
 # Lightweight shared model optimization
 
-AI Model Optimizer has one maintained policy, one generated skill package, and
+Model Optimizer Lite has one maintained policy, one generated skill package, and
 one optional Python standard-library helper. The installed package contains
 its own references and scripts, so it does not depend on the source checkout.
 
-Both hosts install the same `ai-model-optimizer` package. Claude invokes it with
-`/ai-model-optimizer`; Codex uses `$ai-model-optimizer`. The skill loads the
+Both hosts install the same `model-optimizer-lite` package. Claude invokes it with
+`/model-optimizer-lite`; Codex uses `$model-optimizer-lite`. The skill loads the
 profile for the host running the session.
 
 ## Reused Octopus patterns

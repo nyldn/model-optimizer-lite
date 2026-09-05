@@ -1,4 +1,4 @@
-# AI Model Optimizer
+# Model Optimizer Lite
 
 **Get help choosing which AI to use for the job, and when it is worth switching.**
 
@@ -7,7 +7,7 @@ worth considering for a difficult bug or a major design decision. Picking the
 most powerful one for everything can mean extra cost or waiting. Switching too
 often means explaining your project all over again.
 
-AI Model Optimizer adds a small set of reusable instructions, called a *skill*,
+Model Optimizer Lite adds a small set of reusable instructions, called a *skill*,
 to Claude or Codex. Ask it for help with a model choice, and it recommends a next
 step with a reason. It covers both Claude and Codex models, including GPT-6 Astra.
 
@@ -55,8 +55,8 @@ usual limits and charges. Installing the skill does not unlock additional models
 Clone and inspect the installer:
 
 ```sh
-git clone https://github.com/nyldn/ai-model-optimizer.git
-cd ai-model-optimizer
+git clone https://github.com/nyldn/model-optimizer-lite.git
+cd model-optimizer-lite
 ./install.sh --help
 ```
 
@@ -64,27 +64,27 @@ Choose the app you use:
 
 | App | Install | Type in a new session |
 | --- | --- | --- |
-| Claude | `./install.sh skill` | `/ai-model-optimizer` |
-| Codex | `./install.sh codex` | `$ai-model-optimizer` |
+| Claude | `./install.sh skill` | `/model-optimizer-lite` |
+| Codex | `./install.sh codex` | `$model-optimizer-lite` |
 
 Both apps use the same skill. Claude installs it under
-`~/.claude/skills/ai-model-optimizer`; Codex uses
-`~/.agents/skills/ai-model-optimizer`. You can install it for both.
+`~/.claude/skills/model-optimizer-lite`; Codex uses
+`~/.agents/skills/model-optimizer-lite`. You can install it for both.
 Neither on-demand install edits model settings or project instructions.
 
 Then ask in plain language, for example:
 
 ```text
-$ai-model-optimizer can my current model handle this bug, or would Astra help?
-$ai-model-optimizer prepare a handoff so Claude can review this change
-/ai-model-optimizer which model should I use to update this database safely?
+$model-optimizer-lite can my current model handle this bug, or would Astra help?
+$model-optimizer-lite prepare a handoff so Claude can review this change
+/model-optimizer-lite which model should I use to update this database safely?
 ```
 
 See [INSTALL.md](INSTALL.md) for project scope, updates, backups, and removal.
 For a one-line Claude install:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/nyldn/ai-model-optimizer/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/nyldn/model-optimizer-lite/main/install.sh | bash
 ```
 
 ## Desktop support
@@ -111,8 +111,8 @@ Python 3.9 or later. The first suggests a model for a difficult debugging task;
 the second asks your installed Codex CLI which models it lists.
 
 ```sh
-python3 shared/scripts/model_optimizer.py route --host codex --task debugging --complexity hard
-python3 shared/scripts/model_optimizer.py codex-models
+python3 shared/scripts/model_optimizer_lite.py route --host codex --task debugging --complexity hard
+python3 shared/scripts/model_optimizer_lite.py codex-models
 ```
 
 Neither command sends a task to an AI or changes your model settings. Listing
@@ -130,11 +130,11 @@ when you specifically require a Fable review.
 
 - [AI Environment Optimizer](https://github.com/nyldn/ai-env-optimizer) checks
   whether your installed AI tools and settings are set up correctly.
-- AI Model Optimizer helps you decide which model to use for the work in front of you.
+- Model Optimizer Lite helps you decide which model to use for the work in front of you.
 - [Claude Octopus](https://github.com/nyldn/claude-octopus) handles larger
   workflows that coordinate several AI tools and reviewers.
 
-You can use AI Model Optimizer on its own. It borrows selected ideas from Octopus
+You can use Model Optimizer Lite on its own. It borrows selected ideas from Octopus
 without requiring an Octopus installation. The
 [architecture notes](docs/architecture.md) explain which ideas were reused.
 

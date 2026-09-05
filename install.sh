@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-MODE="${1:-${AI_MODEL_OPTIMIZER_MODE:-skill}}"
-REPO_URL="${AI_MODEL_OPTIMIZER_REPO_URL:-https://github.com/nyldn/ai-model-optimizer.git}"
-SKILL_NAME="ai-model-optimizer"
+MODE="${1:-${MODEL_OPTIMIZER_LITE_MODE:-skill}}"
+REPO_URL="${MODEL_OPTIMIZER_LITE_REPO_URL:-https://github.com/nyldn/model-optimizer-lite.git}"
+SKILL_NAME="model-optimizer-lite"
 
 usage() {
   cat <<'USAGE'
@@ -11,10 +11,10 @@ Usage:
   install.sh [skill|skill-project|codex|codex-project|claude-md|claude-md-print]
 
 Modes:
-  skill            Install to ~/.claude/skills/ai-model-optimizer. Default.
-  skill-project    Install to ./.claude/skills/ai-model-optimizer for the current project.
-  codex            Install to ~/.agents/skills/ai-model-optimizer for Codex.
-  codex-project    Install to ./.agents/skills/ai-model-optimizer for the current project.
+  skill            Install to ~/.claude/skills/model-optimizer-lite. Default.
+  skill-project    Install to ./.claude/skills/model-optimizer-lite for the current project.
+  codex            Install to ~/.agents/skills/model-optimizer-lite for Codex.
+  codex-project    Install to ./.agents/skills/model-optimizer-lite for the current project.
   claude-md        Install a lightweight policy block to ./.claude/CLAUDE.md
                    plus the detailed project-local skill for on-demand use.
   claude-md-print  Print the generated block to stdout (used to regenerate
@@ -23,7 +23,7 @@ USAGE
 }
 
 print_next_step() {
-  echo "Next: open a new Claude Code session and run /ai-model-optimizer."
+  echo "Next: open a new Claude Code session and run /model-optimizer-lite."
 }
 
 case "$MODE" in
@@ -83,7 +83,7 @@ skill_backup_dir() {
     return 0
   fi
 
-  candidate="$(mktemp -d "${TMPDIR:-/tmp}/ai-model-optimizer-skill-backup.XXXXXX")"
+  candidate="$(mktemp -d "${TMPDIR:-/tmp}/model-optimizer-lite-skill-backup.XXXXXX")"
   printf '%s\n' "$candidate"
 }
 
@@ -102,7 +102,7 @@ if [[ -n "$script_dir" && -d "$script_dir/skills/$SKILL_NAME" ]]; then
   SOURCE_DIR="$script_dir"
 else
   require git
-  TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/ai-model-optimizer.XXXXXX")"
+  TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/model-optimizer-lite.XXXXXX")"
   SOURCE_DIR="$TMP_DIR/repo"
   git clone --quiet --depth 1 "$REPO_URL" "$SOURCE_DIR"
 fi
@@ -148,10 +148,10 @@ print_claude_md_block() {
     exit 1
   fi
 
-  printf '<!-- ai-model-optimizer:start -->\n'
+  printf '<!-- model-optimizer-lite:start -->\n'
   printf '<!-- Generated from claude-md/POLICY.md by install.sh. Do not hand-edit inside the markers. -->\n'
   cat "$policy_md"
-  printf '<!-- ai-model-optimizer:end -->\n'
+  printf '<!-- model-optimizer-lite:end -->\n'
 }
 
 install_project_skill() {
@@ -167,8 +167,8 @@ install_project_skill() {
 }
 
 claude_md_path() {
-  local target_dir="${AI_MODEL_OPTIMIZER_TARGET:-$PWD}"
-  printf '%s\n' "${AI_MODEL_OPTIMIZER_CLAUDE_MD:-$target_dir/.claude/CLAUDE.md}"
+  local target_dir="${MODEL_OPTIMIZER_LITE_TARGET:-$PWD}"
+  printf '%s\n' "${MODEL_OPTIMIZER_LITE_CLAUDE_MD:-$target_dir/.claude/CLAUDE.md}"
 }
 
 # Echo the file with the managed block and any trailing blank lines removed, so
@@ -179,8 +179,8 @@ claude_md_path() {
 # rather than silently truncating the file.
 strip_managed_block() {
   awk \
-    -v start='^[[:space:]]*<!-- ai-model-optimizer:start -->[[:space:]]*$' \
-    -v end='^[[:space:]]*<!-- ai-model-optimizer:end -->[[:space:]]*$' '
+    -v start='^[[:space:]]*<!-- model-optimizer-lite:start -->[[:space:]]*$' \
+    -v end='^[[:space:]]*<!-- model-optimizer-lite:end -->[[:space:]]*$' '
     $0 ~ start && !skip { skip = 1; count = 0; next }
     $0 ~ end && skip { skip = 0; next }
     skip { next }
@@ -230,11 +230,11 @@ install_claude_md() {
   # Clear any staging file a previously killed run left behind, so an
   # uncatchable termination cannot leave a stray copy of the user's
   # instructions in the project indefinitely.
-  rm -f "$dest_dir"/.ai-model-optimizer-claude.* 2>/dev/null || true
+  rm -f "$dest_dir"/.model-optimizer-lite-claude.* 2>/dev/null || true
 
   # Stage in the destination directory so the final move is atomic and never
   # crosses a filesystem boundary.
-  TMP_FILE="$(mktemp "$dest_dir/.ai-model-optimizer-claude.XXXXXX")"
+  TMP_FILE="$(mktemp "$dest_dir/.model-optimizer-lite-claude.XXXXXX")"
 
   if [[ -f "$dest" ]] && ! strip_managed_block "$dest" > "$TMP_FILE"; then
     unterminated_block_error "$dest"
@@ -281,18 +281,18 @@ install_claude_md() {
 case "$MODE" in
   codex|codex-project)
     if [[ "$MODE" == "codex" ]]; then
-      DEST="${AI_MODEL_OPTIMIZER_CODEX_SKILLS_DIR:-$HOME/.agents/skills}/ai-model-optimizer"
+      DEST="${MODEL_OPTIMIZER_LITE_CODEX_SKILLS_DIR:-$HOME/.agents/skills}/model-optimizer-lite"
     else
-      TARGET_DIR="${AI_MODEL_OPTIMIZER_TARGET:-$PWD}"
-      DEST="$TARGET_DIR/.agents/skills/ai-model-optimizer"
+      TARGET_DIR="${MODEL_OPTIMIZER_LITE_TARGET:-$PWD}"
+      DEST="$TARGET_DIR/.agents/skills/model-optimizer-lite"
     fi
-    copy_skill "$SOURCE_DIR/skills/ai-model-optimizer" "$DEST"
+    copy_skill "$SOURCE_DIR/skills/model-optimizer-lite" "$DEST"
     echo "Codex skill ready at $DEST"
-    echo 'Next: open a new Codex session and invoke $ai-model-optimizer.'
+    echo 'Next: open a new Codex session and invoke $model-optimizer-lite.'
     ;;
 
   skill)
-    DEST="${AI_MODEL_OPTIMIZER_CLAUDE_SKILLS_DIR:-$HOME/.claude/skills}/$SKILL_NAME"
+    DEST="${MODEL_OPTIMIZER_LITE_CLAUDE_SKILLS_DIR:-$HOME/.claude/skills}/$SKILL_NAME"
     copy_skill "$SOURCE_DIR/skills/$SKILL_NAME" "$DEST"
     if [[ "$COPY_SKILL_CHANGED" -eq 1 ]]; then
       echo "Installed $SKILL_NAME to $DEST"
@@ -303,13 +303,13 @@ case "$MODE" in
     ;;
 
   skill-project)
-    TARGET_DIR="${AI_MODEL_OPTIMIZER_TARGET:-$PWD}"
+    TARGET_DIR="${MODEL_OPTIMIZER_LITE_TARGET:-$PWD}"
     install_project_skill "$TARGET_DIR"
     print_next_step
     ;;
 
   claude-md)
-    TARGET_DIR="${AI_MODEL_OPTIMIZER_TARGET:-$PWD}"
+    TARGET_DIR="${MODEL_OPTIMIZER_LITE_TARGET:-$PWD}"
     # Reject a bad CLAUDE.md destination before touching anything else, so a
     # refusal never leaves a half-finished install behind.
     validate_claude_md_dest

@@ -3,7 +3,7 @@ name: @NAME@
 description: Choose a model and reasoning effort, prepare a cross-model handoff, or validate a model-specific review. Use for explicit routing or escalation decisions involving Claude or Codex, including Astra. Ordinary coding, research, and review requests do not require this skill.
 ---
 
-# AI Model Optimizer
+# Model Optimizer Lite
 
 @HOST@
 
@@ -35,8 +35,8 @@ Python 3.9+ is needed only for these helpers. Skill guidance and installation do
 not require it. Resolve scripts relative to this installed skill directory.
 
 ```sh
-python3 scripts/model_optimizer.py route --host codex --task debugging --complexity hard
-python3 scripts/model_optimizer.py route --host codex --task mechanical --current-model gpt-6-astra
+python3 scripts/model_optimizer_lite.py route --host codex --task debugging --complexity hard
+python3 scripts/model_optimizer_lite.py route --host codex --task mechanical --current-model gpt-6-astra
 ```
 
 `route` emits advice and never launches inference or changes configuration.

@@ -15,5 +15,5 @@ not grant authority to merge, publish, deploy, or expand permissions.
 
 Use compact handoffs only when context must move. Delegate independent packets
 only when useful and authorized. Keep worker depth bounded and stop after two
-rounds without progress. Load `/ai-model-optimizer` for detailed policy,
+rounds without progress. Load `/model-optimizer-lite` for detailed policy,
 host-specific guidance, and optional discovery or review-receipt helpers.

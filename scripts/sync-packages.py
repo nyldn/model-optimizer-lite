@@ -6,7 +6,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 PACKAGES = {
-    "ai-model-optimizer": "Use this skill in Claude or Codex; select the profile for the actual host.",
+    "model-optimizer-lite": "Use this skill in Claude or Codex; select the profile for the actual host.",
 }
 
 

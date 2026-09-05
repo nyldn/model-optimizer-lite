@@ -7,8 +7,8 @@ Implemented in the existing repository after reviewing Octopus upstream
 
 - Shared maintained skill source with one generated package for both hosts.
 - Native Codex user/project install modes, detached from the source checkout.
-- Unified `ai-model-optimizer` skill name, managed markers, and
-  `AI_MODEL_OPTIMIZER_` installer settings. Old-name aliases and migrations removed.
+- Unified `model-optimizer-lite` skill name, managed markers, and
+  `MODEL_OPTIMIZER_LITE_` installer settings. Old-name aliases and migrations removed.
 - Astra/Sol/Terra/Luna and Claude profiles with neutral task ownership.
 - Deterministic recommendations that preserve pins and existing context.
 - Bounded native Codex model discovery with no inference dispatch.
@@ -35,7 +35,7 @@ No provider configuration or installed skill was changed to run these checks.
 ## Installation
 
 Install for Claude with `./install.sh skill` or for Codex with
-`./install.sh codex`. Both use the `ai-model-optimizer` package. Changed
+`./install.sh codex`. Both use the `model-optimizer-lite` package. Changed
 installations are backed up outside discovery. No old-name migration is included.
 
 Model and provider execution stay with native hosts. Choose Octopus explicitly

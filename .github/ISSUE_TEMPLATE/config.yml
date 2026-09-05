@@ -1,5 +1,5 @@
 blank_issues_enabled: true
 contact_links:
   - name: Security issue
-    url: https://github.com/nyldn/ai-model-optimizer/security/advisories/new
+    url: https://github.com/nyldn/model-optimizer-lite/security/advisories/new
     about: Report vulnerabilities or leaked private material privately.

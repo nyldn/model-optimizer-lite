@@ -15,13 +15,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Changed
 
-- Use AI Model Optimizer throughout, including the `ai-model-optimizer` skill name for both Claude and Codex.
+- Use Model Optimizer Lite throughout, including the `model-optimizer-lite` skill name for both Claude and Codex.
 - Either host can own implementation and integration. Cross-provider review is optional.
 - Tighten skill triggers and reduce always-on context. Reuse selected Octopus design patterns without its orchestration runtime.
 
 ### Removed
 
-- Old-name skill package, installer aliases, and migration routines. Installer settings now use only `AI_MODEL_OPTIMIZER_`.
+- Old-name skill package, installer aliases, and migration routines. Installer settings now use only `MODEL_OPTIMIZER_LITE_`.
 
 ## [3.0.0] - 2026-08-30
 
@@ -219,20 +219,20 @@ An xhigh review of the v2.0.1 installer found that the hardening pass introduced
 - One-shot installer (`install.sh`) with user and project modes.
 - CI validation of the skill package and public boundary.
 
-[Unreleased]: https://github.com/nyldn/ai-model-optimizer/compare/v3.0.0...HEAD
-[3.0.0]: https://github.com/nyldn/ai-model-optimizer/compare/v2.2.0...v3.0.0
-[2.2.0]: https://github.com/nyldn/ai-model-optimizer/compare/v2.1.0...v2.2.0
-[2.1.0]: https://github.com/nyldn/ai-model-optimizer/compare/v2.0.2...v2.1.0
-[2.0.2]: https://github.com/nyldn/ai-model-optimizer/compare/v2.0.1...v2.0.2
-[2.0.1]: https://github.com/nyldn/ai-model-optimizer/compare/v2.0.0...v2.0.1
-[2.0.0]: https://github.com/nyldn/ai-model-optimizer/compare/v1.6.0...v2.0.0
-[1.6.0]: https://github.com/nyldn/ai-model-optimizer/compare/v1.5.1...v1.6.0
-[1.5.1]: https://github.com/nyldn/ai-model-optimizer/compare/v1.5.0...v1.5.1
-[1.5.0]: https://github.com/nyldn/ai-model-optimizer/compare/v1.4.0...v1.5.0
-[1.4.0]: https://github.com/nyldn/ai-model-optimizer/compare/v1.3.0...v1.4.0
-[1.3.0]: https://github.com/nyldn/ai-model-optimizer/compare/v1.2.2...v1.3.0
-[1.2.2]: https://github.com/nyldn/ai-model-optimizer/compare/v1.2.1...v1.2.2
-[1.2.1]: https://github.com/nyldn/ai-model-optimizer/compare/v1.2.0...v1.2.1
-[1.2.0]: https://github.com/nyldn/ai-model-optimizer/compare/v1.1.0...v1.2.0
-[1.1.0]: https://github.com/nyldn/ai-model-optimizer/compare/v1.0.0...v1.1.0
-[1.0.0]: https://github.com/nyldn/ai-model-optimizer/releases/tag/v1.0.0
+[Unreleased]: https://github.com/nyldn/model-optimizer-lite/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/nyldn/model-optimizer-lite/compare/v2.2.0...v3.0.0
+[2.2.0]: https://github.com/nyldn/model-optimizer-lite/compare/v2.1.0...v2.2.0
+[2.1.0]: https://github.com/nyldn/model-optimizer-lite/compare/v2.0.2...v2.1.0
+[2.0.2]: https://github.com/nyldn/model-optimizer-lite/compare/v2.0.1...v2.0.2
+[2.0.1]: https://github.com/nyldn/model-optimizer-lite/compare/v2.0.0...v2.0.1
+[2.0.0]: https://github.com/nyldn/model-optimizer-lite/compare/v1.6.0...v2.0.0
+[1.6.0]: https://github.com/nyldn/model-optimizer-lite/compare/v1.5.1...v1.6.0
+[1.5.1]: https://github.com/nyldn/model-optimizer-lite/compare/v1.5.0...v1.5.1
+[1.5.0]: https://github.com/nyldn/model-optimizer-lite/compare/v1.4.0...v1.5.0
+[1.4.0]: https://github.com/nyldn/model-optimizer-lite/compare/v1.3.0...v1.4.0
+[1.3.0]: https://github.com/nyldn/model-optimizer-lite/compare/v1.2.2...v1.3.0
+[1.2.2]: https://github.com/nyldn/model-optimizer-lite/compare/v1.2.1...v1.2.2
+[1.2.1]: https://github.com/nyldn/model-optimizer-lite/compare/v1.2.0...v1.2.1
+[1.2.0]: https://github.com/nyldn/model-optimizer-lite/compare/v1.1.0...v1.2.0
+[1.1.0]: https://github.com/nyldn/model-optimizer-lite/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/nyldn/model-optimizer-lite/releases/tag/v1.0.0
