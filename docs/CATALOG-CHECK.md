@@ -19,7 +19,7 @@ unknown. Successful sources still appear in a partial report. JSON includes
 the individual error details.
 
 The reviewed baseline is [catalog-snapshot.json](catalog-snapshot.json), captured
-on October 8, 2026, matching the skill's latest catalog review. Historical native
+on October 26, 2026, matching the skill's latest catalog review. Historical native
 evaluations use their recorded skill snapshots. The baseline contains mentions and hashes,
 without storing provider documentation or account data.
 

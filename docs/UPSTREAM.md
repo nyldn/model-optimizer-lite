@@ -1,5 +1,110 @@
 # Upstream research
 
+## October 26 catalog refresh
+
+An installation review also compared native and configured gateway catalogs.
+These routes can expose different models. A listing does not prove inference
+or effort support. The skill now explicitly uses the active client's visible
+catalog and the host's live provider/model catalog for children. This keeps
+catalog guidance conditional on the route that will execute the task.
+
+Reviewed all seven monitored sources on October 26, 2026. OpenAI added
+GPT-6.1 Terra, `gpt-6.1-terra`, to its client and API catalogs. The skill now
+includes it for writing, visual reasoning, and precise computer use alongside
+Sol for implementation, Astra for demanding workflows, and Luna for focused
+tasks. Terra does not replace an explicit model choice. Sources:
+[OpenAI client models](https://learn.chatgpt.com/docs/models),
+[OpenAI API models](https://developers.openai.com/api/docs/models), and
+[October 26 launch](https://learn.chatgpt.com/docs/changelog).
+
+The client catalog lists Terra for Work and Codex in the desktop app and for
+Codex CLI, requiring CLI 0.159.0 or later. Its model card does not list the IDE
+extension. The skill names the documented clients and still requires visible
+account access before recommending execution. The launch excludes Chat and
+UAE inference residency; Enterprise access depends on workspace controls.
+Product installation support remains the local clients in the delivery contract.
+
+Terra's API supports `none`, `low`, `medium`, `high`, `xhigh`, and `max`
+reasoning effort, defaulting to `medium`. Tool calling requires the Responses
+API. The skill distinguishes this API range from the controls exposed by an app,
+without assuming that an API setting appears in every client. Sources:
+[Terra model page](https://developers.openai.com/api/docs/models/gpt-6.1-terra)
+and [GPT-6 guide](https://developers.openai.com/api/docs/guides/latest-model#gpt-61-terra).
+
+The client catalog no longer says GPT-5.6 Sol/Terra/Luna remain available during
+rollout. Those removed mentions do not establish retirement; older choices now
+require visible access. GPT-6 Sol remains in the API catalog. The October 20
+GPT-5.5 retirement correction and API-key exception remain intact.
+
+Claude's current choices remain Haiku 5.5, Sonnet 5.5, Opus 5.5, and Fable 5.1.
+Claude Code's effort defaults and model minimum versions are unchanged. The
+latest changelog includes v2.1.311; platform updates include the October 21 API
+version and SDK releases and October 22 availability on Claude Models on Google
+Cloud, Anthropic managed. These updates add no model recommendation and do not
+establish a configured execution route. Sources:
+[Claude models](https://platform.claude.com/docs/en/models/overview),
+[Claude controls](https://code.claude.com/docs/en/model-config),
+[Claude Code changelog](https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md),
+and [platform release notes](https://platform.claude.com/docs/en/release-notes/overview).
+
+The skill and reviewed seven-source snapshot now date to October 26. Earlier
+local edits and dated research notes are preserved. Raw captures remain outside
+the repository. This refresh does not change release or installation settings.
+
+All 29 repository tests, both skill validators, and `git diff --check` passed.
+The reviewed baseline matches all seven saved source captures. Prose assessment
+covered Terra's task fit, Chat availability, CLI version requirement, API versus
+app effort controls, and explicit selections. Fresh-context native evaluations,
+client discovery, and actual Terra execution were not run for this revision.
+
+## October 20 catalog refresh
+
+Reviewed all seven monitored sources on October 20, 2026. The current model
+lineup is unchanged: GPT-6 Luna, GPT-6.1 Sol, and GPT-6 Astra for Work/Codex;
+Claude Haiku 5.5, Sonnet 5.5, Opus 5.5, and Fable 5.1. The OpenAI API catalog
+matches the previous snapshot exactly. GPT-6 Sol and the GPT-5.6
+Sol/Terra/Luna models remain conditional client choices during rollout. There
+is no documented GPT-6 Terra tier. Sources:
+[OpenAI client models](https://learn.chatgpt.com/docs/models),
+[OpenAI API models](https://developers.openai.com/api/docs/models), and
+[Claude models](https://platform.claude.com/docs/en/models/overview).
+
+The current OpenAI client catalog scopes GPT-5.5's October 14 retirement to
+Codex with ChatGPT sign-in. The skill now records that retirement as completed
+and explicitly preserves OpenAI API and API-key Codex availability. This replaces
+the broader Chat/Work retirement wording in the October 8 guidance. It does not
+establish availability in Chat or every account. For an unavailable explicit
+choice, offer a replacement only after checking the session's catalog. Source:
+[GPT-5.5 retirement](https://learn.chatgpt.com/docs/models#gpt-55-retirement).
+
+Claude Code still defaults Opus, Sonnet, and Haiku 5.5 to Medium, with Fable 5.1
+at High; the Claude API's Sonnet 5.5 default is High. Managed effort caps can
+lower the applied setting, including in background agents. The skill now checks
+effort eligibility alongside model eligibility and rechecks both after host
+fallback. Claude Code v2.1.304 fixed guessed effort indicators when no level was
+sent; v2.1.305 fixed reports naming a child's requested model after fallback.
+Requested settings remain distinct from observed execution. Sources:
+[Claude controls](https://code.claude.com/docs/en/model-config) and
+[Claude Code changelog](https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md).
+
+The remaining source changes do not add a recommended model. Codex CLI 0.163.0
+adds controls and fixes. Claude's October 15 Models API update reports
+`thinking.types.between_tools`; Opus 5.5 API fast mode is now out of research
+preview. Neither establishes a client's controls or an account's access. The
+skill keeps its current client-specific effort defaults and bounded delegation
+rules. Sources: [OpenAI changelog](https://learn.chatgpt.com/docs/changelog) and
+[Claude Platform release notes](https://platform.claude.com/docs/en/release-notes/overview).
+
+The reviewed snapshot and installed skill guidance now both date to October 20.
+Raw captures and local reports remain outside the repository. This is a local
+catalog refresh; it does not publish a release or update installed client copies.
+
+All 29 repository tests, both skill validators, and `git diff --check` passed.
+The new baseline matches all seven saved source captures. Prose review covered
+unavailable choices, explicit model/effort selections, stale catalogs, and host
+fallback. These are scenario assessments; fresh-context native evaluations and
+client discovery checks were not rerun for this revision.
+
 ## October 8 catalog refresh
 
 The seven-source catalog check found no changes to OpenAI's client or API model
