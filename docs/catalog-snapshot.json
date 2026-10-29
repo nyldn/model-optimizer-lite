@@ -1,19 +1,21 @@
 {
-  "reviewed_on": "2026-10-06",
+  "captured_on": "2026-10-28",
+  "reviewed_on": "2026-10-28",
   "schema_version": 1,
   "sources": {
     "claude-changelog": {
       "categories": {
-        "client-requirements": "0fd6638abdb54abcd665a5e5bab9f943fd552b4c1e08ed45bfa790a6a5535a56",
-        "effort": "ad9192c9605832e658ac5d7c7237084e82eb6bfc801eaa2ad9ad8e0022f1fb66",
-        "retirements": "c4f342515e84d50e4a9327c1e9a962e1d430e4b66f9d1b65cb9dba387e3f06ee",
-        "skills-and-controls": "3c073523e055e37f2a71121c5c2cdfda9855e36060450e808e9e08b3adc810c7"
+        "client-requirements": "483f62c0e289d192183e08cba82a4f0b9c9c3159ac12eb9503b6b90eda10be5c",
+        "effort": "cda0c8f83a8d466bed6da686ca0e62ec4539a017eb1b3b567547d6671d0fde57",
+        "retirements": "da8255f2396ef0ce0b64946ae955d21d56901382da23b05faffe6f5cb5d137b1",
+        "skills-and-controls": "ee8ebe8d011ab4560da35651ef1f69c757a585be9929c03ecc2d74efcf61ccee"
       },
-      "content_sha256": "2c6d5dc61a31f122eb492eba417b19d7481304460cc8fea9baee77e9aa57489a",
+      "content_sha256": "faac206b976ae3d4c3d76b8c45ace2629eec31fa4ea3e1fcc894a02e8d6b5baf",
       "model_mentions": [
         "claude-fable-5",
         "claude-fable-5-1",
         "claude-haiku-4-5",
+        "claude-haiku-5-5",
         "claude-opus-4",
         "claude-opus-4-0",
         "claude-opus-4-1",
@@ -38,16 +40,17 @@
     },
     "claude-config": {
       "categories": {
-        "client-requirements": "3330f1db2562e4627c467eabe76e5ba5ba082240573a2400a99e2a2533cd6d24",
-        "effort": "9e3c4a27e5979e8a1bffe25fc4b93675317629ed449b74deae02ffc190afb77f",
-        "retirements": "88451ed28397a9df69749647c1c4b3007db05a5b70259814eef4127a1393cd08",
-        "skills-and-controls": "de88894e9f81235f36e04af1c73b72012a686ecdd1d7e6ffa7c12125462c0f2d"
+        "client-requirements": "48d62efbe4029969c144b477fd9aca24262461d1017148ddf6726088f6fec34b",
+        "effort": "9a6d7b1aa74231f95301500667326393b1783c673bc5b6a927917dea70ade1d9",
+        "retirements": "235a227d8139f11d15a84ab9cdde2fb9ad1f0e07b435edd36452cb9f65e9e688",
+        "skills-and-controls": "722e7de6a2db4a7dcb2212d1b1bb507a51bdbf4b46277d2e7e72a3541664975e"
       },
-      "content_sha256": "0b0fdecc6e3b07a6d6015580f7c7d994333fd26ac015d8b35857d1ad9637daa5",
+      "content_sha256": "b3e21f83b1c97acb2356d912f93ad9d6c3e84000a3796aaefff1de2ba5403c86",
       "model_mentions": [
         "claude-fable-5",
         "claude-fable-5-1",
         "claude-haiku-4-5",
+        "claude-haiku-5-5",
         "claude-opus-4-6",
         "claude-opus-4-7",
         "claude-opus-4-8",
@@ -63,16 +66,16 @@
     },
     "claude-models": {
       "categories": {
-        "client-requirements": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "effort": "f6d65cdf3e91c538ad086b899dc99cc3438f29d7eab7527f350b4cb3bd06712d",
-        "retirements": "5f8b48985a5a2cb579c611d3dcf91a393b8b701906fd2cd9d1aa65ca92b99546",
-        "skills-and-controls": "3746174594b81f58eee737bf5e9032a3c715d21b523d4651f6cd08165fb7db73"
+        "client-requirements": "2f257d2ab2501ec0052f8a4ee0014f5eabea90f1cc6f813fcea56a5abfd884c6",
+        "effort": "8b41083c9a3fde480fff3e8f4e5f6704f4232cb9934a2c541ff43983222ba263",
+        "retirements": "09f6cdd8aee844742e51b199f96e71329a4e5e9bd18777fb0ec74051089a9e73",
+        "skills-and-controls": "bbf1cdd381a2fe334a5c7f1491dd7879096978f9fb6894ccd3471f208cfcc058"
       },
-      "content_sha256": "169baf4c4a36f9779077e240533eecc0e642e0270056d365f75c7c0c856f216b",
+      "content_sha256": "d2d3e24258ebabb882526737cf555fd9d0e07885387487aefaacd6dbcae93bd8",
       "model_mentions": [
         "claude-fable-5-1",
         "claude-haiku-4-5",
-        "claude-haiku-4-5-20251001",
+        "claude-haiku-5-5",
         "claude-opus-4-5",
         "claude-opus-4-6",
         "claude-opus-5",
@@ -83,18 +86,19 @@
     },
     "claude-release": {
       "categories": {
-        "client-requirements": "a962bf1733293ac230c8d78e47e489e6abc6385677004b62859efc31b2982814",
-        "effort": "34ceec6b5101f00c118adea0ec845e4497f18d02ef2f307ab7cc3577fab679f1",
-        "retirements": "5f0ee6d9361fe8fbafda30d33eed9bd7fb08b7c9b6c5cfb6152374fd3e43777a",
-        "skills-and-controls": "65dc17413541f394b9bb5955a0342d0121607f8f9ac14e3d88cac25f6a58f106"
+        "client-requirements": "86fbff2196404e977ac85932ad6c38ba9acdfa0053990f45b7712d3ba2a1116f",
+        "effort": "2cf3dd574416684c2af4b2e008ee7a3316b4099031bbd5323087bc6b70244385",
+        "retirements": "101c189a671cdd006b5dcf969869d76c22d858e766b0d3218bddc9088edf6a0c",
+        "skills-and-controls": "2f45b77c11ab8a6c3eab1a79fe822b093a8f28b4d5d3a8a2446bc7c13522a0a2"
       },
-      "content_sha256": "f5103e38a4bb1a5c4146dfcb330bd05dbb8ebf9761be29b96b0012341c5ee7f0",
+      "content_sha256": "8bc6a2562b6adde9c79f11f404204fd811f0a8d0b1021c99c00e94024e051f53",
       "model_mentions": [
         "claude-fable-5",
         "claude-fable-5-1",
         "claude-haiku-3",
         "claude-haiku-3-5",
         "claude-haiku-4-5",
+        "claude-haiku-5-5",
         "claude-opus-3",
         "claude-opus-4",
         "claude-opus-4-1",
@@ -122,11 +126,11 @@
     "openai-api": {
       "categories": {
         "client-requirements": "682623e8c1daeee162398b75f09ddec075a95c31c18355454a1fd3618f990d5c",
-        "effort": "0376ec05a9d2f6a9f3404b95c33f85c1cd5a347dac3714a97c1968d65be285f4",
-        "retirements": "21c27a5e090fb5f1e21f86c28b632e25feb5e7c0f94c52f6569ddd7ba3a37303",
+        "effort": "3ed41845849186ac9dd099a7fb3d9a60bce50b13f56f0feabddc2dd34df583ee",
+        "retirements": "5e90a4dc1d76bc97cac3e8af9dc21689b9ea31aa573cee74f070b0fe1eaf08d5",
         "skills-and-controls": "1efeab075cac4babf27c8ccc4e5c9c21f072bb1c257cab58ae9a515ae21b913f"
       },
-      "content_sha256": "e751a6d0bb49a34c80620b034ac5383bd6fb2870a5d907e3d6f33d537d2946df",
+      "content_sha256": "9f4541b9a96465acc962b13aaf3616af81e3ecf4cb78ea36bccc63b03f7dea44",
       "model_mentions": [
         "gpt-3",
         "gpt-3.5",
@@ -174,18 +178,19 @@
         "gpt-6-luna",
         "gpt-6-sol",
         "gpt-6.1",
-        "gpt-6.1-sol"
+        "gpt-6.1-sol",
+        "gpt-6.1-terra"
       ],
       "url": "https://developers.openai.com/api/docs/models"
     },
     "openai-changelog": {
       "categories": {
-        "client-requirements": "fb8089e1bbee720d5f859dd40898f22beaae674f85f6d1dc9dbc0cb8ab6c4ebf",
-        "effort": "2061fe7dd0210a9f3b24dd22258eb6406b266916e355f6a44f4e38c585007e9e",
-        "retirements": "9125eae5623710d02380f6eaf4b3f8767d600e253e1d2169390baa6ca7ca08b4",
-        "skills-and-controls": "59b7fe924d931d8fc987f0b631e5047ae01858d1f00984b8725c3eb679969dec"
+        "client-requirements": "2cb077b3316008662c589da45e4bd8e1d575087d15ef47df6fd542ea0b63df81",
+        "effort": "94b0fa0feef95280ff3bab588a609205078f38da3d2272d50f1b811e8b480fb8",
+        "retirements": "d30d3c52739e804dadd689c255196b41ca2d72cc8740a9d03290b006f81d0958",
+        "skills-and-controls": "c5180ffd3bef7a3fc144315c3c9cb2a38abbfbaaf6bc8ca0c39cb2c2a52d9445"
       },
-      "content_sha256": "63b9ea46973464eb72d6f6dcf2f688eaa2569954bc4004404a9fa5f5ef96fa95",
+      "content_sha256": "2fbb897be196c664dbc1d2558fcaf6df88ff8f9bd6738855ee3d6b0cc858c97e",
       "model_mentions": [
         "gpt-5",
         "gpt-5-codex",
@@ -206,6 +211,7 @@
         "gpt-5.6-sol",
         "gpt-5.6-terra",
         "gpt-6",
+        "gpt-6-astra",
         "gpt-6-luna",
         "gpt-6-sol",
         "gpt-6.1",
@@ -215,12 +221,12 @@
     },
     "openai-client": {
       "categories": {
-        "client-requirements": "57f1a99f48a7cdeec0d047de0274453f39da6688de87481ea7f2b99f1e81988f",
-        "effort": "2af68283be3ad0652a7969095a7fb128a50b4a05fa27ad913c3f2d81bc282b84",
-        "retirements": "1e54856018be04cc1d5fb20a8480aec23cba5a0803a145cf987dc0df0dde768c",
-        "skills-and-controls": "f87f1575a5ebf689b54f0803babf854a100889c1e84787e4d26103c6f3b13681"
+        "client-requirements": "8291f6c7d314565abb6895a40ce0e9c925e99b007d01304f818b72ee7006925c",
+        "effort": "46a0dee5b2b36f2e7c370630bc7fea1aae1fdc080f42ff648da9a9cc06a2daf3",
+        "retirements": "bc0a18d4176e335a228766f3c22d1dfe9ba0ac5ba496145569d2a9beb55a2e12",
+        "skills-and-controls": "b4d14b4f140f581570c483df3bef7bb16a3f6d57e5c51bc10e5c472c31816915"
       },
-      "content_sha256": "8739a8f95caacc02393e0a24b5ba5c343e64c410733cdc4c414010cd2ad2069e",
+      "content_sha256": "70189cc410a55dfdbf1bf22b074c0c055dbca28e4b3c580eb05828b6d2b15189",
       "model_mentions": [
         "gpt-5.2",
         "gpt-5.3-codex",
@@ -228,14 +234,12 @@
         "gpt-5.4",
         "gpt-5.4-mini",
         "gpt-5.5",
-        "gpt-5.6",
-        "gpt-5.6-luna",
-        "gpt-5.6-sol",
         "gpt-6",
         "gpt-6-luna",
         "gpt-6-sol",
         "gpt-6.1",
-        "gpt-6.1-sol"
+        "gpt-6.1-sol",
+        "gpt-6.1-terra"
       ],
       "url": "https://learn.chatgpt.com/docs/models"
     }

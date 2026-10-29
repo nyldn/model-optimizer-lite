@@ -73,12 +73,16 @@ class ValidatorTest(unittest.TestCase):
         self.skill.write_text(self.skill.read_text().replace("metadata:", "other:", 1))
         self.run_validator("skill metadata must be a mapping")
 
+    def write_instructions(self, instructions):
+        header, separator, _ = self.skill.read_text().partition("\n---\n")
+        self.assertTrue(separator)
+        self.skill.write_text(header + separator + instructions + "\n")
+
     def test_empty_instructions_fail(self):
-        frontmatter = self.skill.read_text().split("---", 2)[1]
-        self.skill.write_text("---" + frontmatter + "---\n")
+        self.write_instructions("")
         self.run_validator("instructions must not be empty")
 
-    def test_advice_only_skill_cannot_override_runtime(self):
+    def test_frontmatter_cannot_unconditionally_override_runtime(self):
         original = self.skill.read_text()
         for field, value in (
             ("model", "opus"), ("effort", "max"), ("context", "fork"),
@@ -87,7 +91,7 @@ class ValidatorTest(unittest.TestCase):
         ):
             with self.subTest(field=field):
                 self.skill.write_text(original.replace("name: model-optimizer-lite\n", f"name: model-optimizer-lite\n{field}: {value}\n", 1))
-                self.run_validator("advice-only skill cannot set runtime overrides")
+                self.run_validator("skill frontmatter cannot set unconditional runtime overrides")
 
     def test_ui_requires_parsed_fields(self):
         original = self.ui.read_text()
@@ -132,7 +136,7 @@ class ValidatorTest(unittest.TestCase):
         self.run_validator("unexpected installed files")
 
     def test_instruction_references_fail_even_when_optimized(self):
-        self.skill.write_text(self.skill.read_text() + "\nRead scripts/helper.py.\n")
+        self.write_instructions("Read scripts/helper.py.")
         self.run_validator("must be self-contained", optimized=True)
 
     def test_blocked_tracked_files_fail_even_when_optimized(self):

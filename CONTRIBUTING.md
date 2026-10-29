@@ -23,6 +23,9 @@ for repository checks; users of the installed skill do not need Python.
 Also read the skill as a new user would. Confirm that it respects explicit model
 choices, does not assume model availability, and distinguishes ChatGPT controls
 from Codex CLI commands.
+Also check that automatic delegation stays within an active authorized task,
+respects provider restrictions, bounds child work, and reports actual execution.
+Keep advice-only scenarios separate from execution scenarios in evaluations.
 
 For changes to the skill or catalog, review [the behavior cases](tests/behavior-cases.md)
 and record outcomes in the PR. Distinguish executed fresh-context cases from

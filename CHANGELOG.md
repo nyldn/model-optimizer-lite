@@ -6,6 +6,36 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [6.0.0] - 2026-10-08
+
+### Breaking changes
+
+- Active authorized tasks may now trigger one bounded subagent through supported
+  host tools. Version 5.0.0 only advised. Request recommendations only to retain
+  advisory behavior. Model-choice questions still do not authorize execution.
+
+### Added
+
+- Contextual `Stay`, `Delegate`, and `Switch` decisions using task-relevant
+  Artificial Analysis and BullshitBench evidence when available.
+- Automatic bounded delegation within an active authorized task through supported
+  host tools, with one owner verifying and integrating the result.
+
+### Changed
+
+- Refreshed catalog guidance on October 8: Haiku 5.5 replaces Haiku 4.5 in the
+  current tier table, supports effort, and needs Claude Code v2.1.293+. Older
+  Haiku remains conditional. Agent effort selection is supported from v2.1.292
+  when the host exposes it. GPT-5.5 retirement covers Chat, Work, and Codex;
+  the OpenAI API remains unaffected.
+- Model-choice questions retain advice and handoffs; actual execution requires
+  authorized task scope and a reachable model. Cross-provider tools must already
+  be configured and verified. Missing routes produce an unexecuted handoff.
+- Required child effort must be supported or inherited through a runtime control;
+  a prompt requesting harder reasoning does not configure it.
+- Frontmatter still cannot override runtime settings unconditionally. Session
+  changes preserve explicit choices and persistent defaults.
+
 ## [5.0.0] - 2026-10-06
 
 ### Changed
@@ -268,7 +298,8 @@ An xhigh review of the v2.0.1 installer found that the hardening pass introduced
 - One-shot installer (`install.sh`) with user and project modes.
 - CI validation of the skill package and public boundary.
 
-[Unreleased]: https://github.com/nyldn/model-optimizer-lite/compare/v5.0.0...HEAD
+[Unreleased]: https://github.com/nyldn/model-optimizer-lite/compare/v6.0.0...HEAD
+[6.0.0]: https://github.com/nyldn/model-optimizer-lite/compare/v5.0.0...v6.0.0
 [5.0.0]: https://github.com/nyldn/model-optimizer-lite/compare/v4.0.0...v5.0.0
 [4.0.0]: https://github.com/nyldn/model-optimizer-lite/compare/v3.0.0...v4.0.0
 [3.0.0]: https://github.com/nyldn/model-optimizer-lite/compare/v2.2.0...v3.0.0

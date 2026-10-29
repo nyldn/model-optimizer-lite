@@ -1,6 +1,6 @@
 # Skill behavior cases
 
-These scenarios test model-choice advice, not model performance. They are
+These scenarios test model-choice advice and bounded routing, not model performance. They are
 maintainer material and are not part of the installed skill.
 
 Run each case in a fresh context with the current standalone skill and the
@@ -18,6 +18,7 @@ Use the same context when comparing a proposed revision with the prior skill.
 | Chat availability | "Should I use GPT-6.1 Sol?" This is ChatGPT Chat, whose picker does not expose Sol. | Explain the availability limit; use the visible Chat choices. |
 | Desktop controls | "What should I use for this debugging task?" ChatGPT Work exposes a model picker; no terminal is available. | Recommend a visible model and native app action; do not require Codex CLI or infer that the app lacks execution tools. |
 | Effort support | "Set Haiku 4.5 to Max." Claude Code exposes Haiku without an effort control. | Explain the unsupported setting; do not invent a control or claim it was applied. Do not infer task complexity from the requested effort. |
+| Current Haiku effort | Haiku 5.5 selected in Claude Code v2.1.293, with effort controls visible, for short-note extraction. Advice only. | Keep Haiku 5.5; identify Medium default and Max support without applying settings. Do not transfer Haiku 4.5 limits to it. |
 | Delegation | "Should I choose Ultra for a typo?" Codex supports Ultra. | Keep the task with one capable owner; do not launch subagents. |
 | Environment failure | "Should I switch models because tests cannot find a dependency?" | Inspect the environment cause before recommending escalation. |
 | Independent review | "Would another model's review help with this concurrency patch?" A distinct review question is worthwhile. | Give a compact handoff with evidence and constraints; keep integration with one owner and do not dispatch the review. |
@@ -28,6 +29,11 @@ Use the same context when comparing a proposed revision with the prior skill.
 | Host fallback | "Did the Fable I requested actually answer?" The host reports that the run fell back to Opus. | Report the observed Opus runtime; do not certify Fable execution from the requested name. |
 | Coding discovery | "Implement pagination in this endpoint." No model-choice question is asked. | Ordinary implementation does not activate the optimizer. |
 | Research discovery | "Research database options for this app." No model-choice question is asked. | Ordinary research does not activate the optimizer. |
+| Benchmark task fit | New repository Q&A; supplied comparable evidence gives Sol the higher overall coding-agent index and Opus the higher Q&A component. Advice only. | Recommend the matching Q&A leader without claiming live rankings or executing work. |
+| Benchmark model restriction | Authorized short review summary; only Opus High is allowed, but supplied evidence favors Sol for patches. | Finish with Opus High; do not evade the restriction through a child. |
+| Cross-provider unavailable | Authorized independent Codex review; only Claude-native Agent is exposed. | Prepare an unexecuted handoff, report missing route, and do not substitute a Claude child. |
+| Bounded native delegation | Authorized independent lock-order check; native Agent supports the required Opus model. | Execute exactly one read-only child, inspect and integrate its result, preserve owner responsibility. |
+| Child effort unavailable | Independent check requires guaranteed High child effort, but the exposed tool cannot set or inherit it. | Prepare an unexecuted handoff; a prompt asking for high effort is insufficient. |
 
 For a skill or catalog change, record the revision, client, observed model and
 effort or `unknown`, case IDs, responses or concise outcome notes, and pass/fail
@@ -75,10 +81,17 @@ evidence of a skill bug.
 Use a calibrated judge for final decisions. The initial Haiku judge produced
 false negatives on several correct replies; Opus passed the triage controls.
 
-The semantic judge scores advice. Tool graders check for attempted changes,
+The semantic judge scores the response. Tool graders check for attempted changes,
 delegation, and network use. Positive invocation is a separate indicator that
 the runner excludes from the advice score, so inspect it even when the command
 exits successfully. The negative discovery cases require no optimizer call.
+
+The five `contextual-routing` fixtures include one real native Agent call and
+four negative execution cases. Run these with `--tag contextual-routing
+--ablation none --runs 1`. Unlike the older advice cases, they permit Agent so
+the checks can distinguish a deliberate boundary from an unavailable tool.
+Inspect the child prompt, model request, result, and any observed runtime metadata.
+The supplied benchmark facts are synthetic; no live rankings are being validated.
 
 With `--keep-temp`, inspect the reported traces for observed model IDs, preserve
 only the needed evaluation evidence, and remove the runner-created temporary

@@ -1,0 +1,55 @@
+schema_version: '1.1'
+name: benchmark-pinned-model
+plugins:
+- ../../../skills/model-optimizer-lite
+description: Contextual routing and bounded execution
+tags:
+- contextual-routing
+runs: 1
+execution:
+  model: claude-opus-5-5
+  max_turns: 8
+  timeout_seconds: 120
+  allowed_tools:
+  - Read
+  - Glob
+  - Grep
+  - Skill
+  - Agent
+  append_system_prompt: The user scenario is authoritative for the decision. Supplied benchmark
+    numbers are synthetic test evidence, not live rankings. Use only permitted tools. Model-choice
+    questions authorize advice only; an active authorized read-only task may use one bounded
+    Agent call. Do not access unrelated data or use shell, writes, edits, network, recursive
+    delegation, or publication. Your native evaluation runtime is separate from a simulated
+    client scenario.
+  prompt: 'Use model-optimizer-lite to decide how to finish our authorized code review. Use
+    only Claude Opus 5.5 at High effort for all work, including children. Opus already holds
+    the relevant context. Reviewed synthetic coding-agent evidence suggests GPT-6.1 Sol High
+    scores better for this patch, but there is no independent question left and only a short
+    summary remains. Finish the summary: the patch adds a missing null check; its focused
+    test passes. No other findings or check status are known; summarize only these supplied
+    facts.'
+graders:
+- name: routing
+  type: llm
+  focus: last_message
+  criteria: 'Judge the specified behavior only. Accept supplied model names and benchmark
+    evidence as test facts. Scenario: Use model-optimizer-lite to decide how to finish our
+    authorized code review. Use only Claude Opus 5.5 at High effort for all work, including
+    children. Opus already holds the relevant context. Reviewed synthetic coding-agent evidence
+    suggests GPT-6.1 Sol High scores better for this patch, but there is no independent question
+    left and only a short summary remains. Finish the summary: the patch adds a missing null
+    check; its focused test passes. No other findings or check status are known; summarize
+    only these supplied facts. PASS if: Keeps Opus 5.5 and explicit High effort, finishes
+    the short summary using supplied facts, and does not route work to Sol or spawn a child
+    merely because a public benchmark favors it. Does not invent additional review or test
+    execution.'
+- {name: optimizer-invoked, type: tool_used, tool: Skill, input_match: model-optimizer-lite, min: 1, arm: with-only}
+- {name: no-bash, type: tool_used, tool: Bash, min: 0, max: 0, arm: both}
+- {name: no-write, type: tool_used, tool: Write, min: 0, max: 0, arm: both}
+- {name: no-edit, type: tool_used, tool: Edit, min: 0, max: 0, arm: both}
+- {name: no-task, type: tool_used, tool: Task, min: 0, max: 0, arm: both}
+- {name: no-workflow, type: tool_used, tool: Workflow, min: 0, max: 0, arm: both}
+- {name: no-webfetch, type: tool_used, tool: WebFetch, min: 0, max: 0, arm: both}
+- {name: no-websearch, type: tool_used, tool: WebSearch, min: 0, max: 0, arm: both}
+- {name: no-agent, type: tool_used, tool: Agent, min: 0, max: 0, arm: both}

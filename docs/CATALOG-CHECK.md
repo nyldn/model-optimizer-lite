@@ -19,8 +19,8 @@ unknown. Successful sources still appear in a partial report. JSON includes
 the individual error details.
 
 The reviewed baseline is [catalog-snapshot.json](catalog-snapshot.json), captured
-on October 6, 2026. This capture date is separate from the installed skill's
-October 5 catalog review. The snapshot contains model mentions and hashes,
+on October 28, 2026, matching the skill's latest catalog review. Historical native
+evaluations use their recorded skill snapshots. The baseline contains mentions and hashes,
 without storing provider documentation or account data.
 
 The checker compares normalized document text and four groups of guidance:

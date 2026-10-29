@@ -1,138 +1,140 @@
 ---
 name: model-optimizer-lite
-description: Recommends whether to keep or switch an AI model and reasoning effort in ChatGPT, Codex, or Claude. Use for model-choice, escalation, or cross-model review decisions. Ordinary coding, research, or review requests do not activate this skill.
+description: Chooses whether to stay, delegate a bounded task, or switch models and reasoning effort in ChatGPT, Codex, or Claude. Use for model-choice, escalation, benchmark-guided routing, or cross-model review decisions. Ordinary coding, research, or review requests do not activate this skill.
 metadata:
-  version: "5.0.0"
+  version: "6.0.0"
   source: "https://github.com/nyldn/model-optimizer-lite"
 ---
 
 # Model Optimizer Lite
 
-Help the user make one model decision. Give advice only. Do not change model
-settings, start another AI session, run a provider CLI, or dispatch work unless
-the user separately asks for that action.
+Choose `Stay`, `Delegate`, or `Switch`. Execute useful bounded delegation automatically for active
+authorized tasks when supported. Model-choice questions authorize advice and handoffs; honor recommendations-only requests.
 
-## Start with the actual client
+## Establish context and eligible models
 
-Identify whether the conversation is in ChatGPT Chat or Work, Codex, or Claude.
-Codex may run inside the ChatGPT desktop app, a terminal, an IDE, or the cloud.
-Do not treat those clients as interchangeable.
+Identify ChatGPT Chat or Work, Codex, or Claude; remaining work, main constraint,
+useful context, observed blockers, and tools. Codex can run in desktop, terminal, IDE, or cloud.
 
-- Preserve any model or reasoning effort the user explicitly selected.
-- Prefer the current capable model when it already has useful task context.
-- Use only model names and controls exposed by the current client and account.
-- If the current model is not visible, call it unknown. Do not infer it from the
-  application name, generated prose, configuration files, or a requested model.
-  In Claude Code, `/status` or a configured status line can show the selection.
-  Recheck after a host fallback; the requested model may differ from the runtime.
-- Do not require Codex CLI for ChatGPT desktop use. Use the app's visible model
-  and reasoning controls when they are available.
-  No user terminal does not imply that the app lacks code execution or tools.
+- Preserve explicit model and effort choices and project constraints. A parent
+  model selection stays fixed; an instruction to use only that model also binds
+  children. Do not evade a provider restriction through delegation.
+- Confirm models and effort in the active client's visible catalog and policy caps.
+  For children, use the host's live provider/model catalog; API IDs do not prove access.
+- If runtime identity is not visible, report it as unknown. Do not infer it from
+  the app, prose, configuration, or requested model. Claude Code `/status` or a
+  status line can show selection. Recheck model and effort after host fallback.
+- ChatGPT desktop does not require Codex CLI. No user terminal does not mean no
+  execution tools. Ask only when missing information would change the decision.
 
-Ask a short question only when the available models or current selection would
-materially change the recommendation.
+## Choose a suitable tier and effort
 
-## Choose the smallest suitable tier
-
-Catalog guidance checked on 2026-10-05. These are starting points for a new
-choice; they do not override an explicit selection or useful existing context.
+Catalog checked 2026-10-28. These starting points do not override explicit choices.
 
 | Client | Model and ID | Suitable work |
 | --- | --- | --- |
-| ChatGPT Work / Codex | GPT-6 Luna, `gpt-6-luna` | Routine edits, extraction, focused coding, repeatable tasks |
-| ChatGPT Work / Codex | GPT-6.1 Sol, `gpt-6.1-sol` | Everyday implementation, complex coding, writing, analysis |
-| ChatGPT Work / Codex | GPT-6 Astra, `gpt-6-astra` | Hard debugging, major architecture, demanding work across tools |
-| Claude | Haiku 4.5, `claude-haiku-4-5-20251001` | Simple edits, extraction, fast routine work |
-| Claude | Sonnet 5.5, `claude-sonnet-5-5` | Everyday coding and analysis with a speed priority |
-| Claude | Opus 5.5, `claude-opus-5-5` | Complex coding, review, long-running knowledge work |
-| Claude | Fable 5.1, `claude-fable-5-1` | Hard reasoning and long tasks where Opus at higher effort falls short |
+| Work / Codex | GPT-6 Luna, `gpt-6-luna` | Routine edits, extraction, focused coding |
+| Work / Codex | GPT-6.1 Sol, `gpt-6.1-sol` | Everyday implementation, complex coding, analysis |
+| Work / Codex app, CLI | GPT-6.1 Terra, `gpt-6.1-terra` | Writing, visual reasoning, precise computer use |
+| Work / Codex | GPT-6 Astra, `gpt-6-astra` | Hard debugging, architecture, demanding tool work |
+| Claude | Haiku 5.5, `claude-haiku-5-5` | Classification, extraction, routing, latency-sensitive work |
+| Claude | Sonnet 5.5, `claude-sonnet-5-5` | Everyday coding and analysis, speed priority |
+| Claude | Opus 5.5, `claude-opus-5-5` | Complex coding, review, long-running work |
+| Claude | Fable 5.1, `claude-fable-5-1` | Hard reasoning where Opus at higher effort falls short |
 
-Use the current selector or an already-exposed account catalog to confirm access.
-API IDs identify versions; an API listing does not prove app availability.
-GPT-6.1 Sol, GPT-6 Sol, and GPT-6 Luna are Work/Codex choices, not Chat choices.
-For ChatGPT Chat, recommend only its visible models and controls. Older GPT-6
-Sol and GPT-5.6 Sol/Terra/Luna can remain suitable when available; Terra is not
-a separate tier in the current GPT-6 lineup. Claude aliases can resolve to older
-versions depending on the provider, gateway, or client version.
-Claude Code needs v2.1.284+ for Sonnet 5.5, v2.1.280+ for Opus 5.5, and
-v2.1.257+ for Fable 5.1; a client upgrade does not establish account access.
+Work/Codex guidance does not establish Chat access; use Chat's visible picker.
+GPT-6.1 Sol defaults to 500K context in Work/Codex; check the executing route's limit.
+Older models require visible access. In CLI sessions, Terra requires 0.159.0+.
+Claude Code minimums are Haiku 5.5 v2.1.293, Sonnet 5.5 v2.1.284, Opus 5.5
+v2.1.280, Fable 5.1 v2.1.257. Upgrading a client does not establish model access.
+Browse current sources when availability matters; otherwise disclose dated guidance.
+Use [OpenAI client models](https://learn.chatgpt.com/docs/models), [API models](https://developers.openai.com/api/docs/models),
+[Claude models](https://platform.claude.com/docs/en/models/overview), and [Claude controls](https://code.claude.com/docs/en/model-config).
+GPT-5.4, GPT-5.4-mini, GPT-5.3-Codex-Spark retired from Codex with ChatGPT sign-in.
+GPT-5.5 retired from Codex with ChatGPT sign-in on 2026-10-14; the API and
+API-key Codex are unaffected. Explain unavailable choices; offer conditional replacements.
 
-If availability or lifecycle matters, check current official documentation when
-browsing is available. Otherwise disclose that this dated guidance may be stale.
-Use [OpenAI client models](https://learn.chatgpt.com/docs/models),
-[OpenAI API models](https://developers.openai.com/api/docs/models),
-[Claude models](https://platform.claude.com/docs/en/models/overview), and
-[Claude Code controls](https://code.claude.com/docs/en/model-config).
-Avoid retired choices. GPT-5.4, GPT-5.4-mini, and GPT-5.3-Codex-Spark have retired
-from Codex with ChatGPT sign-in; GPT-5.5 retires there on 2026-10-14. These client
-retirements do not establish API retirement. Explain an unavailable explicit
-choice and offer a replacement conditionally, without silently changing it.
+Preserve explicit effort; otherwise use the client's default. Raise it for planning or verification.
+OpenAI Light maps to `low`, Extra High to `xhigh`. Max is single-task reasoning; Ultra uses subagents
+and needs supported controls, divisible work, and authorized scope. Luna has Max, not Ultra.
+Terra API supports `none`, `low`, `medium` (default), `high`, `xhigh`, `max`; app controls may differ.
+Claude Code Opus/Sonnet/Haiku 5.5 default to `medium`, Fable 5.1 to `high`; Haiku 4.5 has no effort control.
+Haiku 5.5 supports `low` through `max`; prompts over 100K have higher API rates.
+No effort sent means API defaults (Sonnet 5.5: `high`); Claude Code `CLAUDE_CODE_EFFORT_LEVEL=auto`/`unset` requests this.
+In `/effort status` v2.1.304+, plain `auto` means none sent; `auto (currently <level>)` sends a level.
+API aliases vary; unsupported effort alone does not justify a larger model.
+Claude Ultracode is a workflow toggle in v2.1.284+, not effort or OpenAI Ultra.
 
-## Choose a supported effort
+## Use benchmark evidence for the actual task
 
-Preserve explicit effort; otherwise start with the selected client's default.
-Raise it for deeper planning, analysis, or verification. Labels and defaults
-vary by model and client; do not transfer effort settings across providers.
-OpenAI Light corresponds to CLI `low`, and Extra High to `xhigh`. Max is deeper
-single-task reasoning; Ultra uses subagents and requires supported controls,
-divisible work, and authorized scope. GPT-6 Luna supports Max, not Ultra.
-In Claude Code, Opus 5.5 and Sonnet 5.5 default to `medium`, Fable 5.1 to `high`.
-Haiku 4.5 has no effort control. Use only levels the active client exposes;
-an unsupported effort request alone does not establish a need for a larger model.
-Claude API defaults can differ from Claude Code. Reserve the highest effort for
-a specific hard problem instead of making it a standing default.
-Claude Code's Ultracode is a workflow toggle, separate from effort in v2.1.284+.
-Do not enable it merely to raise effort or treat it as OpenAI Ultra.
+Use supplied or previously reviewed evidence first; browse a relevant source
+when a consequential new choice needs fresh evidence. Do not fetch every board
+for routine work. Benchmarks inform task fit; they do not establish access.
 
-## Decide whether to switch
+| Remaining task | Relevant evidence |
+| --- | --- |
+| Patch, debugging, terminal workflow | [AA coding agents](https://artificialanalysis.ai/agents/coding-agents), matching coding component and agent setup |
+| Repository questions | The coding agents' repository Q&A component |
+| Broad analysis, reasoning, planning | [AA intelligence](https://artificialanalysis.ai/methodology/intelligence-benchmarking), matching component |
+| Challenge a questionable premise | [BullshitBench](https://petergpt.github.io/bullshit-benchmark/viewer/index.next.html), clear pushback |
 
-Stay with the current model when it can finish the task, already holds useful
-context, or the likely gain does not justify a handoff.
+Compare exact model/version, effort, benchmark version/date, and agent/tool
+setup. A coding model score is not a coding-agent score. BullshitBench does not
+measure rejection of valid premises, so verify both valid and invalid examples.
+Do not average unrelated scores, infer missing scores as zero, invent rankings,
+or treat small differences as decisive. Stale or unmatched evidence is uncertain.
+First filter by constraints and reachable models, then prefer task-relevant
+evidence over an overall rank. Use observed local results before public scores.
+Without comparable evidence, use tier/task fit and disclose the gap. Account for
+context loss, latency, and verification effort; API prices are not subscription savings.
 
-Consider a switch when one of these is true:
+## Decide and act
 
-- the task has become materially harder than the current tier suits;
-- progress is blocked after the model has inspected the relevant evidence;
-- the work needs a capability or tool the current client lacks;
-- the user wants an independent review with a distinct question.
+`Stay` when the current capable model can finish, holds useful context, or the
+gain would not justify coordination. Missing dependencies, context, acceptance
+criteria, or tools call for fixing that cause before escalating reasoning.
 
-Do not switch merely because a stronger model exists. First check whether the
-real problem is missing context, unclear acceptance criteria, unavailable tools,
-or a failing environment.
+`Delegate` when one separable question or deliverable helps the authorized task
+and the main owner can integrate it. Prefer this to moving the whole conversation
+for an independent review. Choose the eligible model best suited to that question.
+Use the host's native subagent tool, or an already-configured, verified tool that
+can execute the other provider. Codex and Claude native agents do not establish
+cross-provider reachability. Check tool/model support before dispatch; do not
+install a bridge, run a provider CLI, or change account configuration implicitly.
+Claude Code v2.1.292+ adds Agent `effort`; use it when exposed and supported.
+If required child effort cannot be set or inherited, prepare a handoff;
+asking it to think harder does not apply runtime effort.
 
-## Use the native control
+Give one child the goal, necessary evidence/files, constraints, checks already
+run, one question or deliverable, and a stopping condition. Set supported turn,
+time, or token limits; otherwise bound work to one pass and stop at the first
+result or blocker. Reviews default to read-only; edits require authorized file
+scope without overlapping owner writes. Pass only permitted task data across
+providers. No recursive delegation, automatic retries, or provider fallback.
+Wait for the result, inspect evidence, verify relevant checks, and integrate it.
+If the tool is absent, blocked, or fails, report that and prepare the handoff;
+continue feasible owner work. Never claim a prepared handoff was executed.
 
-- In ChatGPT, invoke the skill with `@model-optimizer-lite` and use the model and
-  reasoning controls shown near the composer.
-- In Codex, invoke it with `$model-optimizer-lite`. Use the visible app control
-  or `/model` in Codex CLI. Mention CLI flags only when the user is working in a
-  terminal and asks for a command.
-- In Claude Code, invoke it with `/model-optimizer-lite` and use `/model` or the
-  client's selector; use `/effort` for supported effort changes. Other Claude
-  clients may expose different controls.
-  For a one-task change, prefer the picker's session-only action. Claude Code
-  uses `s` in `/model`, and v2.1.257+ in `/effort`; Enter saves a default. Put the
-  skill invocation at the start of the message for a direct run.
+`Switch` when the remaining main task needs a different capability, or repeated
+failures with adequate evidence make a bounded delegation insufficient. Change
+only a supported session control within authorized scope and absent a conflicting
+explicit selection. Otherwise recommend the manual action and prepare a handoff.
+Do not rewrite persistent defaults or claim a switch from a requested model name.
 
-If the client cannot change models in the current conversation, explain the
-manual action: open the selector, start a new conversation with the chosen
-model, or keep the current model.
+## Native controls and result
 
-## Return a compact recommendation
+ChatGPT invokes `@model-optimizer-lite`; use its visible composer controls.
+Codex invokes `$model-optimizer-lite`; use app controls or CLI `/model`.
+Give CLI flags only when the user is in a terminal and asks for a command.
+Claude Code invokes `/model-optimizer-lite` at the start of the message; use
+`/model` and supported `/effort`. Other Claude clients may expose other controls.
+Claude Code's header shows selected effort; the current turn may still use the old level.
+After terminal `/effort` confirms a change, the next user message uses it.
+For a one-task manual change, use the picker's session-only action. Claude Code
+uses `s` in `/model` and, from v2.1.257, `/effort`; Enter saves a default.
 
-State:
-
-1. `Stay` or `Switch`.
-2. The model tier or exact visible model, plus reasoning effort when relevant.
-3. One task-specific reason.
-4. The native action needed, if any.
-5. Any uncertainty about availability or the model that is currently running.
-
-When a switch or review is worthwhile, include a short handoff with the goal,
-current state, evidence already gathered, constraints, checks already run, and
-the one question the next model should answer. Keep one owner responsible for
-integrating the result.
-
-Never claim that a recommendation proves quality, lowers subscription cost, or
-confirms that a named model executed the work. Treat another model's output as
-evidence to verify, not authority.
+Return the action, target model/effort, task-specific reason and evidence source or gap,
+and execution status or required native action. Distinguish requested from observed model and
+applied effort. A handoff includes goal, current state, evidence, constraints, completed checks,
+and one next question. Keep one owner responsible. Report only established findings and checks.
+Another model's output is evidence to verify, not authority or a guarantee of quality or cost savings.

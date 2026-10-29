@@ -1,11 +1,16 @@
 # Model Optimizer Lite
 
 Model Optimizer Lite helps ChatGPT, Codex, or Claude answer one practical
-question: should you keep the current model for this task, or switch?
+question: should you stay with the current model, delegate a bounded task, or switch?
 
-It is a self-contained skill. There is no model router, background process,
-plugin, provider connection, or automatic model switching. The skill gives a
-recommendation and tells you which native control to use.
+It is a self-contained skill. For an active authorized task, it can automatically
+dispatch one useful bounded subagent through the host's available tools. For a
+model-choice question, it gives advice and prepares a handoff. Session switches
+require a supported control; otherwise it tells you which native action to take.
+It ships no background process, plugin, or provider connection.
+
+Version 6 adds bounded automatic delegation for authorized work. Version 5.0.0
+remains advice only. Ask for recommendations only to retain advisory behavior.
 
 ## Install in the ChatGPT desktop app or Codex
 
@@ -54,7 +59,7 @@ where you still want the skill:
   from a fresh checkout into that same scope.
 
 Start a new conversation in each updated client. Open the installed `SKILL.md`
-and confirm that `metadata.version` is `5.0.0`, then invoke the skill before
+and confirm that `metadata.version` is `6.0.0`, then invoke the skill before
 removing the backup. Updating one scope does not update the others.
 
 Codex detects local skill edits automatically; restart it if the update does
@@ -97,16 +102,32 @@ Claude clients may use their own skill import flow.
 - Suggests a faster model for routine work and a stronger model for hard work.
 - Distinguishes ChatGPT controls from Codex CLI commands.
 - Produces a compact handoff when a switch or independent review is worthwhile.
+- Uses task-relevant Artificial Analysis and BullshitBench evidence when available.
+- Executes a bounded subagent for authorized work when the host supports it,
+  then verifies and integrates the result with one owner.
 
 The recommendation uses the models and controls visible in the current client.
 It does not unlock models, prove account access, or promise cost savings.
 
-Catalog guidance was checked on October 5, 2026 against the official
+For example, a coding patch uses coding-agent evidence; checking a questionable
+assumption uses BullshitBench. A broad leaderboard winner does not automatically
+take over a conversation that already has useful context. Missing or unmatched
+benchmark data stays uncertain.
+
+Native Codex and Claude subagents do not by themselves provide access to each
+other's models. Cross-provider execution needs an already-configured, verified
+tool. If that route is absent, the skill prepares a handoff and reports that it
+was not executed. It does not install a bridge or require CLI setup in desktop use.
+
+Catalog guidance was checked on October 8, 2026 against the official
 [OpenAI client catalog](https://learn.chatgpt.com/docs/models),
 [OpenAI API catalog](https://developers.openai.com/api/docs/models), and
 [Claude catalog](https://platform.claude.com/docs/en/models/overview).
 It covers GPT-6 Luna, GPT-6.1 Sol, and GPT-6 Astra for Work/Codex, plus Claude
-Haiku 4.5, Sonnet 5.5, Opus 5.5, and Fable 5.1. It distinguishes Chat from
+Haiku 5.5, Sonnet 5.5, Opus 5.5, and Fable 5.1. Haiku 4.5 remains an option
+when available, with its own effort limits. Haiku 5.5 supports effort and needs
+Claude Code v2.1.293+; Agent effort selection needs v2.1.292+ and an exposed control.
+The skill distinguishes Chat from
 Work/Codex availability and client retirement from API retirement. The skill
 checks current sources when needed and available, or discloses that its dated
 guidance may be stale.
@@ -127,6 +148,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for setup and checks before submitting a 
 The [upstream notes](docs/UPSTREAM.md) record documentation findings and decisions.
 The [catalog drift check](docs/CATALOG-CHECK.md) flags upstream changes for maintainer review.
 The [native evaluation record](docs/EVALUATION.md) reports tested behavior and limits.
+The [contextual routing notes](docs/CONTEXTUAL-ROUTING.md) explain benchmark use and execution boundaries.
 The [delivery contract](docs/DELIVERY.md) records the supported clients and
 release boundary.
 
