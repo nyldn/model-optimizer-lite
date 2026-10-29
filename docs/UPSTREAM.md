@@ -1,5 +1,71 @@
 # Upstream research
 
+## October 28 catalog refresh
+
+Reviewed all seven monitored sources on October 28, 2026. The recommended
+model lineup is unchanged: GPT-6 Luna, GPT-6.1 Sol, GPT-6.1 Terra, and GPT-6
+Astra for their documented Work/Codex clients; Claude Haiku 5.5, Sonnet 5.5,
+Opus 5.5, and Fable 5.1. None of the sources added or removed model mentions,
+and the OpenAI API catalog matches the October 26 snapshot exactly. Sources:
+[OpenAI client models](https://learn.chatgpt.com/docs/models),
+[OpenAI API models](https://developers.openai.com/api/docs/models), and
+[Claude models](https://platform.claude.com/docs/en/models/overview).
+
+The OpenAI client catalog now states that GPT-6.1 Sol defaults to a 500,000-token
+context window in Work and Codex. The skill records that client default and
+requires checking the executing route's limit. Sol's 1.05M API context window
+does not establish a client's context limit. Source:
+[GPT-6.1 Sol client guidance](https://learn.chatgpt.com/docs/models#gpt-61-sol).
+
+Claude Code's header shows selected effort even while the current turn still
+uses the previous level. After terminal `/effort` confirms a change, the next
+user message uses it. A queued message reaches Claude after current tool calls
+finish or, at the latest, when the turn ends. The skill distinguishes selection
+from applied effort and does not claim that picking a level changes work
+already in progress. Claude Code v2.1.312 also fixes the spinner, OpenTelemetry,
+and transcripts reporting a newly selected effort before it applies. Sources:
+[Claude controls](https://code.claude.com/docs/en/model-config) and
+[Claude Code changelog](https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md).
+
+`CLAUDE_CODE_EFFORT_LEVEL=auto` or `unset` requests no effort parameter, so the
+API default applies when Claude Code sends none. This matters for Sonnet 5.5:
+the API default is High, while Claude Code's native default remains Medium.
+In `/effort status` v2.1.304+, plain `auto` confirms none is sent;
+`auto (currently <level>)` means a level is sent, potentially because a
+`maxEffortLevel` cap applies. Older versions could report the latter while
+sending no level. The skill explains these distinctions without instructing
+users to change persistent settings. Source:
+[Claude effort controls](https://code.claude.com/docs/en/model-config).
+
+Claude Code v2.1.311+ can raise a turn to `xhigh` when `ultrathink` is typed in
+an eligible terminal prompt; rainbow rendering indicates eligibility. Model,
+provider, environment selection, and effort caps still matter. Ordinary
+"think harder" prose and child prompts do not guarantee runtime effort. The
+skill retains its supported-child-control requirement rather than treating
+this terminal keyword as a general delegation mechanism. Source:
+[Claude ultrathink controls](https://code.claude.com/docs/en/model-config).
+
+Codex CLI 0.165.0 adds Terra to catalogs, enables mid-conversation effort changes
+for supported models, and adds a Google Cloud Vertex provider. These features
+do not establish account access or a configured cross-provider execution route.
+Claude's model overview and platform notes otherwise changed reference content
+and formatting without changing the recommended lineup. Sources:
+[OpenAI changelog](https://learn.chatgpt.com/docs/changelog) and
+[Claude Platform release notes](https://platform.claude.com/docs/en/release-notes/overview).
+
+The skill and reviewed seven-source snapshot now date to October 28. Raw
+captures remain outside the repository. This refresh does not change release,
+installation, or account settings.
+
+All 29 repository tests, both skill validators, and `git diff --check` passed.
+The reviewed baseline matches all seven saved captures. Prose assessment of
+the local revision based on `e56ac8b` covered Sol's client versus API context,
+Sonnet's native versus API effort default, capped `auto` status, and effort
+selected during an active turn. Those cases preserve explicit choices and
+avoid claiming an applied setting from selection alone. These were scenario
+assessments; fresh-context native evaluations, client discovery, and live
+model execution were not run for this revision.
+
 ## October 26 catalog refresh
 
 An installation review also compared native and configured gateway catalogs.
