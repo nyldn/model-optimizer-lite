@@ -1,19 +1,20 @@
 {
-  "captured_on": "2026-10-28",
-  "reviewed_on": "2026-10-28",
+  "captured_on": "2026-11-10",
+  "reviewed_on": "2026-11-10",
   "schema_version": 1,
   "sources": {
     "claude-changelog": {
       "categories": {
-        "client-requirements": "483f62c0e289d192183e08cba82a4f0b9c9c3159ac12eb9503b6b90eda10be5c",
-        "effort": "cda0c8f83a8d466bed6da686ca0e62ec4539a017eb1b3b567547d6671d0fde57",
-        "retirements": "da8255f2396ef0ce0b64946ae955d21d56901382da23b05faffe6f5cb5d137b1",
-        "skills-and-controls": "ee8ebe8d011ab4560da35651ef1f69c757a585be9929c03ecc2d74efcf61ccee"
+        "client-requirements": "365e31b98f09a044784044996b96887da53be32a1a31104f785434ae2b0545ae",
+        "effort": "c351cf19ee5193cfc444840c9542bc89ddbbbeab844fa828aa5e1486eabd527b",
+        "retirements": "3b785af5c4bc0d2deff2a52bb14b4fb51dc348d6eed4299f615932bbb1fc9fb8",
+        "skills-and-controls": "42dc283d073a9f3fb3abdbbfb72da7a9faaa2750323ce3baeaa792778a2163d7"
       },
-      "content_sha256": "faac206b976ae3d4c3d76b8c45ace2629eec31fa4ea3e1fcc894a02e8d6b5baf",
+      "content_sha256": "4700cc46ac2dc188769349c3fc1db3ee54ba4a0a57be0b97c124a5f12553ebe6",
       "model_mentions": [
         "claude-fable-5",
         "claude-fable-5-1",
+        "claude-fable-5-2",
         "claude-haiku-4-5",
         "claude-haiku-5-5",
         "claude-opus-4",
@@ -40,15 +41,16 @@
     },
     "claude-config": {
       "categories": {
-        "client-requirements": "48d62efbe4029969c144b477fd9aca24262461d1017148ddf6726088f6fec34b",
-        "effort": "9a6d7b1aa74231f95301500667326393b1783c673bc5b6a927917dea70ade1d9",
+        "client-requirements": "ea6da2647719357fba30c444305aa49db6b8f4869bfc864512b9e50526d4cb72",
+        "effort": "ffdb85f390a5147c557032da32a002363fa93f9de527e3060aebaa4f418b176e",
         "retirements": "235a227d8139f11d15a84ab9cdde2fb9ad1f0e07b435edd36452cb9f65e9e688",
-        "skills-and-controls": "722e7de6a2db4a7dcb2212d1b1bb507a51bdbf4b46277d2e7e72a3541664975e"
+        "skills-and-controls": "ecc9132e05ddb9a0c28db4d0202743f55afe02e70d2ef5c4d33b4f688201fdfc"
       },
-      "content_sha256": "b3e21f83b1c97acb2356d912f93ad9d6c3e84000a3796aaefff1de2ba5403c86",
+      "content_sha256": "52c1c770f3651c01930a399bc7ecd93e6f0aa3e20059a0a85d60ebaf29aad685",
       "model_mentions": [
         "claude-fable-5",
         "claude-fable-5-1",
+        "claude-fable-5-2",
         "claude-haiku-4-5",
         "claude-haiku-5-5",
         "claude-opus-4-6",
@@ -66,14 +68,14 @@
     },
     "claude-models": {
       "categories": {
-        "client-requirements": "2f257d2ab2501ec0052f8a4ee0014f5eabea90f1cc6f813fcea56a5abfd884c6",
-        "effort": "8b41083c9a3fde480fff3e8f4e5f6704f4232cb9934a2c541ff43983222ba263",
-        "retirements": "09f6cdd8aee844742e51b199f96e71329a4e5e9bd18777fb0ec74051089a9e73",
+        "client-requirements": "e851d69f1834877cd936a4e0cb3465eca052207aa51b051e62b6aa8d5dd91e35",
+        "effort": "83506a2b3b484f679ff7916d217eba9e4b9fd52744374c7128185afe3f0ab6e8",
+        "retirements": "7bacd8f7b57733de62301640621b0c1b94167def9a3db2b49c84d38e453c1423",
         "skills-and-controls": "bbf1cdd381a2fe334a5c7f1491dd7879096978f9fb6894ccd3471f208cfcc058"
       },
-      "content_sha256": "d2d3e24258ebabb882526737cf555fd9d0e07885387487aefaacd6dbcae93bd8",
+      "content_sha256": "9b4d0a8eada2e85915ab9df9cb2787b81c506c053ece48f824b85699198caee0",
       "model_mentions": [
-        "claude-fable-5-1",
+        "claude-fable-5-2",
         "claude-haiku-4-5",
         "claude-haiku-5-5",
         "claude-opus-4-5",
@@ -86,15 +88,16 @@
     },
     "claude-release": {
       "categories": {
-        "client-requirements": "86fbff2196404e977ac85932ad6c38ba9acdfa0053990f45b7712d3ba2a1116f",
-        "effort": "2cf3dd574416684c2af4b2e008ee7a3316b4099031bbd5323087bc6b70244385",
-        "retirements": "101c189a671cdd006b5dcf969869d76c22d858e766b0d3218bddc9088edf6a0c",
-        "skills-and-controls": "2f45b77c11ab8a6c3eab1a79fe822b093a8f28b4d5d3a8a2446bc7c13522a0a2"
+        "client-requirements": "e78b80aa627a44e5e5b7ccd52f6add208e0da26eb31a55770b143ccbb07536f7",
+        "effort": "9c98234885750499e0d316fcbd9a42d55ea38b194d2ee01fb50f19de2761d326",
+        "retirements": "aa2ee5b42dbe7dbc4fda5801bcf9ce534c0092660740fd8f63cc21135a7348f0",
+        "skills-and-controls": "9c1a571f7ef7faacbe7d9a7b54c1e149bd2d5f74dac53aaf2e1ba99cb441bf4e"
       },
-      "content_sha256": "8bc6a2562b6adde9c79f11f404204fd811f0a8d0b1021c99c00e94024e051f53",
+      "content_sha256": "c156cfbc4e42c232f7149100230e840e4c91fa0239dae821a96b0a14e9cde0eb",
       "model_mentions": [
         "claude-fable-5",
         "claude-fable-5-1",
+        "claude-fable-5-2",
         "claude-haiku-3",
         "claude-haiku-3-5",
         "claude-haiku-4-5",
@@ -125,46 +128,17 @@
     },
     "openai-api": {
       "categories": {
-        "client-requirements": "682623e8c1daeee162398b75f09ddec075a95c31c18355454a1fd3618f990d5c",
-        "effort": "3ed41845849186ac9dd099a7fb3d9a60bce50b13f56f0feabddc2dd34df583ee",
-        "retirements": "5e90a4dc1d76bc97cac3e8af9dc21689b9ea31aa573cee74f070b0fe1eaf08d5",
+        "client-requirements": "6c00adcd7255b0a28d3aef3c6ba5fc612ff3761f8e5dafdaf9f6606309ee57e7",
+        "effort": "c207315251b2839046ec49e74f4346526c0cfc000a923a3d7b2968908021bd9c",
+        "retirements": "4b823a867db55b96d0433ff49c7489911aff6e511528abf4dda24c5ccc8845c8",
         "skills-and-controls": "1efeab075cac4babf27c8ccc4e5c9c21f072bb1c257cab58ae9a515ae21b913f"
       },
-      "content_sha256": "9f4541b9a96465acc962b13aaf3616af81e3ecf4cb78ea36bccc63b03f7dea44",
+      "content_sha256": "000ab36847f9f20e87652cb0f543635bc0e8a0e2f1791fb866517ac953ef620e",
       "model_mentions": [
-        "gpt-3",
-        "gpt-3.5",
-        "gpt-3.5-turbo",
-        "gpt-4",
-        "gpt-4-turbo",
-        "gpt-4-turbo-preview",
-        "gpt-4.1",
-        "gpt-4.1-mini",
-        "gpt-4.1-nano",
-        "gpt-4.5",
-        "gpt-4.5-preview",
-        "gpt-5",
-        "gpt-5-chat-latest",
-        "gpt-5-codex",
-        "gpt-5-mini",
-        "gpt-5-nano",
-        "gpt-5-pro",
-        "gpt-5.1",
-        "gpt-5.1-chat-latest",
-        "gpt-5.1-codex",
-        "gpt-5.1-codex-max",
-        "gpt-5.1-codex-mini",
         "gpt-5.2",
-        "gpt-5.2-chat-latest",
-        "gpt-5.2-codex",
         "gpt-5.2-pro",
-        "gpt-5.3",
-        "gpt-5.3-chat-latest",
-        "gpt-5.3-codex",
         "gpt-5.4",
-        "gpt-5.4-class",
         "gpt-5.4-mini",
-        "gpt-5.4-nano",
         "gpt-5.4-pro",
         "gpt-5.5",
         "gpt-5.5-pro",
@@ -175,6 +149,7 @@
         "gpt-5.6-terra",
         "gpt-6",
         "gpt-6-astra",
+        "gpt-6-cyber",
         "gpt-6-luna",
         "gpt-6-sol",
         "gpt-6.1",
@@ -185,12 +160,12 @@
     },
     "openai-changelog": {
       "categories": {
-        "client-requirements": "2cb077b3316008662c589da45e4bd8e1d575087d15ef47df6fd542ea0b63df81",
-        "effort": "94b0fa0feef95280ff3bab588a609205078f38da3d2272d50f1b811e8b480fb8",
-        "retirements": "d30d3c52739e804dadd689c255196b41ca2d72cc8740a9d03290b006f81d0958",
-        "skills-and-controls": "c5180ffd3bef7a3fc144315c3c9cb2a38abbfbaaf6bc8ca0c39cb2c2a52d9445"
+        "client-requirements": "e578b15fd0bd32e0570e5a4f9ff17449ca0efc479b62692485ecbd756c46bb8e",
+        "effort": "3ec566f972074aa044fd5e2694522578fb32ce927e9b6d875f66872fcfdb94e2",
+        "retirements": "9458c1d6c36437c4e9758e975d31682fdfb2f8ffc3ef96993197896851e611ad",
+        "skills-and-controls": "2f1c7349763ca009e4b25446fc5c53f7924854cc45cf3bed37d766b13203f0cd"
       },
-      "content_sha256": "2fbb897be196c664dbc1d2558fcaf6df88ff8f9bd6738855ee3d6b0cc858c97e",
+      "content_sha256": "461dd9057b4aea5530691f598769e376aa8d8062c3db55c39f0d0c6f0b7a2ca2",
       "model_mentions": [
         "gpt-5",
         "gpt-5-codex",

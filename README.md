@@ -119,12 +119,15 @@ other's models. Cross-provider execution needs an already-configured, verified
 tool. If that route is absent, the skill prepares a handoff and reports that it
 was not executed. It does not install a bridge or require CLI setup in desktop use.
 
-Catalog guidance was checked on October 8, 2026 against the official
+Catalog guidance was checked on November 10, 2026 against the official
 [OpenAI client catalog](https://learn.chatgpt.com/docs/models),
 [OpenAI API catalog](https://developers.openai.com/api/docs/models), and
 [Claude catalog](https://platform.claude.com/docs/en/models/overview).
-It covers GPT-6 Luna, GPT-6.1 Sol, and GPT-6 Astra for Work/Codex, plus Claude
-Haiku 5.5, Sonnet 5.5, Opus 5.5, and Fable 5.1. Haiku 4.5 remains an option
+It covers GPT-6 Luna, GPT-6.1 Sol, and GPT-6 Astra for Work/Codex, plus GPT-6.1
+Terra in the Work/Codex app and CLI. Claude choices are Haiku 5.5, Sonnet 5.5,
+Opus 5.5, and Fable 5.2. Fable 5.2 needs Claude Code v2.1.321+ and defaults to
+Medium effort there, as do Opus, Sonnet, and Haiku 5.5. The skill preserves
+explicit choices of older models when available. Haiku 4.5 remains an option
 when available, with its own effort limits. Haiku 5.5 supports effort and needs
 Claude Code v2.1.293+; Agent effort selection needs v2.1.292+ and an exposed control.
 The skill distinguishes Chat from

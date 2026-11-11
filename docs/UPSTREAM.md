@@ -1,5 +1,75 @@
 # Upstream research
 
+## November 10 catalog refresh
+
+Reviewed all seven monitored sources on November 10, 2026, using the
+America/New_York date. Claude Fable 5.2 launched November 9 and replaces
+Fable 5.1 as the recommended Fable tier. The skill uses the full ID
+`claude-fable-5-2` for demanding reasoning and long tasks where Opus at higher
+effort falls short. Haiku 5.5, Sonnet 5.5, and Opus 5.5 remain current. Sources:
+[Claude models](https://platform.claude.com/docs/en/models/overview) and
+[November 9 release notes](https://platform.claude.com/docs/en/release-notes/overview).
+
+Fable 5.2 requires Claude Code v2.1.321+ and defaults to Medium effort there,
+alongside Opus, Sonnet, and Haiku 5.5. Fable 5.1 still defaults to High and
+requires v2.1.257+; its removal from the model overview does not establish
+retirement. Explicit older choices remain fixed when available. Sources:
+[Claude controls](https://code.claude.com/docs/en/model-config) and
+[Claude Code changelog](https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md).
+
+In current Claude Code, `fable` resolves to Fable 5.2 except in Claude apps
+gateway sessions, where it still resolves to Fable 5 unless overridden.
+From v2.1.321, `best` resolves to the same model as `opus`. Some saved Fable
+5.1 user selections also move to `fable` on supported subscription plans;
+organization settings can delay that move, while Console accounts,
+third-party providers, and project, local, or managed settings retain their
+explicit ID. The skill checks aliases against the executing route and
+rechecks model and effort after client upgrades. It does not migrate saved
+choices or persistent settings. Source:
+[Claude model aliases and Fable controls](https://code.claude.com/docs/en/model-config).
+
+Claude Code v2.1.317 changed children on another model to use that model's
+saved or default effort. Session effort still transfers to a child on the
+same model when no child effort overrides it. Explicit child effort,
+environment settings, and policy caps can take precedence. The skill now
+calls out this inheritance limit and retains its handoff when required
+effort cannot be applied. Source:
+[Claude effort controls](https://code.claude.com/docs/en/model-config) and
+[v2.1.317 changelog](https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md).
+
+Fable 5.2 has a 1M API context window, supports fast mode, and changes API
+thinking-block, prefix-check, computer-use, and advisor compatibility. These
+API details do not prove native client behavior or a configured delegation
+route. Specialized Mythos availability and API implementation changes remain
+outside the default client-routing table. Source:
+[Claude Platform release notes](https://platform.claude.com/docs/en/release-notes/overview).
+
+The OpenAI client catalog matches the October 28 snapshot exactly. Its current
+choices remain GPT-6 Luna, GPT-6.1 Sol, GPT-6.1 Terra, and GPT-6 Astra. The API
+catalog now links older models from a separate full catalog; removed overview
+mentions do not establish retirement. GPT-6-Cyber and newer image models are
+specialized API additions and do not establish general Work/Codex access.
+Sources: [OpenAI client models](https://learn.chatgpt.com/docs/models) and
+[OpenAI API models](https://developers.openai.com/api/docs/models).
+
+The OpenAI changelog now includes Codex CLI 0.167.1. Claude Code's changelog
+includes v2.1.322 and fixes since the prior review. The remaining changes do
+not alter the recommended general-purpose model tiers. Sources:
+[OpenAI changelog](https://learn.chatgpt.com/docs/changelog) and
+[Claude Code changelog](https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md).
+
+The skill, README, and reviewed seven-source snapshot now date to November 10.
+Raw captures remain outside the repository. Release and installation settings
+are unchanged, and earlier evaluation fixtures retain their recorded scenarios.
+
+All 29 repository tests, both skill validators, and `git diff --check` passed.
+The reviewed baseline matches all seven saved source captures. Prose assessment
+of the local revision based on `ff3cfa4` covered preserving an explicit Fable
+5.1 choice, unavailable Fable 5.2, the gateway alias exception, Medium as the
+new native default while preserving explicit High, and child effort when the
+model changes. These are scenario assessments; fresh-context native evaluations,
+client discovery, and live model execution were not run for this revision.
+
 ## October 28 catalog refresh
 
 Reviewed all seven monitored sources on October 28, 2026. The recommended

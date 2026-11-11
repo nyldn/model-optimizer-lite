@@ -23,13 +23,13 @@ useful context, observed blockers, and tools. Codex can run in desktop, terminal
   For children, use the host's live provider/model catalog; API IDs do not prove access.
 - If runtime identity is not visible, report it as unknown. Do not infer it from
   the app, prose, configuration, or requested model. Claude Code `/status` or a
-  status line can show selection. Recheck model and effort after host fallback.
+  status line can show selection. Recheck model and effort after host fallback or client upgrades.
 - ChatGPT desktop does not require Codex CLI. No user terminal does not mean no
   execution tools. Ask only when missing information would change the decision.
 
 ## Choose a suitable tier and effort
 
-Catalog checked 2026-10-28. These starting points do not override explicit choices.
+Catalog checked 2026-11-10. These starting points do not override explicit choices.
 
 | Client | Model and ID | Suitable work |
 | --- | --- | --- |
@@ -40,13 +40,14 @@ Catalog checked 2026-10-28. These starting points do not override explicit choic
 | Claude | Haiku 5.5, `claude-haiku-5-5` | Classification, extraction, routing, latency-sensitive work |
 | Claude | Sonnet 5.5, `claude-sonnet-5-5` | Everyday coding and analysis, speed priority |
 | Claude | Opus 5.5, `claude-opus-5-5` | Complex coding, review, long-running work |
-| Claude | Fable 5.1, `claude-fable-5-1` | Hard reasoning where Opus at higher effort falls short |
+| Claude | Fable 5.2, `claude-fable-5-2` | Hard reasoning and long tasks where Opus at higher effort falls short |
 
 Work/Codex guidance does not establish Chat access; use Chat's visible picker.
 GPT-6.1 Sol defaults to 500K context in Work/Codex; check the executing route's limit.
 Older models require visible access. In CLI sessions, Terra requires 0.159.0+.
 Claude Code minimums are Haiku 5.5 v2.1.293, Sonnet 5.5 v2.1.284, Opus 5.5
-v2.1.280, Fable 5.1 v2.1.257. Upgrading a client does not establish model access.
+v2.1.280, Fable 5.2 v2.1.321. Upgrading a client does not establish model access.
+Claude Code v2.1.321+ `best` follows `opus`; `fable` varies by provider. Use full IDs for explicit versions.
 Browse current sources when availability matters; otherwise disclose dated guidance.
 Use [OpenAI client models](https://learn.chatgpt.com/docs/models), [API models](https://developers.openai.com/api/docs/models),
 [Claude models](https://platform.claude.com/docs/en/models/overview), and [Claude controls](https://code.claude.com/docs/en/model-config).
@@ -58,7 +59,7 @@ Preserve explicit effort; otherwise use the client's default. Raise it for plann
 OpenAI Light maps to `low`, Extra High to `xhigh`. Max is single-task reasoning; Ultra uses subagents
 and needs supported controls, divisible work, and authorized scope. Luna has Max, not Ultra.
 Terra API supports `none`, `low`, `medium` (default), `high`, `xhigh`, `max`; app controls may differ.
-Claude Code Opus/Sonnet/Haiku 5.5 default to `medium`, Fable 5.1 to `high`; Haiku 4.5 has no effort control.
+Claude Code Fable 5.2 and Opus/Sonnet/Haiku 5.5 default to `medium`; Haiku 4.5 has no effort control.
 Haiku 5.5 supports `low` through `max`; prompts over 100K have higher API rates.
 No effort sent means API defaults (Sonnet 5.5: `high`); Claude Code `CLAUDE_CODE_EFFORT_LEVEL=auto`/`unset` requests this.
 In `/effort status` v2.1.304+, plain `auto` means none sent; `auto (currently <level>)` sends a level.
@@ -102,8 +103,8 @@ can execute the other provider. Codex and Claude native agents do not establish
 cross-provider reachability. Check tool/model support before dispatch; do not
 install a bridge, run a provider CLI, or change account configuration implicitly.
 Claude Code v2.1.292+ adds Agent `effort`; use it when exposed and supported.
-If required child effort cannot be set or inherited, prepare a handoff;
-asking it to think harder does not apply runtime effort.
+In Claude Code v2.1.317+, children on another model use its saved/default effort unless overridden.
+If required child effort cannot be set or inherited, prepare a handoff; prose does not set runtime effort.
 
 Give one child the goal, necessary evidence/files, constraints, checks already
 run, one question or deliverable, and a stopping condition. Set supported turn,
@@ -126,8 +127,7 @@ Do not rewrite persistent defaults or claim a switch from a requested model name
 ChatGPT invokes `@model-optimizer-lite`; use its visible composer controls.
 Codex invokes `$model-optimizer-lite`; use app controls or CLI `/model`.
 Give CLI flags only when the user is in a terminal and asks for a command.
-Claude Code invokes `/model-optimizer-lite` at the start of the message; use
-`/model` and supported `/effort`. Other Claude clients may expose other controls.
+Claude Code invokes `/model-optimizer-lite` first; use `/model` and supported `/effort`. Other Claude clients' controls vary.
 Claude Code's header shows selected effort; the current turn may still use the old level.
 After terminal `/effort` confirms a change, the next user message uses it.
 For a one-task manual change, use the picker's session-only action. Claude Code
