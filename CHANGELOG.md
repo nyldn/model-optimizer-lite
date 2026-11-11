@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-## [6.0.0] - 2026-10-08
+## [6.0.0] - 2026-11-10
 
 ### Breaking changes
 
@@ -23,11 +23,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Changed
 
-- Refreshed catalog guidance on October 8: Haiku 5.5 replaces Haiku 4.5 in the
-  current tier table, supports effort, and needs Claude Code v2.1.293+. Older
-  Haiku remains conditional. Agent effort selection is supported from v2.1.292
-  when the host exposes it. GPT-5.5 retirement covers Chat, Work, and Codex;
-  the OpenAI API remains unaffected.
+- Reviewed all seven catalog sources through November 10. Added GPT-6.1 Terra
+  for writing, visual reasoning, and computer use, and Fable 5.2 for demanding
+  reasoning. Fable 5.2 requires Claude Code v2.1.321+ and defaults to Medium
+  effort there. Older explicit model choices remain conditional on access.
+- Added GPT-6.1 Sol's 500K default Work/Codex context, distinguished Claude's
+  selected effort from applied effort, and clarified API-default behavior
+  when no effort is sent. Children on another Claude model use that model's
+  saved or default effort unless overridden, from Claude Code v2.1.317.
+- Haiku 5.5 supports effort and requires Claude Code v2.1.293+. Agent effort
+  selection requires v2.1.292+ and an exposed control. Older Haiku models keep
+  their own limits. GPT-5.5 retired from Codex with ChatGPT sign-in on October
+  14; the OpenAI API and API-key Codex are unaffected.
 - Model-choice questions retain advice and handoffs; actual execution requires
   authorized task scope and a reachable model. Cross-provider tools must already
   be configured and verified. Missing routes produce an unexecuted handoff.
