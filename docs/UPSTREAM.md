@@ -1,5 +1,74 @@
 # Upstream research
 
+## November 15 catalog refresh
+
+Reviewed all seven monitored sources on November 15, 2026, using the
+America/New_York date. The recommended lineup is unchanged: GPT-6 Luna,
+GPT-6.1 Sol, GPT-6.1 Terra, and GPT-6 Astra for their documented Work/Codex
+clients; Claude Haiku 5.5, Sonnet 5.5, Opus 5.5, and Fable 5.2. The OpenAI
+client catalog matches the November 10 capture. The API overview changed
+capitalization and the display name of GPT-6 Cyber without changing model IDs.
+Sources: [OpenAI client models](https://learn.chatgpt.com/docs/models),
+[OpenAI API models](https://developers.openai.com/api/docs/models), and
+[Claude models](https://platform.claude.com/docs/en/models/overview).
+
+Anthropic redesigned its model overview, replacing "Compare models" with
+"Latest models" and adding an "All models" table. Older-model mentions added
+by that table do not establish new releases or client access. Current API
+defaults remain High for Fable 5.2 and Sonnet 5.5, and Medium for Opus 5.5 and
+Haiku 5.5. Claude Code defaults to Medium for all four. Fable's Bedrock ID
+now includes the `global.anthropic.` prefix; the skill retains the Anthropic
+ID and checks the executing provider. Sources:
+[Claude models](https://platform.claude.com/docs/en/models/overview) and
+[Claude controls](https://code.claude.com/docs/en/model-config).
+
+Claude Code v2.1.323 changed the assumed context window for unrecognized
+model IDs from 200K to 1M. That assumption does not establish the gateway or
+server's actual limit, so the skill now calls for checking it. The model
+configuration documentation describes context overrides for unrecognized
+`claude-` IDs from v2.1.324; IDs with `[1m]` and recognized IDs have different
+conditions. This refresh does not change persistent settings. Sources:
+[Claude context controls](https://code.claude.com/docs/en/model-config) and
+[Claude Code changelog](https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md).
+
+The Claude Code changelog now includes v2.1.325, with fixes for subagents
+being moved off their own model and sizing reads with the parent's model.
+Recent fixes also distinguish child effort from parent effort and show
+environment overrides in the effort picker. Interactive model-substitution
+warnings cover top-level subagents and do not report teammate fallback.
+The skill retains its checks of observed identity and applied effort.
+Sources: [Claude Code changelog](https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md)
+and [Claude controls](https://code.claude.com/docs/en/model-config).
+
+Codex CLI 0.169.0 adds provider configuration and documents listing models
+for a configured provider without changing the default. Existing chats keep
+their saved provider when the default for new chats changes. Claude's
+November 12 release notes introduce self-hosted Managed Agents with access
+by request. Neither update establishes a configured cross-provider tool for
+this skill. Sources: [OpenAI changelog](https://learn.chatgpt.com/docs/changelog)
+and [Claude Platform release notes](https://platform.claude.com/docs/en/release-notes/overview).
+
+The checker now validates Claude's overview using the model table's
+"Claude API ID" label, which exists in both reviewed layouts. It also
+recognizes Markdown tags without letting `<<EOF` consume later changelog
+entries. That bug initially hid the Fable 5.2 announcement. Regression cases
+cover both overview layouts, incomplete pages, heredocs, and multiline
+components with model names in image attributes. Main-content and model-mention
+checks remain required.
+
+The skill, README, and reviewed snapshot now date to November 15. Raw source
+captures and local reports remain outside the repository. Historical
+evaluations retain their recorded skill snapshots.
+
+All 33 repository tests, both skill validators, and `git diff --check` passed.
+The reviewed baseline matches all seven saved source captures. Prose assessment
+of the local revision based on `da622c3` covered an unknown gateway ID backed
+by a 200K server, an explicit older Fable choice, native Medium versus API High
+for Fable 5.2, and a child whose reported model differs from its requested
+model. The guidance preserves choices, verifies route limits, and distinguishes
+requested from observed settings. These are scenario assessments; fresh-context
+native evaluations, client discovery, and live model execution were not run.
+
 ## November 10 catalog refresh
 
 Reviewed all seven monitored sources on November 10, 2026, using the

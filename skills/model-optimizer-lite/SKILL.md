@@ -2,7 +2,7 @@
 name: model-optimizer-lite
 description: Chooses whether to stay, delegate a bounded task, or switch models and reasoning effort in ChatGPT, Codex, or Claude. Use for model-choice, escalation, benchmark-guided routing, or cross-model review decisions. Ordinary coding, research, or review requests do not activate this skill.
 metadata:
-  version: "6.0.0"
+  version: "6.0.1"
   source: "https://github.com/nyldn/model-optimizer-lite"
 ---
 
@@ -29,7 +29,7 @@ useful context, observed blockers, and tools. Codex can run in desktop, terminal
 
 ## Choose a suitable tier and effort
 
-Catalog checked 2026-11-10. These starting points do not override explicit choices.
+Catalog checked 2026-11-15. These starting points do not override explicit choices.
 
 | Client | Model and ID | Suitable work |
 | --- | --- | --- |
@@ -44,9 +44,9 @@ Catalog checked 2026-11-10. These starting points do not override explicit choic
 
 Work/Codex guidance does not establish Chat access; use Chat's visible picker.
 GPT-6.1 Sol defaults to 500K context in Work/Codex; check the executing route's limit.
+Claude Code v2.1.323+ assumes 1M for unknown model IDs; verify gateway/server limits.
 Older models require visible access. In CLI sessions, Terra requires 0.159.0+.
-Claude Code minimums are Haiku 5.5 v2.1.293, Sonnet 5.5 v2.1.284, Opus 5.5
-v2.1.280, Fable 5.2 v2.1.321. Upgrading a client does not establish model access.
+Claude Code minimums: Haiku 5.5 v2.1.293, Sonnet 5.5 v2.1.284, Opus 5.5 v2.1.280, Fable 5.2 v2.1.321. Upgrading does not establish access.
 Claude Code v2.1.321+ `best` follows `opus`; `fable` varies by provider. Use full IDs for explicit versions.
 Browse current sources when availability matters; otherwise disclose dated guidance.
 Use [OpenAI client models](https://learn.chatgpt.com/docs/models), [API models](https://developers.openai.com/api/docs/models),

@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [6.0.1] - 2026-11-15
+
+### Changed
+
+- Reviewed all seven official catalog sources through November 15. The
+  recommended OpenAI and Claude model lineup is unchanged.
+- Check gateway and server context limits when Claude Code v2.1.323+ assumes
+  a 1M window for an unrecognized model ID.
+
+### Fixed
+
+- Accept Anthropic's redesigned model overview while requiring catalog content.
+- Preserve changelog entries after shell heredocs during Markdown extraction,
+  while continuing to exclude model names in multiline component attributes.
+
 ## [6.0.0] - 2026-11-10
 
 ### Breaking changes
@@ -305,7 +320,8 @@ An xhigh review of the v2.0.1 installer found that the hardening pass introduced
 - One-shot installer (`install.sh`) with user and project modes.
 - CI validation of the skill package and public boundary.
 
-[Unreleased]: https://github.com/nyldn/model-optimizer-lite/compare/v6.0.0...HEAD
+[Unreleased]: https://github.com/nyldn/model-optimizer-lite/compare/v6.0.1...HEAD
+[6.0.1]: https://github.com/nyldn/model-optimizer-lite/compare/v6.0.0...v6.0.1
 [6.0.0]: https://github.com/nyldn/model-optimizer-lite/compare/v5.0.0...v6.0.0
 [5.0.0]: https://github.com/nyldn/model-optimizer-lite/compare/v4.0.0...v5.0.0
 [4.0.0]: https://github.com/nyldn/model-optimizer-lite/compare/v3.0.0...v4.0.0

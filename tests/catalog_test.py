@@ -89,11 +89,40 @@ class CatalogTest(unittest.TestCase):
         self.assertIn("gpt-6-astra", mentions)
         self.assertFalse(any("wallpaper" in item or item.endswith(".md") for item in mentions))
 
+    def test_markdown_heredoc_preserves_later_model_entries(self):
+        text = self.source_path("claude-changelog").read_text()
+        text += '\n\n- Fixed `cat > file <<EOF` display\n- Added Claude Fable 5.2 (`claude-fable-5-2`)\n- Added `--settings <file>`\n'
+        mentions = catalog.fingerprint("claude-changelog", text)["model_mentions"]
+        self.assertIn("claude-fable-5-2", mentions)
+
+    def test_multiline_markdown_components_do_not_add_models(self):
+        text = self.source_path("openai-client").read_text()
+        component = '\n\n<ModelDetails\n  name="gpt-9-sol"\n  wallpaperUrl="/images/gpt-9-sol-texture.webp"\n/>\n'
+        self.assertEqual(catalog.fingerprint("openai-client", text), catalog.fingerprint("openai-client", text + component))
+
     def test_adjacent_table_cells_keep_model_ids_separate(self):
         text = self.source_path("claude-models").read_text().replace("</main>", "<table><tr><td>claude-opus-5-5</td><td>claude-sonnet-5-5</td></tr></table></main>")
         mentions = catalog.fingerprint("claude-models", text)["model_mentions"]
         self.assertIn("claude-opus-5-5", mentions)
         self.assertIn("claude-sonnet-5-5", mentions)
+
+    def test_claude_overview_accepts_current_and_previous_layouts(self):
+        models = ["claude-fable-5-2", "claude-opus-5-5", "claude-sonnet-5-5", "claude-haiku-5-5"]
+        row = "<tr><th>Claude API ID</th>" + "".join(f"<td>{model}</td>" for model in models) + "</tr>"
+        for heading in ("Compare models", "Latest models"):
+            with self.subTest(heading=heading):
+                text = f"<main><h1>Models overview</h1><h2>{heading}</h2><table>{row}</table></main>"
+                self.assertEqual(catalog.fingerprint("claude-models", text)["model_mentions"], sorted(models))
+
+    def test_claude_overview_requires_catalog_content(self):
+        padding = "Documentation is temporarily unavailable. " * 4
+        for text in (
+            f"<main><h1>Models overview</h1><p>claude-opus-5-5 {padding}</p></main>",
+            f"<nav>Claude API ID</nav><main><p>claude-opus-5-5 {padding}</p></main>",
+            f"<main><h1>Models overview</h1><p>Claude API ID {padding}</p></main>",
+        ):
+            with self.subTest(text=text), self.assertRaises(ValueError):
+                catalog.fingerprint("claude-models", text)
 
     def test_repository_snapshot_matches_current_schema(self):
         self.assertEqual(len(catalog.load_baseline(catalog.BASELINE)["sources"]), 7)

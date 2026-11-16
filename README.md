@@ -59,7 +59,7 @@ where you still want the skill:
   from a fresh checkout into that same scope.
 
 Start a new conversation in each updated client. Open the installed `SKILL.md`
-and confirm that `metadata.version` is `6.0.0`, then invoke the skill before
+and confirm that `metadata.version` is `6.0.1`, then invoke the skill before
 removing the backup. Updating one scope does not update the others.
 
 Codex detects local skill edits automatically; restart it if the update does
@@ -119,14 +119,16 @@ other's models. Cross-provider execution needs an already-configured, verified
 tool. If that route is absent, the skill prepares a handoff and reports that it
 was not executed. It does not install a bridge or require CLI setup in desktop use.
 
-Catalog guidance was checked on November 10, 2026 against the official
+Catalog guidance was checked on November 15, 2026 against the official
 [OpenAI client catalog](https://learn.chatgpt.com/docs/models),
 [OpenAI API catalog](https://developers.openai.com/api/docs/models), and
 [Claude catalog](https://platform.claude.com/docs/en/models/overview).
 It covers GPT-6 Luna, GPT-6.1 Sol, and GPT-6 Astra for Work/Codex, plus GPT-6.1
 Terra in the Work/Codex app and CLI. Claude choices are Haiku 5.5, Sonnet 5.5,
 Opus 5.5, and Fable 5.2. Fable 5.2 needs Claude Code v2.1.321+ and defaults to
-Medium effort there, as do Opus, Sonnet, and Haiku 5.5. The skill preserves
+Medium effort there, as do Opus, Sonnet, and Haiku 5.5. Claude Code v2.1.323+
+assumes a 1M context window for unknown model IDs; the skill requires checking
+the gateway or server's actual limit. The skill preserves
 explicit choices of older models when available. Haiku 4.5 remains an option
 when available, with its own effort limits. Haiku 5.5 supports effort and needs
 Claude Code v2.1.293+; Agent effort selection needs v2.1.292+ and an exposed control.

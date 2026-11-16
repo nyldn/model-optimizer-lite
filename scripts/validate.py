@@ -53,7 +53,7 @@ def validate_skill(path):
     require(isinstance(description, str) and bool(description.strip()), "description must be a nonempty string")
     metadata = frontmatter.get("metadata")
     require(isinstance(metadata, dict), "skill metadata must be a mapping")
-    require(metadata.get("version") == "6.0.0", "unexpected skill version")
+    require(metadata.get("version") == "6.0.1", "unexpected skill version")
     require(metadata.get("source") == "https://github.com/nyldn/model-optimizer-lite", "unexpected skill source")
     require(bool(text[match.end():].strip()), "SKILL.md instructions must not be empty")
     require(len(text.splitlines()) <= 140, "SKILL.md should remain compact")
