@@ -54,7 +54,7 @@ overall superiority claim follows from these small samples or mixed stages.
 ## Evidence and reproduction
 
 Use the [behavior cases and runner instructions](../tests/behavior-cases.md).
-The repository includes 18 native scenarios and eight good/bad calibration
+The October 6 snapshot includes 18 native scenarios and eight good/bad calibration
 references. Full JSON, HTML reports, and retained traces stay local. Temporary
 runner workspaces were removed after preserving the needed trace evidence.
 
@@ -67,7 +67,7 @@ serial execution, and `--no-publish`.
 | --- | --- |
 | Original skill | `886d01d99e0b4936abd3167cfb1867ccc42a77029ee023dc451bb3f7b972a613` |
 | Revised skill | `e56f5f79b582e330080a2a165968078176cb3e5891c9655dc1702289bd35703a` |
-| Current scenario definitions, normalized as sorted JSON | `890d31fefdb074ca61c6600f84da8267c595dd9c102752e3b7e6c38faddb9dff` |
+| October 6 scenario definitions, normalized as sorted JSON | `890d31fefdb074ca61c6600f84da8267c595dd9c102752e3b7e6c38faddb9dff` |
 | Revised native JSON report | `f3dad97efdd6f4208b643e99fffa60c86966909bb5f4506e505e657e06c12b6a` |
 
 The v5.0.0 release copy has SHA-256
@@ -95,3 +95,39 @@ construction, not actual invocation or response quality. No inference session
 ran. Outputs remain local. The [preflight procedure](../tests/behavior-cases.md#codex-discovery-preflight)
 is reproducible; ChatGPT desktop discovery and actual Codex invocation remain
 manual or provider-backed checks.
+
+For the October 7 contextual routing changes, see the separate
+[execution evaluation record](CONTEXTUAL-ROUTING.md#observed-results).
+
+## October 8 catalog refresh
+
+Claude Code v2.1.291 evaluated the updated skill with Opus 5.5 as evaluator and
+judge, High configured for the evaluator, one fresh trial per case, no baseline,
+and local reports. Both `effort-support` and `haiku-current-effort` passed. The
+first retained Haiku 4.5's unsupported effort distinction; the second recognized
+Haiku 5.5's Medium default and available Max setting while preserving its model
+selection. Each trace reported `claude-opus-5-5` and used Skill only, with no
+execution, delegation, settings mutation, or network calls.
+
+The Haiku 5.5 scenario supplied a simulated Claude Code v2.1.293 client and
+visible controls. This tests advice, not actual Haiku 5.5 inference, its account
+availability, or the new Agent effort parameter. Observed evaluator effort
+remains unknown. The complete advice and routing suites were not rerun.
+
+| Artifact | SHA-256 |
+| --- | --- |
+| October 8 skill | `19d5a0440a170714ea50e0fa703fc8ac2b3e1cd24b80d2db8626bc3a38865aba` |
+| Native two-case JSON report | `e83d89234d65bf97fbba4f133414ff2966761293031dba29a4de0c3f1b346a9a` |
+
+The runner reported about $0.29 at list prices; actual billed spend is unknown.
+Full reports and archived traces remain local. This catalog refresh changes the
+instruction body, so earlier native results apply to their recorded snapshots.
+No new release or active client installation was made.
+
+## Version 6.0.0 release copy
+
+The release-preparation skill has SHA-256
+`8c01a391986432940cc86d91fc34edb61183b93e647cb2194870932644dcdd6b`.
+It differs from the October 8 evaluated copy only in `metadata.version`, changed
+from `5.0.0` to `6.0.0`. The instruction body is identical. This records the
+prepared artifact and does not establish GitHub publication or client installation.

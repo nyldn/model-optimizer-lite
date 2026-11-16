@@ -22,7 +22,7 @@ SOURCES = {
     "openai-client": ("https://learn.chatgpt.com/docs/models", "markdown", "Models"),
     "openai-api": ("https://developers.openai.com/api/docs/models", "markdown", "Models"),
     "openai-changelog": ("https://learn.chatgpt.com/docs/changelog", "html", "changelog"),
-    "claude-models": ("https://platform.claude.com/docs/en/models/overview", "html", "Compare models"),
+    "claude-models": ("https://platform.claude.com/docs/en/models/overview", "html", "Claude API ID"),
     "claude-config": ("https://code.claude.com/docs/en/model-config", "html", "Model aliases"),
     "claude-changelog": ("https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md", "markdown", "Changelog"),
     "claude-release": ("https://platform.claude.com/docs/en/release-notes/overview", "html", "Release notes"),
@@ -105,7 +105,8 @@ def normalize(text, kind):
         text = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", text)
         # Keep model-page slugs, but discard tracking URLs and image attributes.
         text = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", markdown_link, text)
-        text = re.sub(r"<[^>]+>", "", text, flags=re.S)
+        # A shell heredoc such as <<EOF must not consume later documentation.
+        text = re.sub(r"</?[A-Za-z][\w:-]*(?=[\s/>])[^<>]*>", "", text)
         # Reflow Markdown paragraphs; leave headings, lists, and tables separate.
         text = re.sub(r"(?<=\S)\n(?=[\w`(])", " ", text)
     return sorted({" ".join(line.split()).strip("# *\u200b") for line in text.splitlines() if line.strip()})

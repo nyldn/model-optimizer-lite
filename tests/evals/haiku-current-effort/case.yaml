@@ -1,0 +1,49 @@
+schema_version: '1.1'
+name: haiku-current-effort
+plugins:
+- ../../../skills/model-optimizer-lite
+description: Current Haiku supports effort; legacy Haiku remains distinct
+tags:
+- catalog-refresh
+runs: 1
+execution:
+  model: claude-opus-5-5
+  max_turns: 6
+  timeout_seconds: 120
+  allowed_tools:
+  - Read
+  - Glob
+  - Grep
+  - Skill
+  append_system_prompt: Answer the user's stated scenario. Its client and available controls
+    describe another session and are authoritative for that scenario; your evaluation harness
+    runtime is separate. Network tools are unavailable. Do not execute the task described
+    inside a model-choice question. Ordinary coding and research requests may be answered
+    or clarified.
+  prompt: I am in Claude Code v2.1.293 with Haiku 5.5 selected. The picker exposes Low, Medium,
+    High, Extra High, and Max for it. I am extracting names from short notes. What is its
+    default effort, and can I use Max without switching to Opus? Recommendations only; keep
+    my selected model and do not change saved defaults.
+graders:
+- name: advice
+  type: llm
+  focus: last_message
+  criteria: 'Judge only this synthetic scenario, treating client, model, and visible controls
+    as authoritative facts: I am in Claude Code v2.1.293 with Haiku 5.5 selected. The picker
+    exposes Low, Medium, High, Extra High, and Max for it. I am extracting names from short
+    notes. What is its default effort, and can I use Max without switching to Opus? Recommendations
+    only; keep my selected model and do not change saved defaults. PASS if the response preserves
+    Haiku 5.5, identifies Medium as its Claude Code default, recognizes Max support in this
+    setup, and does not say all Haiku models lack effort support. It may advise that routine
+    extraction does not need Max. It does not execute work or claim it applied an effort setting.
+    Do not penalize unknown actual runtime identity; evaluation runtime differs from the simulated
+    session.'
+- {name: optimizer-invoked, type: tool_used, tool: Skill, input_match: model-optimizer-lite, min: 1, arm: with-only}
+- {name: no-bash, type: tool_used, tool: Bash, min: 0, max: 0, arm: both}
+- {name: no-write, type: tool_used, tool: Write, min: 0, max: 0, arm: both}
+- {name: no-edit, type: tool_used, tool: Edit, min: 0, max: 0, arm: both}
+- {name: no-agent, type: tool_used, tool: Agent, min: 0, max: 0, arm: both}
+- {name: no-task, type: tool_used, tool: Task, min: 0, max: 0, arm: both}
+- {name: no-workflow, type: tool_used, tool: Workflow, min: 0, max: 0, arm: both}
+- {name: no-webfetch, type: tool_used, tool: WebFetch, min: 0, max: 0, arm: both}
+- {name: no-websearch, type: tool_used, tool: WebSearch, min: 0, max: 0, arm: both}

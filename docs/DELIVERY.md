@@ -31,5 +31,12 @@ Confirm discovery and invocation in each changed client separately. A valid
 folder does not prove that an app discovered it or that an account can use a
 recommended model.
 
+The skill can use supported host tools for one bounded delegation within an
+active authorized task. Advice questions do not authorize the hypothetical work.
+Cross-provider execution needs an already-configured, verified route; neither
+native subagent system alone establishes access to the other provider. No bridge
+or provider CLI is installed by the skill. A missing route produces a handoff.
+Session switching uses an exposed control; persistent defaults stay unchanged.
+
 The repository owner must authorize pushes, tags, releases, marketplace listings,
 or any other publication. A local change is not a release.
